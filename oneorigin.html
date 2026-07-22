@@ -145,6 +145,25 @@
   /* ===== TIMELINE / STORY ===== */
   .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
   .story-copy p{color:var(--muted);font-size:15px;margin-bottom:16px;max-width:520px;}
+  .trust-badges{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;}
+  .trust-badge{
+    display:inline-flex;align-items:center;gap:14px;
+    background:var(--bg-panel);border:1px solid var(--line);border-radius:12px;
+    padding:12px 18px 12px 12px;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .trust-badge:hover{border-color:rgba(56,225,254,.4);transform:translateY(-2px);}
+  .trust-badge-icon{
+    width:42px;height:42px;border-radius:50%;flex-shrink:0;
+    background:var(--grad);display:flex;align-items:center;justify-content:center;color:#06131c;
+    position:relative;
+  }
+  .trust-badge-icon::after{
+    content:"";position:absolute;inset:-4px;border-radius:50%;
+    border:1px dashed rgba(56,225,254,.4);
+  }
+  .trust-badge-text p{margin:0;font-size:13.5px;font-weight:600;color:var(--text);}
+  .trust-badge-text span{font-size:11.5px;color:var(--muted);}
   .story-visual{
     background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);
     padding:32px;display:flex;flex-direction:column;gap:22px;
@@ -293,6 +312,19 @@
         <h2 style="font-size:clamp(24px,3vw,34px);margin-bottom:20px;line-height:1.15;">Every product starts from one origin</h2>
         <p>OneOrigin was founded on a simple idea: organizations shouldn't have to stitch together a dozen disconnected tools just to run their operations. We build focused, enterprise-grade software products — each one deep enough to solve a real problem, all sharing the same foundation of security, reliability and thoughtful design.</p>
         <p>Today, that foundation powers two products: <strong>OneOps</strong>, built for everyday business operations like inventory, billing and GST compliance and <strong>OneCampus</strong>, built for the specific demands of running educational institutions at scale.</p>
+        <p>We're an Indian-founded, MSME-registered company — building software with the same accountability and long-term commitment we'd expect from any partner we rely on.</p>
+        
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <div class="trust-badge-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5.5"/><path d="M9 13L7.2 21 12 18l4.8 3L15 13"/><path d="M9.5 8l1.7 1.7L14.5 6"/></svg>
+            </div>
+            <div class="trust-badge-text">
+              <p>MSME Registered</p>
+              <span>Udyam Registered Enterprise · Government of India</span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="story-visual reveal">
         <div class="story-row"><div class="story-dot"></div><div><p>One engineering team, one design system</p><span>Every OneOrigin product shares the same security and reliability foundation.</span></div></div>
