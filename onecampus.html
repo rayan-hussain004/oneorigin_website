@@ -413,7 +413,1854 @@
   </section>
 
   <div class="wrap"><div class="divider-line"></div></div>
+  <!-- PHASE 1-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principal — Institution-Wide Control & Access</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     Scoped under .pcd so this block can be dropped into any page
+     without clashing with existing site styles.
+  ============================================================ */
+  .pcd{
+    --pcd-green:#22c55e;
+    --pcd-teal:#14b8a6;
+    --pcd-blue:#3b82f6;
+    --pcd-purple:#8b5cf6;
+    --pcd-navy:#3b6ef5;
+    --pcd-bg:#000000;
+    --pcd-panel:#0c0c0d;
+    --pcd-panel-2:#131315;
+    --pcd-text:#f2f3f5;
+    --pcd-muted:#9498a3;
+    --pcd-line:rgba(255,255,255,.09);
+    font-family:'IBM Plex Sans', sans-serif;
+    background:var(--pcd-bg);
+    color:var(--pcd-text);
+    padding:80px 20px;
+    box-sizing:border-box;
+  }
+  .pcd *{box-sizing:border-box;}
+  .pcd .pcd-wrap{max-width:1160px;margin:0 auto;}
+  .pcd h1,.pcd h2,.pcd h3{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.01em;margin:0;}
+  .pcd p{margin:0;}
+  .pcd button{font-family:inherit;}
+
+  /* ---------- Header ---------- */
+  .pcd-head{text-align:center;max-width:680px;margin:0 auto 56px;}
+  .pcd-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--pcd-green);margin-bottom:14px;
+  }
+  .pcd-eyebrow::before,.pcd-eyebrow::after{content:"";width:16px;height:1px;background:var(--pcd-green);}
+  .pcd-head h1{font-size:clamp(26px,3.4vw,38px);line-height:1.15;
+    background:linear-gradient(120deg,#7dd3fc,#93c5fd,#c4b5fd);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .pcd-head p{color:var(--pcd-muted);font-size:15px;margin-top:14px;line-height:1.6;}
+
+  /* ---------- Diagram stage ---------- */
+  .pcd-stage{
+    position:relative;width:100%;aspect-ratio:1000/620;margin:0 auto;
+  }
+  .pcd-stage svg.pcd-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;}
+  .pcd-lines path{
+    fill:none;stroke-width:2.5;stroke-linecap:round;
+    opacity:.35;transition:opacity .3s ease, stroke-width .3s ease;
+  }
+  .pcd-lines path.pcd-flow{stroke-dasharray:6 8;animation:pcd-dash 2.4s linear infinite;}
+  @keyframes pcd-dash{to{stroke-dashoffset:-140;}}
+  .pcd-lines path.pcd-active{opacity:1;stroke-width:3.5;}
+
+  /* ---------- Hub ---------- */
+  .pcd-hub{
+    position:absolute;left:50%;top:41.5%;transform:translate(-50%,-50%);
+    width:190px;height:190px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    z-index:3;
+  }
+  .pcd-hub-ring{
+    position:absolute;inset:0;border-radius:50%;
+    background:conic-gradient(from 0deg, var(--pcd-green), var(--pcd-teal), var(--pcd-blue), var(--pcd-purple), var(--pcd-green));
+    animation:pcd-spin 12s linear infinite;
+    -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+    mask:radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+  }
+  @keyframes pcd-spin{to{transform:rotate(360deg);}}
+  .pcd-hub-core{
+    position:absolute;inset:14px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #10192e, #05070c 70%);
+    border:1px solid rgba(255,255,255,.08);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+    box-shadow:0 0 40px rgba(59,110,245,.25), inset 0 0 30px rgba(0,0,0,.6);
+  }
+  .pcd-hub-core svg{color:#dbe4ff;}
+  .pcd-hub-core .pcd-hub-label{font-family:'Space Grotesk';font-weight:700;font-size:14px;letter-spacing:.03em;color:#fff;margin-top:4px;}
+  .pcd-hub-core .pcd-hub-sub{font-size:10.5px;color:var(--pcd-muted);text-align:center;line-height:1.3;padding:0 14px;}
+
+  /* ---------- Cards ---------- */
+  .pcd-card{
+    position:absolute;width:31%;
+    background:var(--pcd-panel);border:1px solid var(--pcd-line);border-radius:14px;
+    padding:18px 18px 16px;cursor:pointer;text-align:left;color:inherit;
+    transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    z-index:2;
+  }
+  .pcd-card:hover,.pcd-card:focus-visible{transform:translateY(-4px);}
+  .pcd-card.pcd-open{transform:translateY(-4px);}
+  .pcd-card[data-color="green"]{border-color:rgba(34,197,94,.25);}
+  .pcd-card[data-color="teal"]{border-color:rgba(20,184,166,.25);}
+  .pcd-card[data-color="blue"]{border-color:rgba(59,130,246,.25);}
+  .pcd-card[data-color="purple"]{border-color:rgba(139,92,246,.25);}
+  .pcd-card[data-color="green"]:hover{border-color:var(--pcd-green);box-shadow:0 10px 30px -12px rgba(34,197,94,.35);}
+  .pcd-card[data-color="teal"]:hover{border-color:var(--pcd-teal);box-shadow:0 10px 30px -12px rgba(20,184,166,.35);}
+  .pcd-card[data-color="blue"]:hover{border-color:var(--pcd-blue);box-shadow:0 10px 30px -12px rgba(59,130,246,.35);}
+  .pcd-card[data-color="purple"]:hover{border-color:var(--pcd-purple);box-shadow:0 10px 30px -12px rgba(139,92,246,.35);}
+
+  .pcd-card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
+  .pcd-card-icon{
+    width:38px;height:38px;border-radius:10px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+  }
+  .pcd-card[data-color="green"] .pcd-card-icon{background:linear-gradient(135deg,#22c55e,#16a34a);}
+  .pcd-card[data-color="teal"] .pcd-card-icon{background:linear-gradient(135deg,#2dd4bf,#0d9488);}
+  .pcd-card[data-color="blue"] .pcd-card-icon{background:linear-gradient(135deg,#60a5fa,#2563eb);}
+  .pcd-card[data-color="purple"] .pcd-card-icon{background:linear-gradient(135deg,#a78bfa,#7c3aed);}
+  .pcd-card h3{font-size:14.5px;line-height:1.25;}
+  .pcd-card[data-color="green"] h3{color:#4ade80;}
+  .pcd-card[data-color="teal"] h3{color:#2dd4bf;}
+  .pcd-card[data-color="blue"] h3{color:#60a5fa;}
+  .pcd-card[data-color="purple"] h3{color:#a78bfa;}
+  .pcd-card-desc{font-size:12.5px;color:var(--pcd-muted);line-height:1.55;}
+
+  .pcd-card-detail{
+    max-height:0;overflow:hidden;transition:max-height .35s ease, margin-top .35s ease;
+    font-size:12px;color:var(--pcd-muted);line-height:1.6;
+  }
+  .pcd-card.pcd-open .pcd-card-detail{max-height:120px;margin-top:10px;}
+  .pcd-card-detail ul{margin:0;padding-left:16px;}
+  .pcd-card-detail li{margin-bottom:3px;}
+
+  .pcd-card-toggle{
+    display:flex;align-items:center;gap:5px;font-size:11px;color:var(--pcd-muted);
+    margin-top:12px;font-family:'IBM Plex Mono';
+  }
+  .pcd-card-toggle svg{transition:transform .3s ease;}
+  .pcd-card.pcd-open .pcd-card-toggle svg{transform:rotate(180deg);}
+
+  /* mini visuals */
+  .pcd-mini{display:flex;align-items:center;gap:8px;margin-top:12px;}
+  .pcd-mini-donut{width:34px;height:34px;flex-shrink:0;}
+  .pcd-mini-bars{display:flex;align-items:flex-end;gap:3px;height:26px;flex-shrink:0;}
+  .pcd-mini-bars span{width:5px;border-radius:2px 2px 0 0;display:block;}
+  .pcd-mini-line{flex:1;height:26px;}
+  .pcd-flow-mini{display:flex;align-items:center;gap:4px;margin-top:12px;}
+  .pcd-flow-dot{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--pcd-line);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .pcd-flow-dash{flex:1;border-top:1.5px dashed var(--pcd-line);}
+
+  /* positions (percent-based, matched to 1000x620 layout logic) */
+  .pcd-card[data-pos="tl"]{left:1%; top:4%;}
+  .pcd-card[data-pos="tr"]{right:1%; top:4%;}
+  .pcd-card[data-pos="bl"]{left:1%; top:56%;}
+  .pcd-card[data-pos="br"]{right:1%; top:56%;}
+  .pcd-card[data-pos="bc"]{
+    left:50%; top:70%; transform:translateX(-50%);
+    width:34%; z-index:2;
+  }
+  .pcd-card[data-pos="bc"]:hover, .pcd-card[data-pos="bc"].pcd-open{transform:translate(-50%,-4px);}
+
+  .pcd-icon-row{display:flex;gap:10px;margin-top:12px;justify-content:center;}
+  .pcd-icon-row .pcd-mini-icon{
+    width:34px;height:34px;border-radius:50%;background:rgba(59,110,245,.12);
+    border:1px solid rgba(59,110,245,.3);display:flex;align-items:center;justify-content:center;color:#8ab0ff;
+  }
+
+  /* ---------- Footer strip ---------- */
+
+  .pcd-footer{
+    margin-top:60px;background:var(--pcd-panel);border:1px solid var(--pcd-line);border-radius:16px;
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .pcd-foot-item{
+    display:flex;align-items:center;gap:12px;padding:22px 20px;border-right:1px solid var(--pcd-line);
+    transition:background .25s ease;
+  }
+  .pcd-foot-item:last-child{border-right:none;}
+  .pcd-foot-item:hover{background:var(--pcd-panel-2);}
+  .pcd-foot-icon{
+    width:38px;height:38px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+  }
+  .pcd-foot-item:nth-child(1) .pcd-foot-icon{background:linear-gradient(135deg,#22c55e,#16a34a);}
+  .pcd-foot-item:nth-child(2) .pcd-foot-icon{background:linear-gradient(135deg,#2dd4bf,#0d9488);}
+  .pcd-foot-item:nth-child(3) .pcd-foot-icon{background:linear-gradient(135deg,#a78bfa,#7c3aed);}
+  .pcd-foot-item:nth-child(4) .pcd-foot-icon{background:linear-gradient(135deg,#60a5fa,#2563eb);}
+  .pcd-foot-item h4{font-size:13.5px;margin-bottom:2px;}
+  .pcd-foot-item:nth-child(1) h4{color:#4ade80;}
+  .pcd-foot-item:nth-child(2) h4{color:#2dd4bf;}
+  .pcd-foot-item:nth-child(3) h4{color:#a78bfa;}
+  .pcd-foot-item:nth-child(4) h4{color:#60a5fa;}
+  .pcd-foot-item p{font-size:11.5px;color:var(--pcd-muted);line-height:1.4;}
+
+  /* ---------- reveal-on-scroll ---------- */
+  .pcd-reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease, transform .7s ease;}
+  .pcd-reveal.pcd-in{opacity:1;transform:translateY(0);}
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width:880px){
+    .pcd-stage{display:none;}
+    .pcd-mobile{display:flex !important;}
+  }
+  @media (min-width:881px){
+    .pcd-mobile{display:none;}
+  }
+
+  /* mobile vertical layout */
+  .pcd-mobile{
+    flex-direction:column;gap:16px;margin-top:10px;
+  }
+  .pcd-mobile .pcd-hub-mobile{
+    display:flex;align-items:center;gap:16px;
+    background:linear-gradient(135deg, rgba(59,110,245,.12), rgba(139,92,246,.1));
+    border:1px solid rgba(59,110,245,.3);border-radius:16px;padding:18px 20px;
+  }
+  .pcd-mobile .pcd-hub-mobile .pcd-hub-core{position:static;inset:auto;width:56px;height:56px;flex-shrink:0;box-shadow:none;}
+  .pcd-mobile .pcd-hub-mobile .pcd-hub-core svg{width:24px;height:24px;}
+  .pcd-mobile .pcd-hub-mobile .pcd-hub-label{margin-top:0;font-size:15px;}
+  .pcd-mobile .pcd-hub-text h2{font-size:16px;color:#fff;}
+  .pcd-mobile .pcd-hub-text p{font-size:12.5px;color:var(--pcd-muted);margin-top:2px;}
+  .pcd-mobile .pcd-card{position:static;width:100%;}
+  .pcd-mobile .pcd-card[data-pos="bc"]{transform:none;}
+  .pcd-mobile .pcd-card:hover,.pcd-mobile .pcd-card.pcd-open{transform:none;}
+
+  @media (max-width:620px){
+    .pcd{padding:56px 16px;}
+    .pcd-footer{grid-template-columns:1fr 1fr;}
+    .pcd-foot-item:nth-child(2){border-right:none;}
+    .pcd-foot-item{border-bottom:1px solid var(--pcd-line);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .pcd *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body style="margin:0;background:#000;">
+
+<section class="pcd">
+  <div class="pcd-wrap">
+
+    <!-- ===== Header ===== -->
+    <div class="pcd-head pcd-reveal">
+      <div class="pcd-eyebrow">Principal</div>
+      <h1>Institution-Wide Control &amp; Access</h1>
+      <p>Empowering the Principal to oversee, analyze, approve, and make strategic decisions for the entire institution.</p>
+    </div>
+
+    <!-- ===== Desktop radial diagram ===== -->
+    <div class="pcd-stage pcd-reveal">
+      <svg class="pcd-lines" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
+        <path id="pcd-line-tl" class="pcd-flow" d="M330,128 Q400,150 405,215" stroke="#22c55e"></path>
+        <path id="pcd-line-tr" class="pcd-flow" d="M670,128 Q600,150 595,215" stroke="#14b8a6"></path>
+        <path id="pcd-line-bl" class="pcd-flow" d="M330,430 Q390,380 405,325" stroke="#3b82f6"></path>
+        <path id="pcd-line-br" class="pcd-flow" d="M670,430 Q610,380 595,325" stroke="#8b5cf6"></path>
+        <path id="pcd-line-bc" class="pcd-flow" d="M500,430 L500,360" stroke="#3b6ef5"></path>
+      </svg>
+
+      <!-- Hub -->
+      <div class="pcd-hub">
+        <div class="pcd-hub-ring"></div>
+        <div class="pcd-hub-core">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/><rect x="7" y="19.5" width="10" height="2.2" rx="1" fill="currentColor" stroke="none"/></svg>
+          <span class="pcd-hub-label">PRINCIPAL</span>
+          <span class="pcd-hub-sub">Institution-Wide Control</span>
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <button class="pcd-card" data-color="green" data-pos="tl" data-line="pcd-line-tl" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <h3>Consolidated Dashboards</h3>
+        </div>
+        <p class="pcd-card-desc">Real-time, institution-wide overview of key metrics, performance indicators and operational insights.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#22c55e" stroke-width="5" stroke-dasharray="65 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div class="pcd-mini-bars">
+            <span style="height:40%;background:#166534"></span><span style="height:70%;background:#22c55e"></span><span style="height:55%;background:#4ade80"></span><span style="height:85%;background:#86efac"></span>
+          </div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Live KPI tiles across departments</li>
+            <li>Custom widgets per stakeholder</li>
+            <li>Drill-down to source records</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="teal" data-pos="tr" data-line="pcd-line-tr" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
+          <h3>Academic Performance Reports</h3>
+        </div>
+        <p class="pcd-card-desc">In-depth insights into student performance, attendance, examinations and learning outcomes.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-line" viewBox="0 0 90 30" preserveAspectRatio="none"><polyline points="0,26 15,18 30,22 45,10 60,14 75,4 90,8" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#14b8a6" stroke-width="5" stroke-dasharray="80 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Subject & class-level trends</li>
+            <li>Attendance vs. performance overlay</li>
+            <li>Exam result comparisons over time</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="blue" data-pos="bl" data-line="pcd-line-bl" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2h6a1 1 0 011 1v2H8V3a1 1 0 011-1z"/><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 12h6M9 16h6"/></svg></div>
+          <h3>Administrative Reports</h3>
+        </div>
+        <p class="pcd-card-desc">Comprehensive reports on admissions, finance, HR, infrastructure and daily operations.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#3b82f6" stroke-width="5" stroke-dasharray="50 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div class="pcd-mini-bars">
+            <span style="height:60%;background:#1e3a8a"></span><span style="height:35%;background:#2563eb"></span><span style="height:75%;background:#3b82f6"></span><span style="height:50%;background:#93c5fd"></span>
+          </div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Admissions funnel & conversion</li>
+            <li>Payroll and expense summaries</li>
+            <li>Facility & asset utilization</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="purple" data-pos="br" data-line="pcd-line-br" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></div>
+          <h3>Approvals &amp; Workflows</h3>
+        </div>
+        <p class="pcd-card-desc">Review and approve requests such as leaves, expenses, admissions and other institutional processes.</p>
+        <div class="pcd-flow-mini">
+          <div class="pcd-flow-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg></div>
+          <div class="pcd-flow-dash"></div>
+          <div class="pcd-flow-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div>
+          <div class="pcd-flow-dash"></div>
+          <div class="pcd-flow-dot" style="border-color:#22c55e;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Multi-level approval chains</li>
+            <li>Automatic escalation on delay</li>
+            <li>Full audit trail per request</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="blue" data-pos="bc" data-line="pcd-line-bc" aria-expanded="false" style="border-color:rgba(59,110,245,.3);">
+        <div class="pcd-card-top" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+          <div class="pcd-card-icon" style="background:linear-gradient(135deg,#3b6ef5,#1d4ed8);margin-bottom:6px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 20l4-16M13 4l4 16"/><path d="M4 12h16"/></svg></div>
+          <h3 style="color:#8ab0ff;">Strategic Decision-Making Tools</h3>
+        </div>
+        <p class="pcd-card-desc" style="text-align:center;">Data-driven insights and predictive analytics to plan, evaluate and drive institutional growth and excellence.</p>
+        <div class="pcd-icon-row">
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".5" fill="currentColor"/></svg></div>
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-5 3 3 5-7"/></svg></div>
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0012 3z"/></svg></div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Predictive enrollment & revenue models</li>
+            <li>Scenario planning across institutions</li>
+            <li>Board-ready strategic reports</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle" style="justify-content:center;">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+    </div>
+
+    <!-- ===== Mobile stacked fallback ===== -->
+    <div class="pcd-mobile">
+      <div class="pcd-hub-mobile">
+        <div class="pcd-hub-core">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg>
+          <span class="pcd-hub-label">PRINCIPAL</span>
+        </div>
+        <div class="pcd-hub-text">
+          <h2>Institution-Wide Control</h2>
+          <p>Every card below feeds directly into the Principal's oversight.</p>
+        </div>
+      </div>
+      <!-- JS clones the same 5 cards here for mobile -->
+    </div>
+
+    <!-- ===== Footer strip ===== -->
+    <div class="pcd-footer pcd-reveal">
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg></div>
+        <div><h4>Centralized Control</h4><p>Manage the entire institution from a single platform.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div><h4>Real-Time Visibility</h4><p>Access up-to-date information whenever you need.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div><h4>Better Accountability</h4><p>Monitor, evaluate and ensure performance across all levels.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <div><h4>Secure &amp; Reliable</h4><p>Role-based access with highest data security.</p></div>
+      </div>
+    </div>
+    <br>
+  </div>
+  <div class="pcd-wrap">
+
+    <!-- ===== Header ===== -->
+    <div class="pcd-head pcd-reveal">
+      <div class="pcd-eyebrow">Admin</div>
+      <h1>Efficient Day-to-Day Administration</h1>
+      <p>Manage operations seamlessly and keep the institution running smoothly every day.</p>
+    </div>
+
+    <!-- ===== Desktop radial diagram ===== -->
+    <div class="pcd-stage pcd-reveal">
+      <svg class="pcd-lines" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
+        <path id="pcd-line-tl" class="pcd-flow" d="M330,128 Q400,150 405,215" stroke="#22c55e"></path>
+        <path id="pcd-line-tr" class="pcd-flow" d="M670,128 Q600,150 595,215" stroke="#14b8a6"></path>
+        <path id="pcd-line-bl" class="pcd-flow" d="M330,430 Q390,380 405,325" stroke="#3b82f6"></path>
+        <path id="pcd-line-br" class="pcd-flow" d="M670,430 Q610,380 595,325" stroke="#8b5cf6"></path>
+        <path id="pcd-line-bc" class="pcd-flow" d="M500,430 L500,360" stroke="#3b6ef5"></path>
+      </svg>
+
+      <!-- Hub -->
+      <div class="pcd-hub">
+        <div class="pcd-hub-ring"></div>
+        <div class="pcd-hub-core">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/><rect x="7" y="19.5" width="10" height="2.2" rx="1" fill="currentColor" stroke="none"/></svg>
+          <span class="pcd-hub-label">Admin</span>
+          <span class="pcd-hub-sub">Centralized Management, Smarter Administration</span>
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <button class="pcd-card" data-color="green" data-pos="tl" data-line="pcd-line-tl" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <h3>Day-to-Day Administration</h3>
+        </div>
+        <p class="pcd-card-desc">Oversee daily operations, manage schedules, facilities and ensure smooth institutional functioning.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#22c55e" stroke-width="5" stroke-dasharray="65 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div class="pcd-mini-bars">
+            <span style="height:40%;background:#166534"></span><span style="height:70%;background:#22c55e"></span><span style="height:55%;background:#4ade80"></span><span style="height:85%;background:#86efac"></span>
+          </div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Centralized daily operations management</li>
+            <li>Schedule and facility coordination</li>
+            <li>Streamlined administrative workflows</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="teal" data-pos="tr" data-line="pcd-line-tr" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M16 12h4"/></svg></div>
+          <h3>Fee Management</h3>
+        </div>
+        <p class="pcd-card-desc">Handle fee collection, due tracking, receipts, refunds and financial reports with accuracy.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-line" viewBox="0 0 90 30" preserveAspectRatio="none"><polyline points="0,26 15,18 30,22 45,10 60,14 75,4 90,8" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#14b8a6" stroke-width="5" stroke-dasharray="80 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Verify fee transactions</li>
+            <li>Issue digitally signed receipts & No Due Certificates</li>
+            <li>Track dues and generate financial reports</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="blue" data-pos="bl" data-line="pcd-line-bl" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2h6a1 1 0 011 1v2H8V3a1 1 0 011-1z"/><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 12h6M9 16h6"/></svg></div>
+          <h3>Students Admissions &amp; Records</h3>
+        </div>
+        <p class="pcd-card-desc">Manage admissions, maintain student records, track academic history and documents securely.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#3b82f6" stroke-width="5" stroke-dasharray="50 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div class="pcd-mini-bars">
+            <span style="height:60%;background:#1e3a8a"></span><span style="height:35%;background:#2563eb"></span><span style="height:75%;background:#3b82f6"></span><span style="height:50%;background:#93c5fd"></span>
+          </div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Streamlined admission process</li>
+            <li>Secure student records management</li>
+            <li>Academic history and document tracking</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="purple" data-pos="br" data-line="pcd-line-br" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></div>
+          <h3>Faculty &amp; Staff Records &amp; Payroll</h3>
+        </div>
+        <p class="pcd-card-desc">Maintain faculty & staff records, manage attendance, payroll, leaves and service history.</p>
+        <div class="pcd-flow-mini">
+          <div class="pcd-flow-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg></div>
+          <div class="pcd-flow-dash"></div>
+          <div class="pcd-flow-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div>
+          <div class="pcd-flow-dash"></div>
+          <div class="pcd-flow-dot" style="border-color:#22c55e;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Automated Payroll and expense summaries</li>
+            <li>Attendance and leave management</li>
+            <li>Faculty records and service history</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="blue" data-pos="bc" data-line="pcd-line-bc" aria-expanded="false" style="border-color:rgba(59,110,245,.3);">
+        <div class="pcd-card-top" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+          <div class="pcd-card-icon" style="background:linear-gradient(135deg,#3b6ef5,#1d4ed8);margin-bottom:6px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+          <h3 style="color:#8ab0ff;">Notifications</h3>
+        </div>
+        <p class="pcd-card-desc" style="text-align:center;">Recieve instant notifications from internal processing of student, faculty & staff data.</p>
+        <div class="pcd-icon-row">
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".5" fill="currentColor"/></svg></div>
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-5 3 3 5-7"/></svg></div>
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0012 3z"/></svg></div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Real-time system notifications</li>
+            <li>Student, faculty & staff alerts</li>
+            <li>Instant updates on key activities</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle" style="justify-content:center;">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+    </div>
+
+    <!-- ===== Mobile stacked fallback ===== -->
+    <div class="pcd-mobile">
+      <div class="pcd-hub-mobile">
+        <div class="pcd-hub-core">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg>
+          <span class="pcd-hub-label">ADMIN</span>
+        </div>
+        <div class="pcd-hub-text">
+          <h2>Efficient Day-to-Day Administration</h2>
+          <p>Every card below feeds directly into the Admin's oversight.</p>
+        </div>
+      </div>
+      <!-- JS clones the same 5 cards here for mobile -->
+    </div>
+
+    <!-- ===== Footer strip ===== -->
+    <div class="pcd-footer pcd-reveal">
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg></div>
+        <div><h4>Centralized Control</h4><p>Manage all administrative functions from one secure platform.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12"/><path d="M6 22h12"/><path d="M6 2c0 6 6 6 6 10s-6 4-6 10"/><path d="M18 2c0 6-6 6-6 10s6 4 6 10"/></svg></div>
+        <div><h4>Save Time</h4><p>Automate tasks and streamline workflows to save valuable time.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M2 12h4"/><path d="M18 12h4"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <div><h4>Better Accuracy</h4><p>Reduce errors with accurate data management and reporting.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <div><h4>Secure &amp; Reliable</h4><p>Ensure data privacy and role-based access for complete security.</p></div>
+      </div>
+    </div>
+
+  </div>
+  <br>
+  </div>
+  <div class="pcd-wrap">
+
+    <!-- ===== Header ===== -->
+    <div class="pcd-head pcd-reveal">
+      <div class="pcd-eyebrow">Heads of Departments</div>
+      <h1>Academic Department Management</h1>
+      <p>Empowering Heads of Departments to lead, monitor and drive academic excellence.</p>
+    </div>
+
+    <!-- ===== Desktop radial diagram ===== -->
+    <div class="pcd-stage pcd-reveal">
+      <svg class="pcd-lines" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
+        <path id="pcd-line-tl" class="pcd-flow" d="M330,128 Q400,150 405,215" stroke="#22c55e"></path>
+        <path id="pcd-line-tr" class="pcd-flow" d="M670,128 Q600,150 595,215" stroke="#14b8a6"></path>
+        <path id="pcd-line-bl" class="pcd-flow" d="M330,430 Q390,380 405,325" stroke="#3b82f6"></path>
+        <path id="pcd-line-br" class="pcd-flow" d="M670,430 Q610,380 595,325" stroke="#8b5cf6"></path>
+        <path id="pcd-line-bc" class="pcd-flow" d="M500,430 L500,360" stroke="#3b6ef5"></path>
+      </svg>
+
+      <!-- Hub -->
+      <div class="pcd-hub">
+        <div class="pcd-hub-ring"></div>
+        <div class="pcd-hub-core">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/><rect x="7" y="19.5" width="10" height="2.2" rx="1" fill="currentColor" stroke="none"/></svg>
+          <span class="pcd-hub-label">HOD</span>
+          <span class="pcd-hub-sub">Lead, Monitor, Improve, Excel</span>
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <button class="pcd-card" data-color="green" data-pos="tl" data-line="pcd-line-tl" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <h3>Academic Department Management</h3>
+        </div>
+        <p class="pcd-card-desc">Manage department activities, resources and ensure curriculum implementation.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#22c55e" stroke-width="5" stroke-dasharray="65 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div class="pcd-mini-bars">
+            <span style="height:40%;background:#166534"></span><span style="height:70%;background:#22c55e"></span><span style="height:55%;background:#4ade80"></span><span style="height:85%;background:#86efac"></span>
+          </div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Department-wise academic management</li>
+            <li>Curriculum planning and implementation</li>
+            <li>Oordination & analysis</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="teal" data-pos="tr" data-line="pcd-line-tr" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>Supervise Faculty</h3>
+        </div>
+        <p class="pcd-card-desc">Oversee faculty performance, provide support, conduct evaluation and promote professional development.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-line" viewBox="0 0 90 30" preserveAspectRatio="none"><polyline points="0,26 15,18 30,22 45,10 60,14 75,4 90,8" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#14b8a6" stroke-width="5" stroke-dasharray="80 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Faculty performance monitoring</li>
+            <li>Evaluation and appraisal management</li>
+            <li>Professional development tracking</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="blue" data-pos="bl" data-line="pcd-line-bl" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2h6a1 1 0 011 1v2H8V3a1 1 0 011-1z"/><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 12h6M9 16h6"/></svg></div>
+          <h3>Students Progress &amp; Reports</h3>
+        </div>
+        <p class="pcd-card-desc">Track student academics performance, analyze results and generate insightful reports for improvement.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#3b82f6" stroke-width="5" stroke-dasharray="50 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div class="pcd-mini-bars">
+            <span style="height:60%;background:#1e3a8a"></span><span style="height:35%;background:#2563eb"></span><span style="height:75%;background:#3b82f6"></span><span style="height:50%;background:#93c5fd"></span>
+          </div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Monitor academic performance</li>
+            <li>Analyze results and progress trends</li>
+            <li>Generate comprehensive performance reports</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="purple" data-pos="br" data-line="pcd-line-br" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></div>
+          <h3>Monitor Attendance &amp; Reports</h3>
+        </div>
+        <p class="pcd-card-desc">Monitor faculty and student attendance, generate reports and ensure compliance with academic policies.</p>
+        <div class="pcd-flow-mini">
+          <div class="pcd-flow-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg></div>
+          <div class="pcd-flow-dash"></div>
+          <div class="pcd-flow-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div>
+          <div class="pcd-flow-dash"></div>
+          <div class="pcd-flow-dot" style="border-color:#22c55e;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Real-time attendance monitoring</li>
+            <li>Faculty and student attendance reports</li>
+            <li>Attendance compliance tracking</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="blue" data-pos="bc" data-line="pcd-line-bc" aria-expanded="false" style="border-color:rgba(59,110,245,.3);">
+        <div class="pcd-card-top" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+          <div class="pcd-card-icon" style="background:linear-gradient(135deg,#3b6ef5,#1d4ed8);margin-bottom:6px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></div>
+          <h3 style="color:#8ab0ff;">Manage Timetables</h3>
+        </div>
+        <p class="pcd-card-desc" style="text-align:center;">Manage and optimize class timetables and faculty schedules efficiently.</p>
+        <div class="pcd-icon-row">
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".5" fill="currentColor"/></svg></div>
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-5 3 3 5-7"/></svg></div>
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0012 3z"/></svg></div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Class timetable scheduling</li>
+            <li>Faculty workload management</li>
+            <li>Conflict-free schedule optimization</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle" style="justify-content:center;">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+    </div>
+
+    <!-- ===== Mobile stacked fallback ===== -->
+    <div class="pcd-mobile">
+      <div class="pcd-hub-mobile">
+        <div class="pcd-hub-core">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg>
+          <span class="pcd-hub-label">Heads of Departments</span>
+        </div>
+        <div class="pcd-hub-text">
+          <h2>Academic Department Management</h2>
+          <p>Every card below feeds directly into the Admin's oversight.</p>
+        </div>
+      </div>
+      <!-- JS clones the same 5 cards here for mobile -->
+    </div>
+
+    <!-- ===== Footer strip ===== -->
+    <div class="pcd-footer pcd-reveal">
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg></div>
+        <div><h4>Better Control</h4><p>Centralized control over department operations and academic activities.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+        <div><h4>Improved Performance</h4><p>Data-driven insights help improve teaching quality and student outcomes.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div><h4>Accountability</h4><p>Ensure accountability through monitoring and regular report analysis.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12"/><path d="M6 22h12"/><path d="M6 2c0 6 6 6 6 10s-6 4-6 10"/><path d="M18 2c0 6-6 6-6 10s6 4 6 10"/></svg></div>
+        <div><h4>Time Efficiency</h4><p>Automate scheduling and reporting to save time and reduce manual work.</p></div>
+      </div>
+    </div>
+    <br>
+  </div>
+  <div class="pcd-wrap">
+
+    <!-- ===== Header ===== -->
+    <div class="pcd-head pcd-reveal">
+      <div class="pcd-eyebrow">Faculty</div>
+      <h1>Empowering Educators. Inspiring Excellence.</h1>
+      <p>All the tolls you need to track, manage and automate procedures - all in one place.</p>
+    </div>
+
+    <!-- ===== Desktop radial diagram ===== -->
+    <div class="pcd-stage pcd-reveal">
+      <svg class="pcd-lines" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
+        <path id="pcd-line-tl" class="pcd-flow" d="M330,128 Q400,150 405,215" stroke="#22c55e"></path>
+        <path id="pcd-line-tr" class="pcd-flow" d="M670,128 Q600,150 595,215" stroke="#14b8a6"></path>
+        <path id="pcd-line-bl" class="pcd-flow" d="M330,430 Q390,380 405,325" stroke="#3b82f6"></path>
+        <path id="pcd-line-br" class="pcd-flow" d="M670,430 Q610,380 595,325" stroke="#8b5cf6"></path>
+        <path id="pcd-line-bc" class="pcd-flow" d="M500,430 L500,360" stroke="#3b6ef5"></path>
+      </svg>
+
+      <!-- Hub -->
+      <div class="pcd-hub">
+        <div class="pcd-hub-ring"></div>
+        <div class="pcd-hub-core">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/><rect x="7" y="19.5" width="10" height="2.2" rx="1" fill="currentColor" stroke="none"/></svg>
+          <span class="pcd-hub-label">Faculty</span>
+          <span class="pcd-hub-sub">Teach, Track, Evaluate, Make an Impact.</span>
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <button class="pcd-card" data-color="green" data-pos="tl" data-line="pcd-line-tl" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <h3>Manage Classes</h3>
+        </div>
+        <p class="pcd-card-desc">Manage multiple classes and subjects activities, resources and ensure curriculum implementation.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#22c55e" stroke-width="5" stroke-dasharray="65 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div class="pcd-mini-bars">
+            <span style="height:40%;background:#166534"></span><span style="height:70%;background:#22c55e"></span><span style="height:55%;background:#4ade80"></span><span style="height:85%;background:#86efac"></span>
+          </div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Multi-class and subject management</li>
+            <li>Class resource coordination</li>
+            <li>Curriculum implementation tracking</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="teal" data-pos="tr" data-line="pcd-line-tr" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <h3>Record Attendance</h3>
+        </div>
+        <p class="pcd-card-desc">Take and manage attendance quickly, view reports and identify trends to support student engagement.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-line" viewBox="0 0 90 30" preserveAspectRatio="none"><polyline points="0,26 15,18 30,22 45,10 60,14 75,4 90,8" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#14b8a6" stroke-width="5" stroke-dasharray="80 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Quick attendance recording</li>
+            <li>Attendance reports and analytics</li>
+            <li>Student engagement insights</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="blue" data-pos="bl" data-line="pcd-line-bl" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2h6a1 1 0 011 1v2H8V3a1 1 0 011-1z"/><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 12h6M9 16h6"/></svg></div>
+          <h3>Manage Grades</h3>
+        </div>
+        <p class="pcd-card-desc">Record grades, calculate scores and provide feedback to help students understand and improve.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#3b82f6" stroke-width="5" stroke-dasharray="50 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div class="pcd-mini-bars">
+            <span style="height:60%;background:#1e3a8a"></span><span style="height:35%;background:#2563eb"></span><span style="height:75%;background:#3b82f6"></span><span style="height:50%;background:#93c5fd"></span>
+          </div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Record and manage grades</li>
+            <li>Automated score calculations</li>
+            <li>Performance feedback and insights</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="purple" data-pos="br" data-line="pcd-line-br" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></div>
+          <h3>Automate Analysis &amp; Reports</h3>
+        </div>
+        <p class="pcd-card-desc">Monitor student attendance, grades and perfomance generate reports and ensure compliance with academic policies with key insights and automated reports.</p>
+        <div class="pcd-flow-mini">
+          <div class="pcd-flow-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg></div>
+          <div class="pcd-flow-dash"></div>
+          <div class="pcd-flow-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div>
+          <div class="pcd-flow-dash"></div>
+          <div class="pcd-flow-dot" style="border-color:#22c55e;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Automated performance analytics</li>
+            <li>Insightful reports and dashboards</li>
+            <li>Attendance, grades & compliance tracking</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="blue" data-pos="bc" data-line="pcd-line-bc" aria-expanded="false" style="border-color:rgba(59,110,245,.3);">
+        <div class="pcd-card-top" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+          <div class="pcd-card-icon" style="background:linear-gradient(135deg,#3b6ef5,#1d4ed8);margin-bottom:6px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+          <h3 style="color:#8ab0ff;">Evaluate Performance</h3>
+        </div>
+        <p class="pcd-card-desc" style="text-align:center;">Assess student performance, provide constructive feedback and analyse results to drive continuous improvement.</p>
+        <div class="pcd-icon-row">
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".5" fill="currentColor"/></svg></div>
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-5 3 3 5-7"/></svg></div>
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0012 3z"/></svg></div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Comprehensive performance evaluation</li>
+            <li>Constructive feedback and insights</li>
+            <li>Results analysis for improvement</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle" style="justify-content:center;">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+    </div>
+
+    <!-- ===== Mobile stacked fallback ===== -->
+    <div class="pcd-mobile">
+      <div class="pcd-hub-mobile">
+        <div class="pcd-hub-core">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg>
+          <span class="pcd-hub-label">Faculty</span>
+        </div>
+        <div class="pcd-hub-text">
+          <h2>Empowering Educators. Inspiring Excellence.</h2>
+          <p>Every card below feeds directly into the Faculty's oversight.</p>
+        </div>
+      </div>
+      <!-- JS clones the same 5 cards here for mobile -->
+    </div>
+
+    <!-- ===== Footer strip ===== -->
+    <div class="pcd-footer pcd-reveal">
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v4c0 2 3 4 6 4s6-2 6-4v-4"/><path d="M22 9v6"/></svg></div>
+        <div><h4>Streamlined Teaching</h4><p>All teaching tasks in one easy-to-use platform.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M5 6H3a2 2 0 0 0 2 4"/><path d="M19 6h2a2 2 0 0 1-2 4"/></svg></div>
+        <div><h4>Better Student Outcomes</h4><p>Data-driven insights help you support every learner.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12"/><path d="M6 22h12"/><path d="M6 2c0 6 6 6 6 10s-6 4-6 10"/><path d="M18 2c0 6-6 6-6 10s6 4 6 10"/></svg></div>
+        <div><h4>Save Time</h4><p>Automate tasks and focus more on what matters most - teaching.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <div><h4>Secure &amp; Reliable</h4><p>Your data and students information are always safe and accessible.</p></div>
+      </div>
+    </div>
+    <br>
+  </div>
+  <div class="pcd-wrap">
+
+    <!-- ===== Header ===== -->
+    <div class="pcd-head pcd-reveal">
+      <div class="pcd-eyebrow">Students</div>
+      <h1>Your Learning. Your Journey. Our Support</h1>
+      <p>Everything you need to stay informed, organized and successful in your academic journey.</p>
+    </div>
+
+    <!-- ===== Desktop radial diagram ===== -->
+    <div class="pcd-stage pcd-reveal">
+      <svg class="pcd-lines" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true">
+        <path id="pcd-line-tl" class="pcd-flow" d="M330,128 Q400,150 405,215" stroke="#22c55e"></path>
+        <path id="pcd-line-tr" class="pcd-flow" d="M670,128 Q600,150 595,215" stroke="#14b8a6"></path>
+        <path id="pcd-line-bl" class="pcd-flow" d="M330,430 Q390,380 405,325" stroke="#3b82f6"></path>
+        <path id="pcd-line-br" class="pcd-flow" d="M670,430 Q610,380 595,325" stroke="#8b5cf6"></path>
+        <path id="pcd-line-bc" class="pcd-flow" d="M500,430 L500,360" stroke="#3b6ef5"></path>
+      </svg>
+
+      <!-- Hub -->
+      <div class="pcd-hub">
+        <div class="pcd-hub-ring"></div>
+        <div class="pcd-hub-core">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/><rect x="7" y="19.5" width="10" height="2.2" rx="1" fill="currentColor" stroke="none"/></svg>
+          <span class="pcd-hub-label">Student</span>
+          <span class="pcd-hub-sub">Learn, Track, Achive, Succeed.</span>
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <button class="pcd-card" data-color="green" data-pos="tl" data-line="pcd-line-tl" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <h3>Personal Profile</h3>
+        </div>
+        <p class="pcd-card-desc">View and update your personal information, contact details and academic profile.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#22c55e" stroke-width="5" stroke-dasharray="65 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div class="pcd-mini-bars">
+            <span style="height:40%;background:#166534"></span><span style="height:70%;background:#22c55e"></span><span style="height:55%;background:#4ade80"></span><span style="height:85%;background:#86efac"></span>
+          </div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>View and update profile</li>
+            <li>Manage contact information</li>
+            <li>Access academic profile details</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="teal" data-pos="tr" data-line="pcd-line-tr" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></div>
+          <h3>Timetables</h3>
+        </div>
+        <p class="pcd-card-desc">Access your class timetable and schedule updates anytime.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-line" viewBox="0 0 90 30" preserveAspectRatio="none"><polyline points="0,26 15,18 30,22 45,10 60,14 75,4 90,8" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#14b8a6" stroke-width="5" stroke-dasharray="80 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>View class schedules anytime</li>
+            <li>Real-time timetable updates</li>
+            <li>Organized daily academic planning</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="blue" data-pos="bl" data-line="pcd-line-bl" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2h6a1 1 0 011 1v2H8V3a1 1 0 011-1z"/><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 12h6M9 16h6"/></svg></div>
+          <h3>Attendance Records</h3>
+        </div>
+        <p class="pcd-card-desc">View your attendance history, subject-wise summary and overall reports.</p>
+        <div class="pcd-mini">
+          <svg class="pcd-mini-donut" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#3b82f6" stroke-width="5" stroke-dasharray="50 100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div class="pcd-mini-bars">
+            <span style="height:60%;background:#1e3a8a"></span><span style="height:35%;background:#2563eb"></span><span style="height:75%;background:#3b82f6"></span><span style="height:50%;background:#93c5fd"></span>
+          </div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>View attendance history</li>
+            <li>Subject-wise attendance summaries</li>
+            <li>Overall attendance reports</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="purple" data-pos="br" data-line="pcd-line-br" aria-expanded="false">
+        <div class="pcd-card-top">
+          <div class="pcd-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></div>
+          <h3>Fee Payments &amp; Due Reports</h3>
+        </div>
+        <p class="pcd-card-desc">Complete fee payments and stay on top of your dues and get digitally signed and verified reciepts and NO DUE certificates.</p>
+        <div class="pcd-flow-mini">
+          <div class="pcd-flow-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg></div>
+          <div class="pcd-flow-dash"></div>
+          <div class="pcd-flow-dot"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div>
+          <div class="pcd-flow-dash"></div>
+          <div class="pcd-flow-dot" style="border-color:#22c55e;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>Secure online fee payments</li>
+            <li>Track dues and payment history</li>
+            <li>Digitally signed receipts & No Due Certificates</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+
+      <button class="pcd-card" data-color="blue" data-pos="bc" data-line="pcd-line-bc" aria-expanded="false" style="border-color:rgba(59,110,245,.3);">
+        <div class="pcd-card-top" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+          <div class="pcd-card-icon" style="background:linear-gradient(135deg,#3b6ef5,#1d4ed8);margin-bottom:6px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+          <h3 style="color:#8ab0ff;">Evaluate Performance</h3>
+        </div>
+        <p class="pcd-card-desc" style="text-align:center;">View your grades, semester results, SGPA/CGPA and academic performance history.</p>
+        <div class="pcd-icon-row">
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".5" fill="currentColor"/></svg></div>
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-5 3 3 5-7"/></svg></div>
+          <div class="pcd-mini-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0012 3z"/></svg></div>
+        </div>
+        <div class="pcd-card-detail">
+          <ul>
+            <li>View grades and results</li>
+            <li>Track SGPA & CGPA</li>
+            <li>Monitor academic performance history</li>
+          </ul>
+        </div>
+        <div class="pcd-card-toggle" style="justify-content:center;">View details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></div>
+      </button>
+    </div>
+
+    <!-- ===== Mobile stacked fallback ===== -->
+    <div class="pcd-mobile">
+      <div class="pcd-hub-mobile">
+        <div class="pcd-hub-core">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg>
+          <span class="pcd-hub-label">Student</span>
+        </div>
+        <div class="pcd-hub-text">
+          <h2>Your Learning. Your Journey. Our Support.</h2>
+          <p>Every card below feeds directly into the Students's oversight.</p>
+        </div>
+      </div>
+      <!-- JS clones the same 5 cards here for mobile -->
+    </div>
+
+    <!-- ===== Footer strip ===== -->
+    <div class="pcd-footer pcd-reveal">
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg></div>
+        <div><h4>All in One Place</h4><p>Access everything you need in one simple and easy dashboard.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="20" x2="6" y2="10"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="14"/></svg></div>
+        <div><h4>Track Progress</h4><p>Monitor your attendance, grades and performance effortlessly.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12"/><path d="M6 22h12"/><path d="M6 2c0 6 6 6 6 10s-6 4-6 10"/><path d="M18 2c0 6-6 6-6 10s6 4 6 10"/></svg></div>
+        <div><h4>Save Time</h4><p>Automate tasks and focus more on what matters most - learning.</p></div>
+      </div>
+      <div class="pcd-foot-item">
+        <div class="pcd-foot-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <div><h4>Secure &amp; Private</h4><p>Your data os protected eith high security and privacy standards.</p></div>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var root = document.currentScript.closest('.pcd') || document;
+
+    // ---- Clone cards into the mobile stacked layout ----
+    var mobile = root.querySelector('.pcd-mobile');
+    var cards = root.querySelectorAll('.pcd-stage .pcd-card');
+    cards.forEach(function(card){
+      var clone = card.cloneNode(true);
+      clone.removeAttribute('style');
+      mobile.appendChild(clone);
+    });
+
+    // ---- Card hover/focus highlights matching connector line ----
+    var allCards = root.querySelectorAll('.pcd-card');
+    allCards.forEach(function(card){
+      var lineId = card.getAttribute('data-line');
+      var line = lineId ? root.querySelector('#' + lineId) : null;
+
+      function on(){ if(line) line.classList.add('pcd-active'); }
+      function off(){ if(line) line.classList.remove('pcd-active'); }
+
+      card.addEventListener('mouseenter', on);
+      card.addEventListener('mouseleave', off);
+      card.addEventListener('focus', on);
+      card.addEventListener('blur', off);
+
+      // ---- Click / keyboard to expand detail ----
+      card.addEventListener('click', function(){
+        var isOpen = card.classList.toggle('pcd-open');
+        card.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    });
+
+    // ---- Reveal on scroll ----
+    var revealEls = root.querySelectorAll('.pcd-reveal');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('pcd-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.12});
+    revealEls.forEach(function(el){ io.observe(el); });
+  })();
+  </script>
+
+</section>
+
+<!--PHASE 2-->
+<style>
+  :root{
+    --bg: #050507;
+    --panel: #0d0d12;
+    --panel-2: #101017;
+    --line: #1e1e28;
+    --text: #eef0f5;
+    --muted: #8a8b9b;
+    --faint: #52535f;
+
+    --blue: #4d8dff;
+    --green: #3ecf8e;
+    --purple: #b389ff;
+    --orange: #ff9d4d;
+    --teal: #37d0c6;
+    --pink: #ff6fa5;
+  }
+
+  *{margin:0; padding:0; box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(77,141,255,0.07), transparent 40%),
+      radial-gradient(circle at 85% 30%, rgba(179,137,255,0.06), transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(62,207,142,0.05), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .wrap{position:relative; z-index:1;}
+
+  h1,h2,h3{font-family:'Sora', sans-serif;}
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color: var(--green2);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:24px; height:1px;
+    background: var(--faint);
+  }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 5vw;
+    background: rgba(5,5,7,0.75);
+    backdrop-filter: blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .brand{
+    font-family:'Sora', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:0.02em;
+    display:flex; align-items:center; gap:10px;
+  }
+  nav .brand .dot{width:8px; height:8px; border-radius:50%; background: var(--blue); box-shadow:0 0 12px var(--blue);}
+  nav ul{list-style:none; display:flex; gap:32px;}
+  nav a{
+    color: var(--muted); text-decoration:none; font-size:13px; font-weight:500;
+    transition: color .25s;
+  }
+  nav a:hover{color: var(--text);}
+
+  section{padding:120px 5vw; position:relative; border-bottom:1px solid var(--line);}
+  .section-inner{max-width:1200px; margin:0 auto;}
+
+  .hero-title{
+    font-size:clamp(2.2rem, 5vw, 3.6rem);
+    font-weight:800;
+    line-height:1.08;
+    letter-spacing:-0.02em;
+    max-width:820px;
+  }
+  .hero-sub{
+    margin-top:20px;
+    color: var(--muted);
+    font-size:16px;
+    max-width:560px;
+    line-height:1.7;
+  }
+
+  /* ---------- SECTION 1: ECOSYSTEM HUB ---------- */
+  #ecosystem{padding-top:100px;}
+
+  .hub-grid{
+    position:relative;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap:24px;
+    margin-top:70px;
+    align-items:center;
+  }
+  .hub-center{
+    grid-column:2; grid-row:2;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hub-core{
+    width:220px; height:220px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    background: radial-gradient(circle at 50% 40%, #14141d, #0a0a0e 70%);
+    position:relative;
+    z-index:2;
+  }
+  .hub-core::after{
+    content:"";
+    position:absolute; inset:-16px;
+    border-radius:50%;
+    border:1px dashed rgba(77,141,255,0.25);
+    animation: spin 40s linear infinite;
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  .hub-core svg{width:30px; height:30px; margin-bottom:10px; color: var(--blue);}
+  .hub-core b{font-family:'Sora',sans-serif; font-size:13px; letter-spacing:0.02em;}
+  .hub-core span{font-size:11px; color:var(--muted); margin-top:6px; max-width:150px; line-height:1.5;}
+
+  .node{
+    background: var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    position:relative;
+    transition: border-color .3s, transform .3s;
+  }
+  .node:hover{ transform: translateY(-3px); }
+  .node .tag{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:13px;
+    letter-spacing:0.03em; text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .node .tag .sw{width:8px; height:8px; border-radius:2px;}
+  .node ul{list-style:none;}
+  .node li{
+    font-size:13px; color:var(--muted);
+    padding:5px 0 5px 18px;
+    position:relative;
+  }
+  .node li::before{
+    content:"";
+    position:absolute; left:0; top:12px;
+    width:6px; height:6px; border-radius:1px;
+    transform:rotate(45deg);
+  }
+
+  #node-head{grid-column:2; grid-row:1;}
+  #node-admin{grid-column:1; grid-row:1;}
+  #node-hod{grid-column:3; grid-row:1;}
+  #node-faculty{grid-column:1; grid-row:3;}
+  #node-students{grid-column:3; grid-row:3;}
+  #node-network{grid-column:2; grid-row:3; text-align:center;}
+
+  #node-head .tag{color:var(--blue);} #node-head .sw{background:var(--blue);} #node-head li::before{background:var(--blue);}
+  #node-admin .tag{color:var(--green);} #node-admin .sw{background:var(--green);} #node-admin li::before{background:var(--green);}
+  #node-hod .tag{color:var(--purple);} #node-hod .sw{background:var(--purple);} #node-hod li::before{background:var(--purple);}
+  #node-faculty .tag{color:var(--orange);} #node-faculty .sw{background:var(--orange);} #node-faculty li::before{background:var(--orange);}
+  #node-students .tag{color:var(--teal);} #node-students .sw{background:var(--teal);} #node-students li::before{background:var(--teal);}
+
+  #node-network{
+    background: linear-gradient(180deg, #0d0d12, #0a0a0e);
+    border:1px solid rgba(77,141,255,0.3);
+  }
+  #node-network b{font-family:'Sora',sans-serif; font-size:13px; letter-spacing:0.03em;}
+  #node-network .pillars{
+    display:flex; justify-content:center; gap:18px; margin-top:10px;
+    font-size:11px; color:var(--muted); font-family:'JetBrains Mono',monospace;
+  }
+
+  .connector-svg{
+    position:absolute; inset:0; width:100%; height:100%;
+    pointer-events:none; z-index:0;
+  }
+
+  .benefits-strip{
+    margin-top:80px;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:36px 30px;
+    background: var(--panel);
+  }
+  .benefits-strip .heading{
+    text-align:center; font-family:'JetBrains Mono',monospace; font-size:11px;
+    letter-spacing:0.2em; color:var(--faint); margin-bottom:28px;
+  }
+  .benefits-grid{
+    display:grid; grid-template-columns:repeat(6, 1fr); gap:20px;
+  }
+  .benefit{text-align:left;}
+  .benefit .num{
+    font-family:'Sora',sans-serif; font-size:11px; color:var(--faint); margin-bottom:8px;
+  }
+  .benefit b{display:block; font-size:13px; margin-bottom:6px;}
+  .benefit p{font-size:12px; color:var(--muted); line-height:1.55;}
+  .closing-line{
+    margin-top:30px; padding-top:26px; border-top:1px solid var(--line);
+    text-align:center; color:var(--muted); font-size:13px; line-height:1.7;
+    max-width:760px; margin-left:auto; margin-right:auto;
+  }
+  .closing-line b{color:var(--text);}
+
+  /* ---------- SECTION 2: HEAD OFFICE ---------- */
+  #headoffice .section-inner{max-width:1180px;}
+
+  .ho-top{
+    display:grid; grid-template-columns: 1fr 2fr 1fr;
+    gap:24px; align-items:stretch; margin-top:60px;
+  }
+  .ho-side{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:14px;
+  }
+  .ho-side .icon-circle{
+    width:64px; height:64px; border-radius:50%;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    background: var(--panel);
+  }
+  .ho-side .icon-circle svg{width:26px; height:26px; color:var(--blue);}
+  .ho-side b{font-size:13px; font-family:'Sora',sans-serif;}
+  .ho-side span{font-size:12px; color:var(--muted); max-width:150px;}
+
+  .ho-main{
+    border:1px solid var(--line);
+    border-radius:16px;
+    background: var(--panel);
+    padding:28px 30px;
+  }
+  .ho-main .label{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.15em;
+    color:var(--blue); border:1px solid rgba(77,141,255,0.3); border-radius:20px;
+    padding:5px 14px; margin-bottom:22px;
+  }
+  .ho-features{display:grid; grid-template-columns:1fr 1fr; gap:14px 28px; margin-bottom:26px;}
+  .ho-features li{list-style:none; font-size:13px; color:var(--muted); display:flex; align-items:center; gap:10px;}
+  .ho-features li svg{width:14px; height:14px; color:var(--blue); flex-shrink:0;}
+  .ho-dashboard{
+    border-top:1px solid var(--line); padding-top:18px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .ho-dashboard b{font-size:13px;}
+  .ho-dashboard span{font-size:12px; color:var(--muted);}
+
+  .network-band{
+    text-align:center; margin:36px 0;
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.15em;
+    color:var(--teal);
+    display:flex; align-items:center; justify-content:center; gap:12px;
+  }
+  .network-band::before, .network-band::after{
+    content:""; height:1px; width:80px;
+    background:linear-gradient(90deg, transparent, var(--teal));
+  }
+  .network-band::after{ background:linear-gradient(90deg, var(--teal), transparent); }
+
+  .campus-row{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:20px;
+  }
+  .campus-card{
+    background: var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+    transition: transform .3s, border-color .3s;
+  }
+  .campus-card:hover{transform:translateY(-4px);}
+  .campus-card .tag{
+    font-family:'Sora',sans-serif; font-weight:700; font-size:12px;
+    padding:5px 10px; border-radius:6px; display:inline-block; margin-bottom:14px;
+  }
+  .campus-card ul{list-style:none;}
+  .campus-card li{font-size:12px; color:var(--muted); padding:4px 0 4px 16px; position:relative;}
+  .campus-card li::before{content:"›"; position:absolute; left:0; color:var(--faint);}
+  .campus-card .sync{
+    margin-top:14px; padding-top:12px; border-top:1px solid var(--line);
+    font-size:11px; font-family:'JetBrains Mono',monospace;
+  }
+  .campus-card:nth-child(1) .tag{background:rgba(62,207,142,0.12); color:var(--green);}
+  .campus-card:nth-child(1) .sync{color:var(--green);}
+  .campus-card:nth-child(2) .tag{background:rgba(179,137,255,0.12); color:var(--purple);}
+  .campus-card:nth-child(2) .sync{color:var(--purple);}
+  .campus-card:nth-child(3) .tag{background:rgba(255,157,77,0.12); color:var(--orange);}
+  .campus-card:nth-child(3) .sync{color:var(--orange);}
+  .campus-card:nth-child(4) .tag{background:rgba(55,208,198,0.12); color:var(--teal);}
+  .campus-card:nth-child(4) .sync{color:var(--teal);}
+
+  .ho-benefits{
+    margin-top:60px; display:grid; grid-template-columns:repeat(5,1fr); gap:18px;
+  }
+  .ho-benefit{
+    border:1px solid var(--line); border-radius:12px; padding:20px 18px;
+    background:var(--panel);
+  }
+  .ho-benefit b{display:block; font-size:13px; margin-bottom:6px; font-family:'Sora',sans-serif;}
+  .ho-benefit p{font-size:12px; color:var(--muted); line-height:1.5;}
+
+  /* ---------- SECTION 3: TIMELINE ---------- */
+  #process{padding-bottom:160px;}
+
+  .timeline{
+    position:relative;
+    margin-top:70px;
+    max-width:900px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute; left:29px; top:10px; bottom:10px; width:1px;
+    background: linear-gradient(180deg, var(--blue), var(--green), var(--purple), var(--teal), var(--orange), var(--pink));
+    opacity:0.4;
+  }
+  .tl-step{
+    display:grid; grid-template-columns:60px 1fr;
+    gap:26px;
+    padding-bottom:52px;
+    position:relative;
+  }
+  .tl-step:last-child{padding-bottom:0;}
+  .tl-num{
+    width:60px; height:60px; border-radius:50%;
+    background: var(--panel);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:16px;
+    position:relative; z-index:2;
+  }
+  .tl-body{
+    background: var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 26px;
+    display:grid; grid-template-columns: 1.2fr 1fr; gap:24px;
+    transition: border-color .3s;
+  }
+  .tl-body:hover{border-color: var(--faint);}
+  .tl-body h3{font-size:16px; margin-bottom:8px;}
+  .tl-body p{font-size:13px; color:var(--muted); line-height:1.6;}
+  .tl-body .sub-list{list-style:none; border-left:1px solid var(--line); padding-left:18px;}
+  .tl-body .sub-list li{font-size:12px; color:var(--muted); padding:3px 0;}
+
+  .tl-step[data-c="blue"] .tl-num{color:var(--blue); box-shadow:0 0 0 3px rgba(77,141,255,0.08);}
+  .tl-step[data-c="green"] .tl-num{color:var(--green); box-shadow:0 0 0 3px rgba(62,207,142,0.08);}
+  .tl-step[data-c="purple"] .tl-num{color:var(--purple); box-shadow:0 0 0 3px rgba(179,137,255,0.08);}
+  .tl-step[data-c="teal"] .tl-num{color:var(--teal); box-shadow:0 0 0 3px rgba(55,208,198,0.08);}
+  .tl-step[data-c="orange"] .tl-num{color:var(--orange); box-shadow:0 0 0 3px rgba(255,157,77,0.08);}
+  .tl-step[data-c="pink"] .tl-num{color:var(--pink); box-shadow:0 0 0 3px rgba(255,111,165,0.08);}
+  .tl-step[data-c="red2"] .tl-num{color:#ff5c5c; box-shadow:0 0 0 3px rgba(255,92,92,0.08);}
+
+  .commitment{
+    margin-top:60px;
+    border:1px solid var(--line); border-radius:16px;
+    padding:30px 34px;
+    display:flex; align-items:center; justify-content:space-between; gap:20px;
+    background: linear-gradient(135deg, rgba(77,141,255,0.06), transparent);
+  }
+  .commitment b{font-family:'Sora',sans-serif; font-size:15px;}
+  .commitment p{font-size:13px; color:var(--muted); margin-top:6px; max-width:560px;}
+/*
+  footer{
+    padding:40px 5vw; text-align:center; color:var(--faint); font-size:12px;
+    font-family:'JetBrains Mono',monospace;
+  }
+*/
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  @media (max-width:1000px){
+    .hub-grid{grid-template-columns:1fr; grid-template-rows:auto;}
+    #node-head, #node-admin, #node-hod, #node-faculty, #node-students, #node-network, .hub-center{grid-column:1 !important; grid-row:auto !important;}
+    .benefits-grid{grid-template-columns:repeat(2,1fr);}
+    .ho-top{grid-template-columns:1fr;}
+    .campus-row{grid-template-columns:1fr 1fr;}
+    .ho-benefits{grid-template-columns:repeat(2,1fr);}
+    .tl-body{grid-template-columns:1fr;}
+  }
+</style>
+<!--
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="brand"><span class="dot"></span>UNIFIED ECOSYSTEM</div>
+    
+    <ul>
+      <li><a href="#ecosystem">Ecosystem</a></li>
+      <li><a href="#headoffice">Head Office</a></li>
+      <li><a href="#process">Process</a></li>
+    </ul>
+    
+  </nav>
+-->
+
+  <!-- SECTION 1 -->
+  <section id="ecosystem">
+    <div class="section-inner">
+      <div class="eyebrow reveal">01 — PLATFORM OVERVIEW</div>
+      <h1 class="hero-title reveal">The Unified Institutional Ecosystem</h1>
+      <p class="hero-sub reveal">A secure, integrated platform connecting every stakeholder of an institution through a Central Server within a private, independent network.</p>
+
+      <div class="hub-grid reveal">
+        <svg class="connector-svg" viewBox="0 0 900 620" preserveAspectRatio="none">
+          <line x1="450" y1="145" x2="450" y2="230" stroke="#4d8dff" stroke-width="1" opacity="0.5"/>
+          <line x1="150" y1="180" x2="380" y2="290" stroke="#3ecf8e" stroke-width="1" opacity="0.5"/>
+          <line x1="750" y1="180" x2="520" y2="290" stroke="#b389ff" stroke-width="1" opacity="0.5"/>
+          <line x1="150" y1="440" x2="380" y2="330" stroke="#ff9d4d" stroke-width="1" opacity="0.5"/>
+          <line x1="750" y1="440" x2="520" y2="330" stroke="#37d0c6" stroke-width="1" opacity="0.5"/>
+          <line x1="450" y1="390" x2="450" y2="470" stroke="#4d8dff" stroke-width="1" opacity="0.5"/>
+        </svg>
+
+        <div class="node" id="node-head">
+          <div class="tag"><span class="sw"></span>Head Office / Principal</div>
+          <ul>
+            <li>Institution-wide control & access</li>
+            <li>Consolidated dashboards</li>
+            <li>Reports, approvals & analytics</li>
+            <li>Strategic decision-making</li>
+          </ul>
+        </div>
+
+        <div class="node" id="node-admin">
+          <div class="tag"><span class="sw"></span>Admin</div>
+          <ul>
+            <li>Day-to-day administration</li>
+            <li>Student admissions & records</li>
+            <li>Fee management</li>
+            <li>Faculty & staff records / payroll</li>
+          </ul>
+        </div>
+
+        <div class="node" id="node-hod">
+          <div class="tag"><span class="sw"></span>HOD</div>
+          <ul>
+            <li>Academic department management</li>
+            <li>Supervise faculty</li>
+            <li>Student progress & reports</li>
+            <li>Monitor attendance & reports</li>
+            <li>Manage timetables</li>
+          </ul>
+        </div>
+
+        <div class="hub-center">
+          <div class="hub-core">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><circle cx="7" cy="7" r="0.8" fill="currentColor"/><circle cx="7" cy="17" r="0.8" fill="currentColor"/></svg>
+            <b>CENTRAL SERVER</b>
+            <span>Core platform for storing, processing & managing institutional data</span>
+          </div>
+        </div>
+
+        <div class="node" id="node-faculty">
+          <div class="tag"><span class="sw"></span>Faculty</div>
+          <ul>
+            <li>Manage classes</li>
+            <li>Record attendance</li>
+            <li>Manage grades</li>
+            <li>Evaluate performance</li>
+          </ul>
+        </div>
+
+        <div class="node" id="node-students">
+          <div class="tag"><span class="sw"></span>Students</div>
+          <ul>
+            <li>Personal profile</li>
+            <li>Timetables</li>
+            <li>Attendance records</li>
+            <li>Grades & performance</li>
+          </ul>
+        </div>
+
+        <div class="node" id="node-network">
+          <b>PRIVATE INDEPENDENT NETWORK</b>
+          <div class="pillars"><span>SECURE</span><span>·</span><span>ISOLATED</span><span>·</span><span>RELIABLE</span><span>·</span><span>HIGH PERFORMANCE</span></div>
+        </div>
+      </div>
+
+      <div class="benefits-strip reveal">
+        <div class="heading">ONE SYSTEM. ONE PLATFORM. ENDLESS POSSIBILITIES.</div>
+        <div class="benefits-grid">
+          <div class="benefit"><div class="num" style="color:var(--blue)">01</div><b>Unified Access</b><p>All stakeholders connected through a single, integrated platform.</p></div>
+          <div class="benefit"><div class="num" style="color:var(--green)">02</div><b>Centralized Data</b><p>All data stored securely in one central server for consistency and accuracy.</p></div>
+          <div class="benefit"><div class="num" style="color:var(--purple)">03</div><b>Real-time Insights</b><p>Live dashboards and reports for better monitoring and decision-making.</p></div>
+          <div class="benefit"><div class="num" style="color:var(--orange)">04</div><b>Secure & Private</b><p>Operates within a private independent network with role-based access.</p></div>
+          <div class="benefit"><div class="num" style="color:var(--teal)">05</div><b>Efficient Operations</b><p>Streamlined workflows reduce manual work and improve productivity.</p></div>
+          <div class="benefit"><div class="num" style="color:var(--pink)">06</div><b>Better Collaboration</b><p>Seamless communication and coordination across departments and users.</p></div>
+        </div>
+        <div class="closing-line">The Unified Institutional Ecosystem ensures <b>transparency, efficiency and accountability</b> by connecting people, processes and data — empowering institutions to achieve excellence.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="headoffice">
+    <div class="section-inner">
+      <div class="eyebrow reveal">02 — MULTI-CAMPUS CONTROL</div>
+      <h1 class="hero-title reveal">Head Office: Centralized Control, Seamless Oversight</h1>
+      <p class="hero-sub reveal">The Head Office provides centralized control over multiple institutions, campuses or branches — monitoring performance, accessing consolidated reports, managing policies and supervising institution-level operations.</p>
+
+      <div class="ho-top reveal">
+        <div class="ho-side">
+          <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></div>
+          <b>Head Office Admin</b>
+          <span>Complete visibility. Better control.</span>
+        </div>
+
+        <div class="ho-main">
+          <span class="label">HEAD OFFICE</span>
+          <ul class="ho-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Monitor overall performance</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Supervise institution-level operations</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Access consolidated reports</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>User & role management</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Manage policies & settings</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>Alerts & notifications across institutions</li>
+          </ul>
+          <div class="ho-dashboard">
+            <b>Centralized Dashboard</b><span>— real-time insights, smarter decisions.</span>
+          </div>
+        </div>
+
+        <div class="ho-side">
+          <div class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg></div>
+          <b>Secure & Private Access</b>
+          <span>All data is secure within a private independent network.</span>
+        </div>
+      </div>
+
+      <div class="network-band reveal">SECURE PRIVATE INDEPENDENT NETWORK</div>
+
+      <div class="campus-row reveal">
+        <div class="campus-card">
+          <span class="tag">Institution / Campus 1</span>
+          <ul><li>Admissions</li><li>Academics</li><li>Staff & Students</li><li>Finance & Fees</li><li>Reports</li></ul>
+          <div class="sync">REAL-TIME SYNC</div>
+        </div>
+        <div class="campus-card">
+          <span class="tag">Institution / Campus 2</span>
+          <ul><li>Admissions</li><li>Academics</li><li>Staff & Students</li><li>Finance & Fees</li><li>Reports</li></ul>
+          <div class="sync">REAL-TIME SYNC</div>
+        </div>
+        <div class="campus-card">
+          <span class="tag">Institution / Campus 3</span>
+          <ul><li>Admissions</li><li>Academics</li><li>Staff & Students</li><li>Finance & Fees</li><li>Reports</li></ul>
+          <div class="sync">REAL-TIME SYNC</div>
+        </div>
+        <div class="campus-card">
+          <span class="tag">Institution / Campus N</span>
+          <ul><li>Admissions</li><li>Academics</li><li>Staff & Students</li><li>Finance & Fees</li><li>Reports</li></ul>
+          <div class="sync">REAL-TIME SYNC</div>
+        </div>
+      </div>
+
+      <div class="ho-benefits reveal">
+        <div class="ho-benefit"><b>Complete Visibility</b><p>Get a 360° view of all institutions, campuses and branches.</p></div>
+        <div class="ho-benefit"><b>Data-Driven Decisions</b><p>Access accurate, real-time data to make smarter decisions.</p></div>
+        <div class="ho-benefit"><b>Consistency & Compliance</b><p>Ensure standard policies and processes across institutions.</p></div>
+        <div class="ho-benefit"><b>Operational Efficiency</b><p>Monitor, manage and optimize operations from one place.</p></div>
+        <div class="ho-benefit"><b>Secure & Reliable</b><p>Data security, role-based access and complete audit control.</p></div>
+      </div>
+
+      <div class="closing-line reveal" style="margin-top:40px;">One Head Office. <b>Multiple Institutions. One Integrated Platform.</b> Empowering education. Enabling excellence.</div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="process">
+    <div class="section-inner">
+      <div class="eyebrow reveal">03 — DELIVERY LIFECYCLE</div>
+      <h1 class="hero-title reveal">Our Development & Deployment Process</h1>
+      <p class="hero-sub reveal">A structured approach to deliver secure, reliable and scalable solutions — from first conversation to ongoing support.</p>
+
+      <div class="timeline reveal">
+
+        <div class="tl-step" data-c="blue">
+          <div class="tl-num">01</div>
+          <div class="tl-body">
+            <div><h3>Requirement Analysis</h3><p>Understand business needs, objectives and challenges to define clear and actionable requirements.</p></div>
+            <ul class="sub-list"><li>Stakeholder discussions</li><li>Requirement gathering</li><li>Feasibility analysis</li><li>Documentation</li></ul>
+          </div>
+        </div>
+
+        <div class="tl-step" data-c="green">
+          <div class="tl-num">02</div>
+          <div class="tl-body">
+            <div><h3>System Design & Customization</h3><p>Design the system architecture and customize features to match institutional workflows and requirements.</p></div>
+            <ul class="sub-list"><li>System architecture design</li><li>Database design</li><li>UI/UX customization</li><li>Workflow configuration</li></ul>
+          </div>
+        </div>
+
+        <div class="tl-step" data-c="purple">
+          <div class="tl-num">03</div>
+          <div class="tl-body">
+            <div><h3>Private Network Infrastructure Setup</h3><p>Set up a secure, independent network infrastructure to ensure data privacy, security and reliable connectivity.</p></div>
+            <ul class="sub-list"><li>Network planning</li><li>Firewall & security setup</li><li>Server configuration</li><li>Secure connectivity</li></ul>
+          </div>
+        </div>
+
+        <div class="tl-step" data-c="teal">
+          <div class="tl-num">04</div>
+          <div class="tl-body">
+            <div><h3>Software Development & Integration</h3><p>Develop and integrate modules seamlessly to create a unified and efficient system across all departments.</p></div>
+            <ul class="sub-list"><li>Module development</li><li>Third-party integration</li><li>API development</li><li>Data migration</li></ul>
+          </div>
+        </div>
+
+        <div class="tl-step" data-c="orange">
+          <div class="tl-num">05</div>
+          <div class="tl-body">
+            <div><h3>Testing & Quality Assurance</h3><p>Perform comprehensive testing to ensure functionality, security, performance and a bug-free user experience.</p></div>
+            <ul class="sub-list"><li>Functional testing</li><li>Performance testing</li><li>Security testing</li><li>User acceptance testing</li></ul>
+          </div>
+        </div>
+
+        <div class="tl-step" data-c="pink">
+          <div class="tl-num">06</div>
+          <div class="tl-body">
+            <div><h3>Deployment & User Training</h3><p>Deploy the system in the live environment and train users to ensure smooth adoption and productivity.</p></div>
+            <ul class="sub-list"><li>System deployment</li><li>User training sessions</li><li>Training materials</li><li>Go-live support</li></ul>
+          </div>
+        </div>
+
+        <div class="tl-step" data-c="red2">
+          <div class="tl-num">07</div>
+          <div class="tl-body">
+            <div><h3>Ongoing Support & Enhancements</h3><p>Provide continuous support and regular enhancements to improve performance and adapt to evolving needs.</p></div>
+            <ul class="sub-list"><li>Technical support</li><li>System monitoring</li><li>Feature enhancements</li><li>Regular updates</li></ul>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="commitment reveal">
+        <div>
+          <b>Our Commitment</b>
+          <p>Delivering secure, scalable and innovative solutions that empower institutions to achieve excellence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+<!--
+  <footer>THE UNIFIED INSTITUTIONAL ECOSYSTEM — SECURE · ISOLATED · RELIABLE · HIGH PERFORMANCE</footer>
+-->
+</div>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.12});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
   <!-- ===== CORE FEATURES ===== -->
   <section class="pad" id="features">
     <div class="wrap">
