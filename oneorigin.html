@@ -107,7 +107,7 @@
   .divider-line{height:1px;background:linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);}
 
   /* ===== PRODUCTS (OneOps / OneCampus) ===== */
-  .products-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .products-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;}
   .product-card{
     background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);
     padding:36px;position:relative;overflow:hidden;
@@ -245,6 +245,238 @@
     .footer-bottom{flex-direction:column;text-align:center;}
   }
   @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+  /* =========================================================
+   ONECLOUD LAUNCH TEASER
+   ========================================================= */
+
+.onecloud-teaser{
+  position:fixed;
+  right:28px;
+  bottom:28px;
+  width:360px;
+  z-index:9999;
+
+  padding:24px 25px 23px;
+
+  border:1px solid rgba(230,74,240,.32);
+  border-radius:17px;
+
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(230,74,240,.14),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(20,12,29,.98),
+      rgba(9,7,13,.99)
+    );
+
+  box-shadow:
+    0 24px 70px -30px rgba(0,0,0,.85),
+    0 12px 45px -28px rgba(108,31,224,.8);
+
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(25px) scale(.97);
+
+  transition:
+    opacity .45s ease,
+    transform .45s cubic-bezier(.2,.8,.2,1),
+    visibility .45s ease;
+
+  overflow:hidden;
+}
+
+.onecloud-teaser::before{
+  content:"";
+  position:absolute;
+  width:150px;
+  height:150px;
+  right:-75px;
+  top:-75px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(230,74,240,.12);
+
+  box-shadow:
+    0 0 0 25px rgba(230,74,240,.025),
+    0 0 0 50px rgba(230,74,240,.018);
+
+  pointer-events:none;
+}
+
+.onecloud-teaser.show{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0) scale(1);
+}
+
+.onecloud-teaser-link{
+  display:block;
+  color:inherit;
+  text-decoration:none;
+}
+
+.onecloud-teaser-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  margin-bottom:13px;
+
+  color:#e64af0;
+
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.onecloud-teaser-dot{
+  width:6px;
+  height:6px;
+
+  border-radius:50%;
+
+  background:#e64af0;
+
+  box-shadow:
+    0 0 10px rgba(230,74,240,.9);
+}
+
+.onecloud-teaser h3{
+  margin:0 30px 9px 0;
+
+  font-size:22px;
+  line-height:1.15;
+  letter-spacing:-.025em;
+}
+
+.onecloud-teaser-description{
+  margin:0 0 18px;
+
+  color:rgba(255,255,255,.62);
+
+  font-size:12.5px;
+  line-height:1.6;
+}
+
+.onecloud-teaser-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  color:#fff;
+
+  font-size:12px;
+  font-weight:700;
+
+  transition:
+    color .2s ease,
+    gap .2s ease;
+}
+
+.onecloud-teaser-cta svg{
+  transition:transform .2s ease;
+}
+
+.onecloud-teaser-link:hover .onecloud-teaser-cta{
+  color:#e64af0;
+  gap:11px;
+}
+
+.onecloud-teaser-link:hover .onecloud-teaser-cta svg{
+  transform:translateX(3px);
+}
+
+.onecloud-teaser-close{
+  position:absolute;
+  top:13px;
+  right:13px;
+
+  width:27px;
+  height:27px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:7px;
+
+  background:rgba(255,255,255,.025);
+
+  color:rgba(255,255,255,.5);
+
+  cursor:pointer;
+
+  transition:
+    color .2s ease,
+    background .2s ease,
+    border-color .2s ease;
+}
+
+.onecloud-teaser-close:hover{
+  color:#fff;
+  background:rgba(255,255,255,.07);
+  border-color:rgba(255,255,255,.15);
+}
+
+
+/* Small animated accent line */
+
+.onecloud-teaser-line{
+  position:absolute;
+  left:0;
+  bottom:0;
+
+  width:100%;
+  height:2px;
+
+  background:linear-gradient(
+    90deg,
+    #6c1fe0,
+    #e64af0,
+    #6c1fe0
+  );
+
+  transform:scaleX(0);
+  transform-origin:left;
+
+  transition:transform 5s linear;
+}
+
+.onecloud-teaser.show .onecloud-teaser-line{
+  transform:scaleX(1);
+}
+
+
+/* Mobile */
+
+@media (max-width:600px){
+
+  .onecloud-teaser{
+    left:16px;
+    right:16px;
+    bottom:16px;
+
+    width:auto;
+
+    padding:21px 20px 20px;
+  }
+
+  .onecloud-teaser h3{
+    font-size:20px;
+  }
+
+}
 </style>
 </head>
 <body>
@@ -281,7 +513,7 @@
       <div class="hero-copy">
         <div class="eyebrow">The Company Behind the Products</div>
         <h1>One origin.<br><span class="grad">Infinite possibilities.</span></h1>
-        <p class="lead">OneOrigin is the company building the software ecosystem that powers modern organizations — from <strong>OneOps</strong>, our business management platform, to <strong>OneCampus</strong>, our enterprise campus management system for educational institutions.</p>
+        <p class="lead"><strong>OneOrigin</strong> builds the technology ecosystem that powers modern organizations — connecting business management, cloud infrastructure and campus technology through products like <strong>OneOps, OneCampus and OneCloud.</strong></p>
         <div class="hero-ctas">
           <a href="#products" class="btn btn-primary">Explore Our Products
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -319,9 +551,9 @@
       <div class="story-copy reveal">
         <div class="eyebrow">About OneOrigin</div>
         <h2 style="font-size:clamp(24px,3vw,34px);margin-bottom:20px;line-height:1.15;">Every product starts from one origin</h2>
-        <p>OneOrigin was founded on a simple idea: organizations shouldn't have to stitch together a dozen disconnected tools just to run their operations. We build focused, enterprise-grade software products — each one deep enough to solve a real problem, all sharing the same foundation of security, reliability and thoughtful design.</p>
-        <p>Today, that foundation powers two products: <strong>OneOps</strong>, built for everyday business operations like inventory, billing and GST compliance and <strong>OneCampus</strong>, built for the specific demands of running educational institutions at scale.</p>
-        <p>As an MSME-registered, Indian-founded software company, we don't just deliver code—we build lasting partnerships grounded in deep accountability, reliability and long-term commitment.</p>
+        <p><strong>OneOrigin</strong> was founded on a simple idea: modern organizations shouldn't have to rely on disconnected tools and infrastructure just to operate, build and grow. We create focused, enterprise-grade technology products — each designed to solve a real problem, while sharing the same foundation of <strong>security, reliability, thoughtful design and long-term support.</strong></p>
+        <p>Today, that foundation powers three products: <strong>OneOps</strong>, our business management platform for everyday operations; <strong>OneCampus</strong>, our campus management platform built for the specific needs of educational institutions and <strong>OneCloud</strong> our cloud compute and infrastructure platform for AI builders, enterprises and educational institutions.</p>
+        <p>As an MSME-registered, Indian-founded technology company, we don't just build products — we build lasting partnerships grounded in <strong>deep accountability, reliability and long-term commitment.</strong></p>
         
         <div class="trust-badges">
           <div class="trust-badge">
@@ -338,8 +570,8 @@
       <div class="story-visual reveal">
         <div class="story-row"><div class="story-dot"></div><div><p>One engineering team, one design system</p><span>Every OneOrigin product shares the same security and reliability foundation.</span></div></div>
         <div class="story-row"><div class="story-dot"></div><div><p>Built for real operational problems</p><span>Each product is shaped by the industries it actually serves.</span></div></div>
-        <div class="story-row"><div class="story-dot"></div><div><p>Independent products, shared values</p><span>OneOps and OneCampus run independently, backed by the same company.</span></div></div>
-        <div class="story-row"><div class="story-dot"></div><div><p>Long-term partnership, not just software</p><span>Support and updates continue long after go-live.</span></div></div>
+        <div class="story-row"><div class="story-dot"></div><div><p>Independent products, shared values</p><span>All products run independently, backed by the same company.</span></div></div>
+        <div class="story-row"><div class="story-dot"></div><div><p>Long-term partnership</p><span>Support and updates continue long after go-live.</span></div></div>
       </div>
     </div>
   </section>
@@ -351,8 +583,8 @@
     <div class="wrap">
       <div class="section-head reveal">
         <div class="eyebrow" style="justify-content:center">Our Products</div>
-        <h2>Two products. One foundation.</h2>
-        <p>OneOrigin builds and backs two independent software products, each purpose-built for the organizations that rely on them.</p>
+        <h2>Three products. One foundation.</h2>
+        <p>OneOrigin builds and backs three purpose-built technology products for modern organizations — connecting business operations, educational technology and cloud infrastructure through one shared foundation.</p>
       </div>
 
       <div class="products-grid">
@@ -376,6 +608,15 @@
             <span>Admissions</span><span>Fee Management</span><span>Role-Based Access</span><span>Multi-Institution</span>
           </div>
           <a href="onecampus.html" class="product-link">Visit OneCampus
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      <div class="product-card onecloud-card reveal">
+          <div class="product-tag">Cloud Compute & Infrastructure</div>
+          <h3>OneCloud</h3>
+          <p>High-performance cloud compute for AI builders, researchers,developers, creators, animators, designers, editors, analysts, quant traders, businesses and educational institutions — with GPU acceleration, Threadripper burst compute, private LAN deployment and air-gapped infrastructure.</p>
+          <div class="product-tags"><span>GPU Compute</span><span>Threadripper</span><span>AI & Research</span><span>Creators & 3D Animators</span><span>Developers & Analysts</span></div>
+          <a href="onecloud.html" class="product-link">Visit OneCloud
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>
@@ -404,15 +645,15 @@
       <div class="why-grid">
         <div class="why-card reveal">
           <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg></div>
-          <div><h4>Enterprise-grade security</h4><p>Role-based access, encryption and audit trails across every product.</p></div>
+          <div><h4>Enterprise-grade security</h4><p>Encryption, access controls and reliable infrastructure across every product.</p></div>
         </div>
         <div class="why-card reveal">
           <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg></div>
-          <div><h4>Cloud & on-premise</h4><p>Deploy on our managed cloud or inside your own infrastructure.</p></div>
+          <div><h4>Cloud & on-premise</h4><p>Deploy on our managed cloud or inside our infrastructure.</p></div>
         </div>
         <div class="why-card reveal">
           <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M21 7v6h-6"/></svg></div>
-          <div><h4>Built to scale</h4><p>From a single storefront or classroom to multi-branch, multi-institution rollouts.</p></div>
+          <div><h4>Built to scale</h4><p>From individual needs to complex organizational environments, our technology grows with you.</p></div>
         </div>
         <div class="why-card reveal">
           <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
@@ -424,7 +665,7 @@
         </div>
         <div class="why-card reveal">
           <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1v-8h3v6zM3 19a2 2 0 002 2h1v-8H3v6z"/></svg></div>
-          <div><h4>Continuous support</h4><p>Dedicated onboarding, maintenance, and support long after go-live.</p></div>
+          <div><h4>Continuous support</h4><p>Dedicated onboarding, maintenance and support long after go-live.</p></div>
         </div>
       </div>
     </div>
@@ -475,7 +716,7 @@
       <div class="cta-banner reveal">
         <div class="cta-text">
           <h3>Let's build something amazing together</h3>
-          <p>Whether it's OneOps, OneCampus, or something new — we'd love to hear from you.</p>
+          <p>Whether it's OneOps, OneCampus, OneCloud or something new — we'd love to hear from you.</p>
         </div>
         <a href="#contact" class="btn btn-outline">Contact Us Today
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -492,7 +733,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <img class="logo-img" src="oneorigin_logo_white.png" alt="OneOrigin logo">
-        <p>OneOrigin is the company behind OneOps and OneCampus — building focused, enterprise-grade software for businesses and educational institutions.</p>
+        <p>OneOrigin is the company behind OneOps, OneCampus & OneCloud — building focused, enterprise-grade technologies.</p>
       </div>
 
       <div class="footer-col">
@@ -511,6 +752,7 @@
         <ul>
           <li><a href="oneops.html">OneOps</a></li>
           <li><a href="onecampus.html">OneCampus</a></li>
+          <li><a href="onecloud.html">OneCloud</a></li>
         </ul>
       </div>
 
@@ -532,6 +774,58 @@
       </div>
     </div>
   </div>
+  <!-- =========================================================
+     ONECLOUD LAUNCH TEASER
+     ========================================================= -->
+<div
+  class="onecloud-teaser"
+  id="onecloudTeaser"
+  role="dialog"
+  aria-label="Discover OneCloud">
+  <button
+    class="onecloud-teaser-close"
+    id="onecloudTeaserClose"
+    type="button"
+    aria-label="Close">
+    <svg
+      width="13"
+      height="13"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round">
+      <path d="M6 6l12 12"/>
+      <path d="M18 6L6 18"/>
+    </svg>
+  </button>
+  <a
+    href="onecloud.html"
+    class="onecloud-teaser-link">
+    <div class="onecloud-teaser-label">
+      <span class="onecloud-teaser-dot"></span>
+      Something new from OneOrigin
+    </div>
+    <h3>Something powerful just landed.</h3>
+    <p class="onecloud-teaser-description">Meet OneCloud — high-performance compute for AI builders, researchers, creators, developers and organizations.</p>
+    <span class="onecloud-teaser-cta">
+      Explore OneCloud
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M5 12h14"/>
+        <path d="M13 6l6 6-6 6"/>
+      </svg>
+    </span>
+  </a>
+  <div class="onecloud-teaser-line"></div>
+</div>
 </footer>
 
 <script>
@@ -596,7 +890,32 @@
     });
   }, {threshold:0.5});
   statEls.forEach(el=>statObserver.observe(el));
+/* =========================================================
+   ONECLOUD LAUNCH TEASER
+   ========================================================= */
+const onecloudTeaser =
+  document.getElementById('onecloudTeaser');
+const onecloudTeaserClose =
+  document.getElementById('onecloudTeaserClose');
+/* Show after 5 seconds */
+setTimeout(() => {
+  if (
+    onecloudTeaser &&
+    !sessionStorage.getItem('onecloudTeaserClosed')
+  ){
+    onecloudTeaser.classList.add('show');
+  }
+}, 5000);
+/* Close teaser */
+if (onecloudTeaserClose){
+  onecloudTeaserClose.addEventListener('click', () => {
+    onecloudTeaser.classList.remove('show');
+    sessionStorage.setItem(
+      'onecloudTeaserClosed',
+      'true'
+    );
+  });
+}
 </script>
-
 </body>
 </html>
