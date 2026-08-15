@@ -1,0 +1,4408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OneCloud — Cloud Computing for Individuals, Enterprises & Institutions | by OneOrigin</title>
+<meta name="description" content="OneCloud is a GPU-accelerated cloud computing platform by OneOrigin — offering high-performance compute for individuals, hybrid infrastructure for enterprises, and fully offline-capable deployments for educational institutions.">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NCA2NCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNkMxRkUwIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjRTY0QUYwIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHBhdGggZD0iTSA4LDMyIEMgOCwxNCAzMCwxNCA0MiwzMiBDIDU0LDUwIDc2LDUwIDc2LDMyIEMgNzYsMTQgNTQsMTQgNDIsMzIgQyAzMCw1MCA4LDUwIDgsMzIgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2cpIiBzdHJva2Utd2lkdGg9IjkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#000000;
+    --bg-panel:#0c0810;
+    --bg-panel-2:#130d1a;
+    --purple:#6c1fe0;
+    --magenta:#e64af0;
+    --text:#f1eef8;
+    --muted:#9a93ab;
+    --line:rgba(255,255,255,.09);
+    --grad: linear-gradient(120deg, var(--purple), var(--magenta));
+    --grad-soft: linear-gradient(120deg, rgba(108,31,224,.16), rgba(230,74,240,.14));
+    --radius: 14px;
+    --maxw: 1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans', sans-serif;line-height:1.6;overflow-x:hidden;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  ul{list-style:none;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono', monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta);margin-bottom:14px;}
+  .eyebrow::before{content:"";width:16px;height:1px;background:var(--magenta);}
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif;font-weight:700;letter-spacing:-0.01em;}
+  section{position:relative;}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:10px;font-weight:600;font-size:15px;border:1px solid transparent;cursor:pointer;transition:transform .25s ease, box-shadow .25s ease, background .25s ease;white-space:nowrap;}
+  .btn svg{transition:transform .25s ease;}
+  .btn:hover svg{transform:translateX(3px);}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 8px 24px -8px rgba(108,31,224,.55);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px -8px rgba(230,74,240,.55);}
+  .btn-outline{background:transparent;border-color:var(--line);color:var(--text);}
+  .btn-outline:hover{border-color:var(--magenta);background:rgba(230,74,240,.08);}
+
+  #spine{position:fixed;top:0;left:0;height:3px;width:0%;background:var(--grad);z-index:9999;transition:width .1s linear;}
+
+  /* ===== NAV ===== */
+  .parent-bar{background:#000;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono', monospace;font-size:12.5px;color:var(--muted);}
+  .parent-bar .wrap{display:flex;align-items:center;gap:8px;padding:8px 32px;max-width:var(--maxw);}
+  .parent-bar a{color:var(--text);font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:color .2s ease;}
+  .parent-bar a:hover{color:var(--magenta);}
+  .parent-bar svg{color:var(--purple);}
+
+  header{position:sticky;top:0;z-index:1000;background:rgba(0,0,0,.75);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;max-width:var(--maxw);margin:0 auto;}
+  .logo-img{height:34px;width:auto;}
+  .nav-links{display:flex;align-items:center;gap:34px;}
+  .nav-links a{font-size:14.5px;font-weight:500;color:var(--muted);position:relative;padding:6px 0;transition:color .2s ease;}
+  .nav-links a:hover, .nav-links a.active{color:var(--text);}
+  .nav-links a.active::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:2px;background:var(--grad);border-radius:2px;}
+  .nav-right{display:flex;align-items:center;gap:22px;}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+  .burger span{width:24px;height:2px;background:var(--text);border-radius:2px;}
+
+  /* ===== HERO ===== */
+  .hero{padding:100px 0 84px;position:relative;overflow:hidden;}
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(650px 400px at 85% 8%, rgba(230,74,240,.16), transparent 60%),
+      radial-gradient(500px 400px at 8% 60%, rgba(108,31,224,.18), transparent 60%);
+    pointer-events:none;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(34px,4.6vw,56px);line-height:1.08;margin-bottom:20px;}
+  .hero h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero p.lead{color:var(--muted);font-size:16.5px;max-width:540px;margin-bottom:32px;}
+  .hero-ctas{display:flex;gap:16px;margin-bottom:40px;flex-wrap:wrap;}
+  .trust-row{display:flex;gap:26px;flex-wrap:wrap;}
+  .trust-item{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);}
+  .trust-item svg{color:var(--magenta);flex-shrink:0;}
+
+  .hero-art{position:relative;height:420px;display:flex;align-items:center;justify-content:center;}
+  .orbit-ring{position:absolute;border:1px solid var(--line);border-radius:50%;}
+  .orbit-ring.r1{width:370px;height:370px;animation:spin 40s linear infinite;}
+  .orbit-ring.r2{width:290px;height:290px;animation:spin 30s linear infinite reverse;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .hero-logo-stage{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;}
+  .hero-logo-wrap{position:relative;z-index:2;animation:levitate 5s ease-in-out infinite;filter:drop-shadow(0 25px 40px rgba(108,31,224,.35)) drop-shadow(0 10px 60px rgba(230,74,240,.28));}
+  .hero-logo-wrap img{width:100%;max-width:380px;}
+  @keyframes levitate{0%,100%{transform:translateY(0px);}50%{transform:translateY(-16px);}}
+  .hero-pedestal{position:absolute;bottom:56px;width:300px;height:26px;border-radius:50%;background:radial-gradient(ellipse at center, rgba(108,31,224,.55), rgba(230,74,240,.25) 55%, transparent 75%);filter:blur(6px);animation:pedestal-pulse 5s ease-in-out infinite;}
+  .hero-pedestal.ring2{bottom:34px;width:380px;height:14px;background:radial-gradient(ellipse at center, rgba(230,74,240,.28), transparent 70%);filter:blur(4px);animation-delay:.1s;}
+  @keyframes pedestal-pulse{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:.85;transform:scale(1.06);}}
+
+  /* ===== SECTION HEADS ===== */
+  .section-head{max-width:660px;margin:0 auto 56px;text-align:center;}
+  .section-head p{color:var(--muted);margin-top:14px;font-size:15.5px;}
+  section.pad{padding:96px 0;}
+  .divider-line{height:1px;background:linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);}
+
+  /* ===== TIERS ===== */
+  .tiers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch;}
+  .tier-card{
+    background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px 26px;display:flex;flex-direction:column;
+    transition:transform .3s ease, border-color .3s ease;
+    position:relative;overflow:hidden;
+  }
+  .tier-card:hover{transform:translateY(-6px);}
+  .tier-card.tier-featured{border-color:rgba(230,74,240,.5);}
+  .tier-featured-tag{
+    position:absolute;top:0;right:0;
+    background:var(--grad);color:#fff;font-size:10.5px;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;padding:6px 14px;border-radius:0 0 0 10px;
+  }
+  .tier-badge{
+    font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:14px;
+  }
+  .tier-icon{
+    width:48px;height:48px;border-radius:12px;margin-bottom:18px;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+  }
+  .tier-card[data-tier="individual"] .tier-icon{background:linear-gradient(135deg,#a855f7,#6c1fe0);}
+  .tier-card[data-tier="enterprise"] .tier-icon{background:linear-gradient(135deg,#e64af0,#c026d3);}
+  .tier-card[data-tier="education"] .tier-icon{background:linear-gradient(135deg,#818cf8,#6c1fe0);}
+  .tier-card h3{font-size:20px;margin-bottom:10px;}
+  .tier-card .tier-desc{color:var(--muted);font-size:14px;margin-bottom:22px;}
+  .tier-features{display:flex;flex-direction:column;gap:11px;margin-bottom:24px;flex-grow:1;}
+  .tier-features li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--text);}
+  .tier-features li svg{color:var(--magenta);flex-shrink:0;margin-top:2px;}
+  .tier-card .btn{width:100%;justify-content:center;}
+
+  /* ===== AUDIENCE SELECTOR ===== */
+  .audience-section{padding:72px 0 88px;position:relative;}
+  .audience-head{
+    max-width:680px;
+    margin:0 auto 42px;
+    text-align:center;}
+  .audience-head h2{
+    font-size:clamp(28px,3.5vw,40px);
+    line-height:1.12;
+    margin-bottom:12px;}
+  .audience-head p{
+    color:var(--muted);
+    font-size:15px;}
+  .audience-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;}
+  .audience-card{
+    position:relative;
+    background:linear-gradient(
+      145deg,
+      rgba(19,13,26,.95),
+      rgba(12,8,16,.98)
+    );
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:28px 26px 24px;
+    min-height:285px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    transition:
+      transform .3s ease,
+      border-color .3s ease,
+      box-shadow .3s ease,
+      background .3s ease;}
+  .audience-card::before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    right:-80px;
+    top:-80px;
+    border-radius:50%;
+    background:radial-gradient(
+      circle,
+      rgba(230,74,240,.16),
+      transparent 70%
+    );
+    pointer-events:none;}
+  .audience-card::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:2px;
+    background:var(--grad);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .3s ease;}
+  .audience-card:hover{
+    transform:translateY(-7px);
+    border-color:rgba(230,74,240,.45);
+    box-shadow:0 18px 45px -20px rgba(108,31,224,.55);
+    background:linear-gradient(
+      145deg,
+      rgba(25,15,35,.98),
+      rgba(12,8,16,.98)
+    );}
+  .audience-card:hover::after{
+    transform:scaleX(1);}
+  .audience-number{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.12em;
+    color:var(--magenta);
+    margin-bottom:20px;}
+  .audience-icon{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:18px;
+    color:#fff;
+    background:var(--grad-soft);
+    border:1px solid rgba(230,74,240,.16);}
+  .audience-card h3{
+    font-size:20px;
+    margin-bottom:10px;}
+  .audience-focus{
+    color:var(--muted);
+    font-size:13.5px;
+    line-height:1.65;
+    flex-grow:1;
+    margin-bottom:22px;}
+  .audience-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--text);
+    font-size:13.5px;
+    font-weight:600;
+    width:max-content;
+    transition:color .2s ease, gap .2s ease;}
+  .audience-cta svg{
+    transition:transform .2s ease;}
+  .audience-cta:hover{
+    color:var(--magenta);
+    gap:11px;}
+  .audience-cta:hover svg{
+    transform:translateY(2px);}
+  
+  @media (max-width:980px){
+    .audience-grid{
+      grid-template-columns:1fr;
+    }
+    .audience-card{
+      min-height:240px;
+    }
+  }
+  @media (max-width:680px){
+    .audience-section{
+      padding:58px 0 68px;
+    }
+    .audience-head{
+      margin-bottom:32px;
+    }
+    .audience-card{
+      padding:24px 22px 22px;
+    }
+  }
+
+  /* ===== LOCAL CLOUD ADVANTAGE ===== */
+  .comparison-section{
+    padding:72px 0 88px;}
+  .comparison-head{
+    max-width:760px;
+    margin:0 auto 42px;
+    text-align:center;}
+  .comparison-head h2{
+    font-size:clamp(28px,3.5vw,40px);
+    line-height:1.12;
+    margin-bottom:14px;}
+  .comparison-head p{
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.65;}
+  .comparison-wrap{
+    width:100%;
+    overflow-x:auto;
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:rgba(12,8,16,.72);
+    box-shadow:0 18px 45px -30px rgba(108,31,224,.5);}
+  .comparison-table{
+    width:100%;
+    min-width:760px;
+    border-collapse:collapse;
+    table-layout:fixed;}
+  .comparison-table th,
+  .comparison-table td{
+    padding:21px 20px;
+    text-align:left;
+    vertical-align:middle;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+    line-height:1.55;}
+  .comparison-table th:last-child,
+  .comparison-table td:last-child{
+    border-right:none;}
+  .comparison-table tr:last-child td{
+    border-bottom:none;}
+  .comparison-table th{
+    color:var(--text);
+    font-size:15px;
+    font-weight:700;
+    background:rgba(255,255,255,.025);}
+  .comparison-table th:first-child,
+  .comparison-table td:first-child{width:24%;}
+  .comparison-table th:nth-child(2),
+  .comparison-table td:nth-child(2){width:21%;}
+  .comparison-table th:nth-child(3),
+  .comparison-table td:nth-child(3){width:23%;}
+  .comparison-table th:last-child,
+  .comparison-table td:last-child{width:32%;}
+  .comparison-table td:first-child{
+    font-weight:700;
+    color:var(--text);}
+  .comparison-table td:not(:first-child){
+    color:var(--muted);}
+  .comparison-table .onecloud-cell{
+    color:var(--text);
+    font-weight:600;
+    background:linear-gradient(
+      135deg,
+      rgba(108,31,224,.10),
+      rgba(230,74,240,.06)
+    );}
+  .comparison-table .onecloud-cell strong{
+    color:var(--text);}
+  .comparison-table .highlight{
+    color:var(--text);
+    font-weight:700;}
+  .comparison-table .price-highlight{
+    color:var(--magenta);
+    font-weight:800;
+    white-space:nowrap;}
+  .comparison-note{
+    margin-top:16px;
+    text-align:center;
+    color:var(--muted);
+    font-size:11px;
+    font-family:'IBM Plex Mono',monospace;}
+
+@media (max-width:760px){
+  .comparison-section{
+    padding:58px 0 68px;}
+  .comparison-wrap{
+    border-radius:12px;}
+  .comparison-table th,
+  .comparison-table td{
+    padding:17px 16px;}}
+
+/* ===== DETAILED PRICING ===== */
+.pricing-section{
+  padding:72px 0 88px;}
+.pricing-head{
+  max-width:760px;
+  margin:0 auto 38px;
+  text-align:center;}
+.pricing-head h2{
+  font-size:clamp(28px,3.5vw,40px);
+  line-height:1.12;
+  margin-bottom:14px;}
+.pricing-head p{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.65;}
+
+/* ===== PRICING TABS ===== */
+.pricing-tabs{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:32px;
+  padding:6px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,.025);
+  max-width:760px;
+  margin-left:auto;
+  margin-right:auto;}
+.pricing-tab{
+  flex:1;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--muted);
+  padding:13px 18px;
+  border-radius:9px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:
+    background .25s ease,
+    color .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;}
+.pricing-tab:hover{
+  color:var(--text);
+  background:rgba(255,255,255,.035);}
+.pricing-tab.active{
+  color:#fff;
+  background:var(--grad);
+  border-color:rgba(255,255,255,.08);
+  box-shadow:0 8px 24px -12px rgba(108,31,224,.7);}
+
+/* ===== TAB PANELS ===== */
+.pricing-panel{
+  display:none;
+  animation:pricingFade .35s ease;}
+.pricing-panel.active{
+  display:block;}
+
+@keyframes pricingFade{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }}
+
+/* ===== INDIVIDUAL PLANS ===== */
+.individual-pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;}
+.price-card{
+  position:relative;
+  background:linear-gradient(
+    145deg,
+    rgba(19,13,26,.95),
+    rgba(12,8,16,.98)
+  );
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:28px 24px 24px;
+  min-height:310px;
+  display:flex;
+  flex-direction:column;
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;}
+.price-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(230,74,240,.4);
+  box-shadow:0 18px 45px -25px rgba(108,31,224,.65);}
+.price-card.popular{
+  border-color:rgba(230,74,240,.55);
+  box-shadow:
+    0 0 0 1px rgba(230,74,240,.08),
+    0 20px 50px -30px rgba(230,74,240,.6);}
+.price-popular{
+  position:absolute;
+  top:16px;
+  right:16px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:var(--grad-soft);
+  color:var(--magenta);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.08em;}
+.price-label{
+  color:var(--muted);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:14px;}
+.price-card h3{
+  font-size:22px;
+  margin-bottom:7px;}
+.price-value{
+  font-size:29px;
+  font-weight:700;
+  letter-spacing:-.03em;
+  margin-bottom:17px;}
+.price-value span{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:400;
+  letter-spacing:0;}
+.price-hours{
+  display:inline-flex;
+  width:max-content;
+  padding:7px 10px;
+  border-radius:7px;
+  background:rgba(255,255,255,.045);
+  color:var(--text);
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:15px;}
+.price-description{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+  margin-bottom:22px;
+  flex-grow:1;}
+
+/* ===== TURBO CALLOUT ===== */
+.turbo-callout{
+  margin-top:20px;
+  padding:22px 24px;
+  border:1px solid rgba(230,74,240,.25);
+  border-radius:14px;
+  background:
+    linear-gradient(
+      110deg,
+      rgba(108,31,224,.11),
+      rgba(230,74,240,.06)
+    );
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;}
+.turbo-callout-text{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;}
+.turbo-icon{
+  width:40px;
+  height:40px;
+  min-width:40px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--grad-soft);
+  color:#fff;}
+.turbo-callout h4{
+  font-size:15px;
+  margin-bottom:5px;}
+.turbo-callout p{
+  color:var(--muted);
+  font-size:12.5px;
+  line-height:1.55;}
+.turbo-price{
+  white-space:nowrap;
+  font-size:18px;
+  font-weight:700;
+  color:var(--magenta);}
+
+/* ===== CAMPUS PANEL ===== */
+.campus-panel{
+  max-width:1000px;
+  margin:0 auto;}
+.campus-hero{
+  padding:30px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(108,31,224,.10),
+      rgba(230,74,240,.035)
+    );
+  margin-bottom:18px;}
+.campus-hero .price-label{
+  color:var(--magenta);}
+.campus-hero h3{
+  max-width:760px;
+  font-size:clamp(23px,3vw,32px);
+  line-height:1.2;
+  margin-bottom:12px;}
+.campus-hero p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;}
+.campus-package{
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:18px;}
+.campus-price-card{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:28px;
+  background:rgba(12,8,16,.85);}
+.campus-price-card h4{
+  font-size:15px;
+  margin-bottom:8px;}
+.campus-price{
+  font-size:31px;
+  font-weight:700;
+  margin-bottom:6px;}
+.campus-price span{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:400;}
+.campus-hours{
+  color:var(--magenta);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  margin-top:12px;}
+.campus-features{
+  display:grid;
+  gap:12px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:25px;
+  background:rgba(12,8,16,.85);}
+.campus-feature{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;}
+.campus-feature-icon{
+  color:var(--magenta);
+  min-width:17px;
+  margin-top:2px;}
+.campus-feature p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.55;}
+
+/* ===== ENTERPRISE PANEL ===== */
+.enterprise-pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+  max-width:900px;
+  margin:0 auto;}
+.enterprise-price-card{
+  position:relative;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:30px;
+  background:linear-gradient(
+    145deg,
+    rgba(19,13,26,.95),
+    rgba(12,8,16,.98)
+  );
+  min-height:280px;
+  display:flex;
+  flex-direction:column;
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;}
+.enterprise-price-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(230,74,240,.4);
+  box-shadow:0 18px 45px -25px rgba(108,31,224,.6);}
+.enterprise-price-card.featured{
+  border-color:rgba(230,74,240,.5);}
+.enterprise-price-card h3{
+  font-size:23px;
+  margin-bottom:9px;}
+.enterprise-price{
+  font-size:29px;
+  font-weight:700;
+  margin-bottom:18px;}
+.enterprise-price span{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:400;}
+.enterprise-price-card p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.65;
+  flex-grow:1;}
+
+/* ===== PRICING RESPONSIVE ===== */
+@media (max-width:900px){
+
+  .individual-pricing-grid{
+    grid-template-columns:1fr;}
+  .campus-package{
+    grid-template-columns:1fr;}
+  .enterprise-pricing-grid{
+    grid-template-columns:1fr;
+    max-width:600px;}}
+
+@media (max-width:680px){
+  .pricing-section{
+    padding:58px 0 68px;}
+  .pricing-tabs{
+    flex-direction:column;}
+  .pricing-tab{
+    width:100%;}
+  .price-card{
+    min-height:auto;}
+  .turbo-callout{
+    flex-direction:column;
+    align-items:flex-start;}
+  .turbo-price{
+    padding-left:54px;}
+  .campus-hero,
+  .campus-price-card,
+  .campus-features,
+  .enterprise-price-card{
+    padding:23px;}}
+
+/* ===== KEY VALUE & FEATURE SHOWCASE ===== */
+.feature-showcase-section{
+  padding:72px 0 88px;}
+.feature-showcase-head{
+  max-width:760px;
+  margin:0 auto 42px;
+  text-align:center;}
+.feature-showcase-head h2{
+  font-size:clamp(28px,3.5vw,40px);
+  line-height:1.12;
+  margin-bottom:14px;}
+.feature-showcase-head p{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.65;}
+.feature-showcase-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;}
+.feature-showcase-card{
+  position:relative;
+  min-height:330px;
+  padding:30px 27px 26px;
+  border:1px solid var(--line);
+  border-radius:17px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(19,13,26,.96),
+      rgba(10,7,14,.98)
+    );
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease,
+    background .3s ease;}
+.feature-showcase-card::before{
+  content:"";
+  position:absolute;
+  width:210px;
+  height:210px;
+  right:-100px;
+  top:-100px;
+  border-radius:50%;
+  background:radial-gradient(
+    circle,
+    rgba(230,74,240,.16),
+    transparent 68%
+  );
+  pointer-events:none;}
+.feature-showcase-card::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:2px;
+  background:var(--grad);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .3s ease;}
+.feature-showcase-card:hover{
+  transform:translateY(-7px);
+  border-color:rgba(230,74,240,.42);
+  box-shadow:0 20px 50px -28px rgba(108,31,224,.7);}
+.feature-showcase-card:hover::after{
+  transform:scaleX(1);}
+.feature-showcase-icon{
+  width:54px;
+  height:54px;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  background:var(--grad-soft);
+  border:1px solid rgba(230,74,240,.18);
+  margin-bottom:23px;
+  box-shadow:0 10px 30px -18px rgba(230,74,240,.7);}
+.feature-showcase-number{
+  position:absolute;
+  top:30px;
+  right:27px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:.1em;
+  color:rgba(255,255,255,.25);}
+.feature-showcase-card h3{
+  font-size:20px;
+  line-height:1.3;
+  margin-bottom:12px;
+  max-width:280px;}
+.feature-showcase-card p{
+  color:var(--muted);
+  font-size:13.5px;
+  line-height:1.7;
+  flex-grow:1;}
+.feature-showcase-tag{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  margin-top:22px;
+  padding:6px 9px;
+  border-radius:6px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.06);
+  color:var(--muted);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  letter-spacing:.06em;
+  text-transform:uppercase;}
+
+/* =========================================================
+   TEAM COLLABORATION & AUTOMATION
+   ========================================================= */
+.team-section{
+  padding:72px 0 88px;
+}
+.team-head{
+  max-width:820px;
+  margin:0 auto 44px;
+  text-align:center;
+}
+.team-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:18px;
+  padding:7px 12px;
+  border:1px solid rgba(230,74,240,.22);
+  border-radius:999px;
+  background:rgba(230,74,240,.055);
+  color:var(--magenta);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.team-badge-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--magenta);
+  box-shadow:0 0 10px rgba(230,74,240,.75);
+}
+.team-head h2{
+  font-size:clamp(30px,4vw,46px);
+  line-height:1.08;
+  letter-spacing:-.035em;
+  margin-bottom:16px;
+}
+.team-head h2 span{
+  background:var(--grad);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.team-subheadline{
+  max-width:760px;
+  margin:0 auto;
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.7;
+}
+
+/* =========================================================
+   VISUAL FEATURE CARDS
+   ========================================================= */
+.team-feature-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-bottom:24px;
+}
+.team-feature-card{
+  position:relative;
+  min-height:285px;
+  padding:27px 25px 24px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(19,13,26,.96),
+      rgba(10,7,14,.98)
+    );
+  overflow:hidden;
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+.team-feature-card::before{
+  content:"";
+  position:absolute;
+  width:190px;
+  height:190px;
+  right:-95px;
+  top:-95px;
+  border-radius:50%;
+  background:radial-gradient(
+    circle,
+    rgba(230,74,240,.15),
+    transparent 68%
+  );
+  pointer-events:none;
+}
+.team-feature-card::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:2px;
+  background:var(--grad);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .3s ease;
+}
+.team-feature-card:hover{
+  transform:translateY(-7px);
+  border-color:rgba(230,74,240,.4);
+  box-shadow:0 20px 50px -28px rgba(108,31,224,.7);
+}
+.team-feature-card:hover::after{
+  transform:scaleX(1);
+}
+.team-feature-number{
+  position:absolute;
+  top:23px;
+  right:23px;
+  color:rgba(255,255,255,.22);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  letter-spacing:.1em;
+}
+.team-feature-icon{
+  width:52px;
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:22px;
+  border-radius:12px;
+  color:#fff;
+  background:var(--grad-soft);
+  border:1px solid rgba(230,74,240,.17);
+  box-shadow:
+    0 12px 30px -18px rgba(230,74,240,.7);
+}
+.team-feature-card h3{
+  font-size:18px;
+  line-height:1.3;
+  margin-bottom:11px;
+}
+.team-feature-card > p{
+  color:var(--muted);
+  font-size:12.8px;
+  line-height:1.65;
+}
+
+/* =========================================================
+   DETAILED CAPABILITIES
+   ========================================================= */
+.team-details{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+.team-detail{
+  padding:23px 24px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(12,8,16,.72);
+}
+.team-detail-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-bottom:14px;
+  color:var(--text);
+  font-size:13px;
+  font-weight:700;
+}
+.team-detail-title svg{
+  color:var(--magenta);
+  flex-shrink:0;
+}
+.team-detail ul{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.team-detail li{
+  position:relative;
+  padding-left:16px;
+  margin-bottom:12px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.65;
+}
+.team-detail li:last-child{
+  margin-bottom:0;
+}
+.team-detail li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.65em;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--magenta);
+  box-shadow:0 0 7px rgba(230,74,240,.5);
+}
+.team-detail strong{
+  color:var(--text);
+  font-weight:600;
+}
+
+/* =========================================================
+   STORAGE HIGHLIGHT
+   ========================================================= */
+.team-storage-highlight{
+  margin-top:18px;
+  padding:19px 22px;
+  border:1px solid rgba(230,74,240,.2);
+  border-radius:12px;
+  background:
+    linear-gradient(
+      100deg,
+      rgba(108,31,224,.09),
+      rgba(230,74,240,.035)
+    );
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+.team-storage-highlight-icon{
+  width:35px;
+  height:35px;
+  min-width:35px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  background:var(--grad-soft);
+  color:#fff;
+}
+.team-storage-highlight p{
+  color:var(--muted);
+  font-size:11.5px;
+  line-height:1.55;
+}
+.team-storage-highlight strong{
+  color:var(--text);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:900px){
+  .team-feature-grid{
+    grid-template-columns:1fr;
+    max-width:650px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .team-feature-card{
+    min-height:245px;
+  }
+  .team-details{
+    grid-template-columns:1fr;
+    max-width:650px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+
+@media (max-width:680px){
+  .team-section{
+    padding:58px 0 68px;
+  }
+  .team-head h2{
+    font-size:31px;
+  }
+  .team-subheadline{
+    font-size:13.5px;
+  }
+  .team-feature-card{
+    padding:24px 21px;
+  }
+  .team-detail{
+    padding:21px;
+  }
+  .team-storage-highlight{
+    align-items:flex-start;
+  }
+}
+
+/* ===== FEATURE CARD ICON DETAILS ===== */
+.feature-icon-ring{
+  width:24px;
+  height:24px;
+  border:2px solid currentColor;
+  border-radius:50%;
+  position:relative;}
+.feature-icon-ring::after{
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:currentColor;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);}
+
+@media (max-width:900px){
+  .feature-showcase-grid{
+    grid-template-columns:1fr;
+    max-width:650px;
+    margin:0 auto;}
+  .feature-showcase-card{
+    min-height:270px;}}
+
+@media (max-width:680px){
+  .feature-showcase-section{
+    padding:58px 0 68px;}
+  .feature-showcase-card{
+    padding:25px 22px 23px;}
+  .feature-showcase-number{
+    top:25px;
+    right:22px;}}
+
+/* ===== DATA SOVEREIGNTY & OFFLINE ARCHITECTURE ===== */
+.sovereignty-section{
+  padding:72px 0 88px;}
+.sovereignty-head{
+  max-width:760px;
+  margin:0 auto 42px;
+  text-align:center;}
+.sovereignty-head h2{
+  font-size:clamp(28px,3.5vw,40px);
+  line-height:1.12;
+  margin-bottom:14px;}
+.sovereignty-head p{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.65;}
+
+/* ===== ARCHITECTURE DIAGRAM ===== */
+.sovereignty-diagram{
+  position:relative;
+  padding:34px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(108,31,224,.10),
+      transparent 55%
+    ),
+    rgba(10,7,14,.92);
+  overflow:hidden;}
+.sovereignty-diagram::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.025) 1px,
+      transparent 1px
+    );
+  background-size:36px 36px;
+  mask-image:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.8),
+    transparent
+  );
+  pointer-events:none;}
+.sovereignty-diagram-label{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:28px;
+  padding-bottom:15px;
+  border-bottom:1px solid var(--line);}
+.sovereignty-diagram-label span{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);}
+.sovereignty-status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:#b8f7d4 !important;}
+.sovereignty-status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#6ee7b7;
+  box-shadow:0 0 12px rgba(110,231,183,.8);}
+
+/* ===== NETWORK FLOW ===== */
+.sovereignty-flow{
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 80px 1.2fr 80px 1fr;
+  align-items:center;
+  gap:0;
+  min-height:230px;}
+.sovereignty-node{
+  position:relative;
+  z-index:2;
+  padding:24px 20px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(15,10,20,.95);
+  text-align:center;}
+.sovereignty-node.primary{
+  border-color:rgba(230,74,240,.4);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(108,31,224,.14),
+      rgba(230,74,240,.055)
+    );
+  box-shadow:0 15px 40px -28px rgba(108,31,224,.75);}
+.sovereignty-node-icon{
+  width:46px;
+  height:46px;
+  margin:0 auto 13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:11px;
+  background:var(--grad-soft);
+  color:#fff;}
+.sovereignty-node h4{
+  font-size:14px;
+  margin-bottom:6px;}
+.sovereignty-node p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;}
+.sovereignty-node .node-label{
+  display:block;
+  margin-top:9px;
+  color:var(--magenta);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8px;
+  letter-spacing:.08em;
+  text-transform:uppercase;}
+
+/* ===== CONNECTION LINES ===== */
+.sovereignty-connector{
+  position:relative;
+  height:2px;
+  background:linear-gradient(
+    90deg,
+    rgba(108,31,224,.15),
+    var(--magenta),
+    rgba(108,31,224,.15)
+  );}
+.sovereignty-connector::after{
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  right:0;
+  top:50%;
+  transform:translateY(-50%) rotate(45deg);
+  border-top:2px solid var(--magenta);
+  border-right:2px solid var(--magenta);}
+.sovereignty-connector.reverse::after{
+  left:0;
+  right:auto;
+  transform:translateY(-50%) rotate(-135deg);}
+.sovereignty-connector-label{
+  position:absolute;
+  left:50%;
+  top:-20px;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  color:var(--muted);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8px;
+  letter-spacing:.05em;}
+
+/* ===== INTERNET BLOCK ===== */
+.sovereignty-internet{
+  position:absolute;
+  right:26px;
+  top:25px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 10px;
+  border:1px solid rgba(248,113,113,.18);
+  border-radius:7px;
+  background:rgba(127,29,29,.08);
+  color:#fca5a5;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8px;
+  letter-spacing:.06em;
+  text-transform:uppercase;}
+.sovereignty-internet-line{
+  position:absolute;
+  right:90px;
+  top:58px;
+  width:90px;
+  height:1px;
+  background:repeating-linear-gradient(
+    90deg,
+    rgba(248,113,113,.5) 0,
+    rgba(248,113,113,.5) 5px,
+    transparent 5px,
+    transparent 10px
+  );
+  transform:rotate(145deg);
+  transform-origin:right center;}
+.sovereignty-block-icon{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#f87171;}
+
+/* ===== BENEFIT BLOCKS ===== */
+.sovereignty-benefits{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+  margin-top:20px;}
+.sovereignty-benefit{
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:rgba(12,8,16,.85);
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;}
+.sovereignty-benefit:hover{
+  transform:translateY(-5px);
+  border-color:rgba(230,74,240,.35);
+  box-shadow:0 16px 40px -28px rgba(108,31,224,.7);}
+.sovereignty-benefit-icon{
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  background:var(--grad-soft);
+  margin-bottom:18px;}
+.sovereignty-benefit h3{
+  font-size:16px;
+  margin-bottom:9px;}
+.sovereignty-benefit p{
+  color:var(--muted);
+  font-size:12.5px;
+  line-height:1.65;}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:900px){
+  .sovereignty-flow{
+    grid-template-columns:1fr;
+    gap:0;}
+  .sovereignty-connector{
+    width:2px;
+    height:45px;
+    margin:0 auto;
+    background:linear-gradient(
+      180deg,
+      rgba(108,31,224,.15),
+      var(--magenta),
+      rgba(108,31,224,.15)
+    );}
+  .sovereignty-connector::after{
+    right:auto;
+    left:50%;
+    bottom:0;
+    top:auto;
+    transform:translateX(-50%) rotate(135deg);}
+  .sovereignty-connector.reverse::after{
+    left:50%;
+    transform:translateX(-50%) rotate(135deg);}
+  .sovereignty-connector-label{
+    display:none;}
+  .sovereignty-internet{
+    position:relative;
+    right:auto;
+    top:auto;
+    width:max-content;
+    margin:0 auto 25px;}
+  .sovereignty-internet-line{
+    display:none;}
+  .sovereignty-benefits{
+    grid-template-columns:1fr;
+    max-width:650px;
+    margin-left:auto;
+    margin-right:auto;}}
+
+@media (max-width:680px){
+  .sovereignty-section{
+    padding:58px 0 68px;}
+  .sovereignty-diagram{
+    padding:22px;}
+  .sovereignty-diagram-label{
+    align-items:flex-start;
+    gap:12px;
+    flex-direction:column;}
+  .sovereignty-node{
+    padding:22px 18px;}}
+
+/* ===== FAQ ACCORDION ===== */
+.faq-section{
+  padding:72px 0 88px;}
+.faq-head{
+  max-width:720px;
+  margin:0 auto 42px;
+  text-align:center;}
+.faq-head h2{
+  font-size:clamp(28px,3.5vw,40px);
+  line-height:1.12;
+  margin-bottom:14px;}
+.faq-head p{
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.65;}
+.faq-list{
+  max-width:900px;
+  margin:0 auto;
+  display:grid;
+  gap:10px;}
+.faq-item{
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:rgba(12,8,16,.82);
+  overflow:hidden;
+  transition:
+    border-color .25s ease,
+    background .25s ease,
+    box-shadow .25s ease;}
+.faq-item:hover{
+  border-color:rgba(230,74,240,.25);}
+.faq-item.open{
+  border-color:rgba(230,74,240,.38);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(108,31,224,.08),
+      rgba(230,74,240,.025)
+    );
+  box-shadow:0 14px 40px -30px rgba(108,31,224,.65);}
+.faq-question{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:var(--text);
+  padding:21px 23px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  text-align:left;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;}
+.faq-question:hover{
+  color:#fff;}
+.faq-question-text{
+  display:flex;
+  align-items:center;
+  gap:13px;}
+.faq-number{
+  color:var(--magenta);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  letter-spacing:.08em;
+  opacity:.8;}
+.faq-icon{
+  width:28px;
+  height:28px;
+  min-width:28px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  transition:
+    transform .25s ease,
+    color .25s ease,
+    border-color .25s ease,
+    background .25s ease;}
+.faq-item.open .faq-icon{
+  transform:rotate(180deg);
+  color:#fff;
+  border-color:rgba(230,74,240,.35);
+  background:var(--grad-soft);}
+.faq-answer{
+  display:grid;
+  grid-template-rows:0fr;
+  transition:grid-template-rows .3s ease;}
+.faq-item.open .faq-answer{
+  grid-template-rows:1fr;}
+.faq-answer-inner{
+  overflow:hidden;}
+.faq-answer p{
+  margin:0;
+  padding:0 23px 22px 68px;
+  color:var(--muted);
+  font-size:13.5px;
+  line-height:1.7;}
+.faq-answer strong{
+  color:var(--text);}
+.faq-answer .faq-highlight{
+  color:var(--magenta);
+  font-weight:700;}
+
+@media (max-width:680px){
+  .faq-section{
+    padding:58px 0 68px;}
+  .faq-question{
+    padding:18px;
+    font-size:14px;}
+  .faq-question-text{
+    gap:9px;}
+  .faq-answer p{
+    padding:0 18px 20px 18px;}
+  .faq-number{
+    display:none;}}
+
+/* ===== FINAL CTA ===== */
+.final-cta-section{
+  padding:72px 0 90px;}
+.final-cta-banner{
+  position:relative;
+  overflow:hidden;
+  padding:58px 60px;
+  border:1px solid rgba(230,74,240,.35);
+  border-radius:20px;
+  background:
+    radial-gradient(
+      circle at 15% 50%,
+      rgba(108,31,224,.28),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(230,74,240,.14),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(20,11,30,.98),
+      rgba(10,7,14,.98)
+    );
+  box-shadow:
+    0 25px 70px -40px rgba(108,31,224,.75);}
+.final-cta-banner::before{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:420px;
+  left:-210px;
+  top:-210px;
+  border-radius:50%;
+  border:1px solid rgba(230,74,240,.08);
+  box-shadow:
+    0 0 0 40px rgba(230,74,240,.025),
+    0 0 0 80px rgba(230,74,240,.018);
+  pointer-events:none;}
+.final-cta-banner::after{
+  content:"";
+  position:absolute;
+  width:2px;
+  height:100%;
+  right:29%;
+  top:0;
+  background:linear-gradient(
+    to bottom,
+    transparent,
+    rgba(230,74,240,.18),
+    transparent
+  );
+  transform:rotate(12deg);
+  pointer-events:none;}
+.final-cta-content{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:45px;}
+.final-cta-text{
+  max-width:690px;}
+.final-cta-eyebrow{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-bottom:15px;
+  color:var(--magenta);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;}
+.final-cta-eyebrow::before{
+  content:"";
+  width:20px;
+  height:1px;
+  background:var(--magenta);}
+.final-cta-text h2{
+  font-size:clamp(28px,4vw,45px);
+  line-height:1.08;
+  letter-spacing:-.035em;
+  margin-bottom:15px;}
+.final-cta-text p{
+  max-width:650px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;}
+.final-cta-actions{
+  position:relative;
+  z-index:3;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-width:220px;}
+.final-cta-actions .btn{
+  justify-content:center;
+  white-space:nowrap;}
+.final-cta-actions .btn-primary{
+  box-shadow:
+    0 12px 30px -15px rgba(108,31,224,.9);}
+.final-cta-actions .btn-outline{
+  background:rgba(255,255,255,.025);}
+.final-cta-note{
+  position:relative;
+  z-index:2;
+  margin-top:26px;
+  padding-top:17px;
+  border-top:1px solid rgba(255,255,255,.07);
+  color:rgba(255,255,255,.38);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  letter-spacing:.06em;
+  text-transform:uppercase;}
+
+@media (max-width:900px){
+  .final-cta-banner{
+    padding:45px 38px;}
+  .final-cta-content{
+    flex-direction:column;
+    align-items:flex-start;}
+  .final-cta-actions{
+    width:100%;
+    max-width:420px;}
+  .final-cta-banner::after{
+    display:none;}}
+
+@media (max-width:680px){
+  .final-cta-section{
+    padding:58px 0 68px;}
+  .final-cta-banner{
+    padding:35px 23px;
+    border-radius:16px;}
+  .final-cta-text h2{
+    font-size:30px;}
+  .final-cta-actions{
+    min-width:0;
+    width:100%;}
+  .final-cta-actions .btn{
+    width:100%;}}
+
+/* ===== FULL PLAN SPECIFICATIONS TABLE ===== */
+.specs-section{
+  padding:20px 0 88px;}
+.specs-head{
+  max-width:760px;
+  margin:0 auto 34px;
+  text-align:center;}
+.specs-head h2{
+  font-size:clamp(26px,3.2vw,36px);
+  line-height:1.12;
+  margin-bottom:12px;}
+.specs-head p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;}
+
+/* ===== TABLE WRAPPER ===== */
+.specs-table-wrap{
+  width:100%;
+  overflow-x:auto;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:rgba(10,7,14,.92);
+  box-shadow:0 18px 50px -32px rgba(108,31,224,.65);
+  scrollbar-width:thin;}
+.specs-table{
+  width:100%;
+  min-width:1250px;
+  border-collapse:collapse;
+  table-layout:auto;}
+.specs-table th,
+.specs-table td{
+  padding:15px 14px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  vertical-align:middle;
+  white-space:nowrap;
+  font-size:12px;
+  line-height:1.45;}
+.specs-table th:last-child,
+.specs-table td:last-child{
+  border-right:none;}
+.specs-table tbody tr:last-child td{
+  border-bottom:none;}
+
+/* TABLE HEADER */
+.specs-table thead th{
+  color:var(--text);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(108,31,224,.12),
+      rgba(230,74,240,.055)
+    );
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.02em;
+  position:sticky;
+  top:0;
+  z-index:2;}
+
+/* PLAN NAME */
+.specs-table td:first-child{
+  color:var(--text);
+  font-weight:700;
+  position:sticky;
+  left:0;
+  z-index:1;
+  background:#0d0912;}
+.specs-table thead th:first-child{
+  position:sticky;
+  left:0;
+  z-index:3;}
+
+/* IMPORTANT CELLS */
+.specs-table .price-cell{
+  color:var(--text);
+  font-weight:700;}
+.specs-table .hours-cell{
+  color:var(--magenta);
+  font-weight:700;}
+.specs-table .node-cell{
+  color:#d8c5ff;}
+.specs-table .resource-cell{
+  color:var(--muted);}
+.specs-table tbody tr{
+  transition:background .2s ease;}
+.specs-table tbody tr:hover{
+  background:rgba(108,31,224,.055);}
+.specs-table tbody tr:hover td:first-child{
+  background:#120c19;}
+
+/* ===== THREADRIPPER CARD ===== */
+.threadripper-spec-card{
+  margin-top:18px;
+  position:relative;
+  overflow:hidden;
+  padding:25px 28px;
+  border:1px solid rgba(230,74,240,.32);
+  border-radius:16px;
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(230,74,240,.11),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(108,31,224,.10),
+      rgba(12,8,16,.97)
+    );
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:28px;
+  box-shadow:0 18px 45px -30px rgba(108,31,224,.65);}
+.threadripper-spec-card::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:2px;
+  background:var(--grad);}
+.threadripper-info{
+  display:flex;
+  align-items:center;
+  gap:17px;}
+.threadripper-icon{
+  width:48px;
+  height:48px;
+  min-width:48px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  background:var(--grad-soft);
+  border:1px solid rgba(230,74,240,.2);}
+.threadripper-info h3{
+  font-size:18px;
+  margin-bottom:5px;}
+.threadripper-info p{
+  color:var(--muted);
+  font-size:12.5px;
+  line-height:1.55;}
+.threadripper-specs{
+  display:flex;
+  align-items:center;
+  gap:22px;
+  flex-wrap:wrap;}
+.threadripper-stat{
+  display:flex;
+  flex-direction:column;
+  gap:4px;}
+.threadripper-stat-label{
+  color:var(--muted);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8px;
+  letter-spacing:.08em;
+  text-transform:uppercase;}
+.threadripper-stat-value{
+  color:var(--text);
+  font-size:13px;
+  font-weight:700;}
+.threadripper-price{
+  color:var(--magenta);
+  font-size:19px;
+  font-weight:800;
+  white-space:nowrap;}
+
+/* ===== TABLE NOTE ===== */
+.specs-note{
+  margin-top:12px;
+  color:rgba(255,255,255,.35);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  line-height:1.6;}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:900px){
+  .threadripper-spec-card{
+    align-items:flex-start;
+    flex-direction:column;}
+  .threadripper-specs{
+    width:100%;}}
+
+@media (max-width:680px){
+  .specs-section{
+    padding:10px 0 68px;}
+  .specs-table th,
+  .specs-table td{
+    padding:13px 12px;
+    font-size:11px;}
+  .threadripper-spec-card{
+    padding:22px;}
+  .threadripper-info{
+    align-items:flex-start;}
+  .threadripper-specs{
+    gap:16px;}}
+
+    /* =========================================================
+   PRIORITY WAITLIST CTA
+   ========================================================= */
+.waitlist-cta-section{
+  padding:72px 0 88px;
+}
+.waitlist-cta{
+  position:relative;
+  overflow:hidden;
+  padding:52px 55px;
+  border:1px solid rgba(230,74,240,.34);
+  border-radius:20px;
+  background:
+    radial-gradient(
+      circle at 12% 50%,
+      rgba(108,31,224,.25),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 88% 15%,
+      rgba(230,74,240,.12),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(20,11,30,.98),
+      rgba(10,7,14,.98)
+    );
+  box-shadow:
+    0 25px 70px -40px rgba(108,31,224,.75);
+}
+.waitlist-cta::before{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:420px;
+  left:-210px;
+  top:-210px;
+  border-radius:50%;
+  border:1px solid rgba(230,74,240,.07);
+  box-shadow:
+    0 0 0 40px rgba(230,74,240,.022),
+    0 0 0 80px rgba(230,74,240,.015);
+  pointer-events:none;
+}
+.waitlist-cta-content{
+  position:relative;
+  z-index:2;
+  max-width:920px;
+  margin:0 auto;
+  text-align:center;
+}
+.waitlist-cta-eyebrow{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  margin-bottom:16px;
+  color:var(--magenta);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+.waitlist-cta-eyebrow::before,
+.waitlist-cta-eyebrow::after{
+  content:"";
+  width:24px;
+  height:1px;
+  background:var(--magenta);
+  opacity:.6;
+}
+.waitlist-cta h2{
+  margin-bottom:15px;
+  font-size:clamp(29px,4vw,44px);
+  line-height:1.08;
+  letter-spacing:-.035em;
+}
+.waitlist-cta-subtext{
+  max-width:720px;
+  margin:0 auto 27px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
+
+/* ===== WAITLIST FORM ===== */
+.waitlist-form{
+  max-width:650px;
+  margin:0 auto;
+  display:flex;
+  align-items:stretch;
+  gap:9px;
+}
+.waitlist-input{
+  flex:1;
+  min-width:0;
+  height:50px;
+  padding:0 16px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  outline:none;
+  background:rgba(255,255,255,.035);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+  transition:
+    border-color .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+.waitlist-input::placeholder{
+  color:rgba(255,255,255,.34);
+}
+.waitlist-input:focus{
+  border-color:rgba(230,74,240,.5);
+  background:rgba(255,255,255,.055);
+  box-shadow:
+    0 0 0 3px rgba(230,74,240,.07);
+}
+.waitlist-form .btn{
+  min-height:50px;
+  padding-left:21px;
+  padding-right:21px;
+  white-space:nowrap;
+}
+.waitlist-trust{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  margin-top:16px;
+  color:rgba(255,255,255,.4);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  letter-spacing:.035em;
+}
+.waitlist-trust-lock{
+  color:#8de0bd;
+}
+
+/* ===== FORM SUCCESS ===== */
+.waitlist-success{
+  display:none;
+  max-width:650px;
+  margin:0 auto;
+  padding:14px 18px;
+  border:1px solid rgba(110,231,183,.2);
+  border-radius:9px;
+  background:rgba(110,231,183,.045);
+  color:#b8f7d4;
+  font-size:12px;
+  line-height:1.5;
+}
+.waitlist-success.show{
+  display:block;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width:680px){
+  .waitlist-cta-section{
+    padding:58px 0 68px;
+  }
+  .waitlist-cta{
+    padding:38px 21px;
+    border-radius:16px;
+  }
+  .waitlist-cta h2{
+    font-size:30px;
+  }
+  .waitlist-cta-subtext{
+    font-size:13px;
+  }
+  .waitlist-form{
+    flex-direction:column;
+  }
+  .waitlist-input{
+    width:100%;
+  }
+  .waitlist-form .btn{
+    width:100%;
+  }
+  .waitlist-trust{
+    align-items:flex-start;
+    text-align:left;
+    line-height:1.5;
+  }
+}
+
+/* =========================================================
+   INSTITUTIONAL / ENTERPRISE CTA
+   ========================================================= */
+.institutional-cta-section{
+  padding:0 0 88px;
+}
+.institutional-cta{
+  position:relative;
+  overflow:hidden;
+  padding:52px 55px;
+  border:1px solid rgba(108,31,224,.38);
+  border-radius:20px;
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(230,74,240,.13),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 12% 80%,
+      rgba(108,31,224,.22),
+      transparent 43%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(19,12,28,.98),
+      rgba(9,7,14,.99)
+    );
+  box-shadow:
+    0 25px 70px -40px rgba(108,31,224,.75);
+}
+.institutional-cta::before{
+  content:"";
+  position:absolute;
+  width:430px;
+  height:430px;
+  right:-215px;
+  top:-215px;
+  border-radius:50%;
+  border:1px solid rgba(230,74,240,.07);
+  box-shadow:
+    0 0 0 40px rgba(230,74,240,.022),
+    0 0 0 80px rgba(230,74,240,.015);
+  pointer-events:none;
+}
+.institutional-cta-content{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:1.25fr .75fr;
+  gap:55px;
+  align-items:center;
+}
+
+/* ===== LEFT CONTENT ===== */
+.institutional-cta-text{
+  max-width:720px;
+}
+.institutional-cta-eyebrow{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-bottom:16px;
+  color:var(--magenta);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+.institutional-cta-eyebrow::before{
+  content:"";
+  width:22px;
+  height:1px;
+  background:var(--magenta);
+  opacity:.65;
+}
+.institutional-cta h2{
+  margin-bottom:16px;
+  font-size:clamp(28px,3.6vw,43px);
+  line-height:1.08;
+  letter-spacing:-.035em;
+}
+.institutional-cta-subtext{
+  max-width:680px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.72;
+}
+
+/* ===== BENEFITS ===== */
+.institutional-benefits{
+  display:grid;
+  gap:11px;
+  margin-top:24px;
+}
+.institutional-benefit{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+  color:var(--muted);
+  font-size:12.5px;
+  line-height:1.55;
+}
+.institutional-benefit-icon{
+  flex-shrink:0;
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:7px;
+  background:rgba(230,74,240,.08);
+  border:1px solid rgba(230,74,240,.15);
+  font-size:12px;
+}
+.institutional-benefit strong{
+  color:var(--text);
+}
+
+/* ===== RIGHT CTA PANEL ===== */
+.institutional-cta-actions{
+  position:relative;
+  z-index:3;
+  padding:25px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:15px;
+  background:rgba(255,255,255,.025);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.025);
+}
+.institutional-action-label{
+  margin-bottom:15px;
+  color:rgba(255,255,255,.4);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.institutional-buttons{
+  display:grid;
+  gap:10px;
+}
+.institutional-buttons .btn{
+  width:100%;
+  min-height:49px;
+  justify-content:center;
+  white-space:nowrap;
+}
+.institutional-buttons .btn-outline{
+  background:rgba(255,255,255,.02);
+}
+.institutional-cta-note{
+  margin-top:15px;
+  color:rgba(255,255,255,.3);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:8px;
+  line-height:1.55;
+  text-align:center;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:900px){
+  .institutional-cta{
+    padding:43px 36px;
+  }
+  .institutional-cta-content{
+    grid-template-columns:1fr;
+    gap:32px;
+  }
+  .institutional-cta-actions{
+    max-width:520px;
+    width:100%;
+  }
+}
+
+@media (max-width:680px){
+  .institutional-cta-section{
+    padding:0 0 68px;
+  }
+  .institutional-cta{
+    padding:35px 21px;
+    border-radius:16px;
+  }
+  .institutional-cta h2{
+    font-size:29px;
+  }
+  .institutional-cta-subtext{
+    font-size:13px;
+  }
+  .institutional-cta-actions{
+    padding:20px;
+  }
+}
+.waitlist-plan{
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  padding-right:40px;
+  background:
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,.5) 50%)
+      calc(100% - 18px) 22px / 6px 6px no-repeat,
+    linear-gradient(135deg, rgba(255,255,255,.5) 50%, transparent 50%)
+      calc(100% - 13px) 22px / 6px 6px no-repeat,
+    rgba(255,255,255,.035);
+}
+.waitlist-plan option{
+  background:#100b16;
+  color:#fff;
+}
+  /* ===== WHY US ===== */
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .why-card{background:var(--bg-panel);border:1px solid var(--line);border-radius:12px;padding:26px;display:flex;gap:16px;align-items:flex-start;transition:border-color .25s ease, transform .25s ease;}
+  .why-card:hover{border-color:rgba(230,74,240,.4);transform:translateY(-3px);}
+  .why-icon{width:42px;height:42px;border-radius:10px;flex-shrink:0;background:var(--bg-panel-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--magenta);}
+  .why-card h4{font-size:15.5px;margin-bottom:5px;font-weight:600;}
+  .why-card p{font-size:13.5px;color:var(--muted);}
+
+  /* ===== DEPLOYMENT MODES ===== */
+  .modes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .mode-card{
+    background:var(--bg-panel-2);border:1px solid var(--line);border-radius:12px;
+    padding:22px;text-align:center;transition:border-color .25s ease, transform .25s ease;
+  }
+  .mode-card:hover{border-color:rgba(108,31,224,.5);transform:translateY(-3px);}
+  .mode-icon{width:44px;height:44px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:var(--grad-soft);color:var(--magenta);}
+  .mode-card h4{font-size:14.5px;margin-bottom:6px;}
+  .mode-card p{font-size:12.5px;color:var(--muted);}
+
+  /* ===== CTA ===== */
+  .cta-banner{background:var(--grad);border-radius:20px;padding:44px 48px;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;position:relative;overflow:hidden;}
+  .cta-banner::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;border:1px solid rgba(255,255,255,.25);}
+  .cta-text h3{font-size:24px;margin-bottom:8px;color:#fff;}
+  .cta-text p{color:rgba(255,255,255,.85);font-size:14.5px;}
+  .cta-banner .btn-outline{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);color:#fff;}
+  .cta-banner .btn-outline:hover{background:rgba(255,255,255,.2);}
+
+  /* ===== FOOTER ===== */
+  footer{border-top:1px solid var(--line);padding:70px 0 30px;background:var(--bg-panel);}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px;}
+  .footer-brand p{color:var(--muted);font-size:13.5px;margin-top:16px;max-width:280px;}
+  .footer-col h5{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);margin-bottom:18px;}
+  .footer-col ul li{margin-bottom:11px;}
+  .footer-col ul li a{font-size:14px;color:var(--muted);transition:color .2s ease;}
+  .footer-col ul li a:hover{color:var(--magenta);}
+  .footer-contact-item{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--muted);margin-bottom:11px;}
+  .footer-contact-item svg{color:var(--magenta);flex-shrink:0;}
+  .footer-bottom{border-top:1px solid var(--line);padding-top:26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .footer-bottom p{color:var(--muted);font-size:13px;}
+  .socials{display:flex;gap:16px;}
+  .socials a{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s ease;}
+  .socials a:hover{color:#fff;border-color:var(--magenta);background:rgba(230,74,240,.1);}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (max-width:980px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-art{height:300px;order:-1;}
+    .tiers-grid{grid-template-columns:1fr;}
+    .why-grid{grid-template-columns:1fr 1fr;}
+    .modes-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:680px){
+    .wrap{padding:0 20px;}
+    .nav-links{
+      position:fixed;top:96px;left:0;right:0;background:rgba(0,0,0,.98);
+      flex-direction:column;padding:24px;gap:20px;border-bottom:1px solid var(--line);
+      transform:translateY(-130%);opacity:0;transition:transform .3s ease, opacity .3s ease;
+    }
+    .nav-links.open{transform:translateY(0);opacity:1;}
+    .nav-right .btn-primary{display:none;}
+    .burger{display:flex;}
+    .hero{padding:64px 0 56px;}
+    .why-grid{grid-template-columns:1fr;}
+    .cta-banner{flex-direction:column;text-align:center;padding:36px 26px;}
+    .footer-grid{grid-template-columns:1fr;gap:32px;}
+    .footer-bottom{flex-direction:column;text-align:center;}
+  }
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+</style>
+</head>
+<body>
+
+<div id="spine"></div>
+
+<div class="parent-bar">
+  <div class="wrap">
+    <svg width="14" height="14" viewBox="0 0 84 64" fill="none"><path d="M 8,32 C 8,14 30,14 42,32 C 54,50 76,50 76,32 C 76,14 54,14 42,32 C 30,50 8,50 8,32 Z" stroke="url(#pg3)" stroke-width="9" stroke-linecap="round"/><defs><linearGradient id="pg3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38e1fe"/><stop offset="1" stop-color="#3b6b94"/></linearGradient></defs></svg>
+    A product by <a href="oneorigin.html">OneOrigin</a>
+  </div>
+</div>
+
+<header>
+  <nav class="wrap">
+    <a href="#home"><img class="logo-img" src="onecloud_logo_t_white.png" alt="OneCloud logo"></a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="nav-link active">Home</a></li>
+      <li><a href="#arch" class="nav-link">Features</a></li>
+      <li><a href="#plans" class="nav-link">Plans</a></li>
+      <li><a href="#faq" class="nav-link">FAQ</a></li>
+      <li><a href="#waitlist" class="nav-link">Individuals</a></li>
+      <li><a href="#institutional-sales" class="nav-link">Enterprises</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="#waitlist" class="btn btn-primary">Request Access
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button class="burger" id="burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+<main>
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow">Cloud Computing Platform</div>
+        <h1>Compute that scales<br><span class="grad">with who you are.</span></h1>
+        <p class="lead"><strong>OneCloud</strong> is a high-performance cloud infrastructure platform built for every kind of workload — from AI and research to development, creative production, analytics, enterprise and education. With GPU acceleration, high-core & thread CPUs, large RAM, NVMe storage and HDD-backed storage. OneCloud delivers the compute, memory and storage capacity to build, run and scale on your terms.</p>
+        <div class="hero-ctas">
+          <a href="#plans" class="btn btn-primary">Explore Plans
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#why" class="btn btn-outline">Why OneCloud
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </a>
+        </div>
+        <div class="trust-row">
+          <div class="trust-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>Secure</div>
+          <div class="trust-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h1M8 12h1M8 16h1M13 8h3M13 12h3M13 16h3"/></svg>GPU-Accelerated</div>
+          <div class="trust-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M21 7v6h-6"/></svg>Flexible Deployment</div>
+        </div>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit-ring r1"></div>
+        <div class="orbit-ring r2"></div>
+        <div class="hero-logo-stage">
+          <div class="hero-logo-wrap">
+            <img src="onecloud_logo_t_white.png" alt="OneCloud logo">
+          </div>
+          <div class="hero-pedestal ring2"></div>
+          <div class="hero-pedestal"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><div class="divider-line"></div></div>
+    <!-- ===== WHY ONECLOUD ===== -->
+  <section class="pad" id="why">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow" style="justify-content:center">Why OneCloud</div>
+        <h2>Built for real-world constraints</h2>
+        <p>Cloud infrastructure that adapts to your connectivity, your compliance needs and your workload — not the other way around.</p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card reveal">
+          <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h1M8 12h1M8 16h1M13 8h3M13 12h3M13 16h3"/></svg></div>
+          <div><h4>GPU-accelerated compute</h4><p>Dedicated GPU instances built for AI training, inference and heavy workloads.</p></div>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg></div>
+          <div><h4>Enterprise-grade security</h4><p>Encryption, role-based access and audit trails across every deployment.</p></div>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg></div>
+          <div><h4>True offline capability</h4><p>Full offline operation on demand — no internet bandwidth or external latency.</p></div>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M21 7v6h-6"/></svg></div>
+          <div><h4>Scales with you</h4><p>From a single GPU instance to institution-wide infrastructure.</p></div>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+          <div><h4>Data stays where you need it</h4><p>Full data sovereignty options with strict privacy requirements.</p></div>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1v-8h3v6zM3 19a2 2 0 002 2h1v-8H3v6z"/></svg></div>
+          <div><h4>Dedicated support</h4><p>From onboarding to ongoing maintenance, across every tier.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+    <div class="wrap"><div class="divider-line"></div></div>
+
+<!-- ===== KEY VALUE & FEATURE SHOWCASE ===== -->
+<section class="feature-showcase-section" id="features">
+  <div class="wrap">
+    <div class="feature-showcase-head reveal">
+      <div class="eyebrow" style="justify-content:center">
+        Built Around Your Workflow
+      </div>
+      <h2>Power without the friction.</h2>
+      <p>OneCloud removes the waiting, setup time and wasted compute that gets in the way of actually building.</p>
+    </div>
+
+    <div class="feature-showcase-grid">
+
+      <!-- FEATURE 01 -->
+      <div class="feature-showcase-card reveal">
+        <div class="feature-showcase-number">
+          01 / TURBO
+        </div>
+        <div class="feature-showcase-icon">
+          <svg width="25" height="25"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M13 2L4 14h7l-1 8 10-12h-7l0-8z"/>
+          </svg>
+        </div>
+        <h3>Pre-Booked Threadripper Turbo (Launching Soon)</h3>
+        <p>Reserve 64-thread Threadripper slots in advance. Get guaranteed hardware availability without queue waiting times when you need burst compute power.</p>
+        <div class="feature-showcase-tag">
+          Guaranteed Hardware Access
+        </div>
+      </div>
+
+      <!-- FEATURE 02 -->
+      <div class="feature-showcase-card reveal">
+        <div class="feature-showcase-number">
+          02 / LAUNCH
+        </div>
+        <div class="feature-showcase-icon">
+          <svg width="25" height="25"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <path d="M7 8h10"/>
+            <path d="M7 12h4"/>
+            <path d="M7 16h7"/>
+            <circle cx="17" cy="14" r="2.5"/>
+          </svg>
+        </div>
+        <h3>One-Click Pre-Configured Environments</h3>
+        <p>Launch Docker containers with PyTorch, TensorFlow, Blender, ROS and CUDA pre-installed in under 30 seconds.</p>
+        <div class="feature-showcase-tag">
+          Ready In &lt; 30 Seconds
+        </div>
+      </div>
+
+      <!-- FEATURE 03 -->
+      <div class="feature-showcase-card reveal">
+        <div class="feature-showcase-number">
+          03 / PROTECT
+        </div>
+        <div class="feature-showcase-icon">
+          <svg width="25" height="25"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M12 3l8 4v5c0 4.7-3.2 7.8-8 9
+                     -4.8-1.2-8-4.3-8-9V7l8-4z"/>
+            <path d="M12 8v4"/>
+            <path d="M9.5 14.5h5"/>
+          </svg>
+        </div>
+        <h3>Auto-Pause &amp; Wallet Guard</h3>
+        <p>Idle detection automatically saves your container state to NVMe storage and pauses the instance so you never waste hours of paid compute.</p>
+        <div class="feature-showcase-tag">
+          Protect Your Compute Budget
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider-line"></div></div>
+
+<!-- =========================================================
+     TEAMS & DEVELOPERS
+     ========================================================= -->
+<section class="team-section" id="arch">
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <div class="team-head reveal">
+      <div class="team-badge">
+        <span class="team-badge-dot"></span>
+        👥 Built for Teams &amp; Developers
+      </div>
+
+      <h2>Build Together.<span>Train Together.</span>Deploy Automatically.</h2>
+      <p class="team-subheadline">Shared GPU workspaces and streamlined pipeline automation designed for seamless teamwork with users having active subscriptions.</p>
+    </div>
+
+    <!-- SUBHEADLINE -->
+    <div class="team-storage-highlight reveal">
+      <div class="team-storage-highlight-icon">
+        <svg
+          width="19"
+          height="19"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M12 3v18"/>
+          <path d="M3 12h18"/>
+          <circle cx="12" cy="12" r="8"/>
+        </svg>
+      </div>
+      <p>Stop downloading multi-gigabyte model weights locally or passing around SSH keys. OneCloud lets your team collaborate on high-performance GPU & compute nodes in real time.</p>
+    </div>
+    <br>
+
+    <!-- =====================================================
+         VISUAL FEATURE COLUMNS
+         ===================================================== -->
+    <div class="team-feature-grid">
+
+      <!-- FEATURE 01 -->
+      <div class="team-feature-card reveal">
+        <div class="team-feature-number">
+          01 / COLLABORATE
+        </div>
+        <div class="team-feature-icon">
+          <svg
+            width="25"
+            height="25"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 00-3-3.87"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+        <h3>🤝 Real-Time Team Workspaces</h3>
+        <p>Invite team members, assign granular roles and pair-program on shared workspaces across notebooks, 3D scenes, codebases and GPU environments.</p>
+      </div>
+
+      <!-- FEATURE 02 -->
+      <div class="team-feature-card reveal">
+        <div class="team-feature-number">
+          02 / CI/CD
+        </div>
+        <div class="team-feature-icon">
+          <svg
+            width="25"
+            height="25"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M12 2v4"/>
+            <path d="M12 18v4"/>
+            <path d="M4.93 4.93l2.83 2.83"/>
+            <path d="M16.24 16.24l2.83 2.83"/>
+            <path d="M2 12h4"/>
+            <path d="M18 12h4"/>
+            <path d="M4.93 19.07l2.83-2.83"/>
+            <path d="M16.24 7.76l2.83-2.83"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <h3>⚡ CI/CD & Pipeline Reviews</h3>
+        <p>Test, validate and deploy together. Team members execute model evaluation workflows on shared GPU nodes and review output logs directly within team workspaces before pushing model checkpoints or code to production.</p>
+      </div>
+
+      <!-- FEATURE 03 -->
+      <div class="team-feature-card reveal">
+        <div class="team-feature-number">
+          03 / SHARE
+        </div>
+        <div class="team-feature-icon">
+          <svg
+            width="25"
+            height="25"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <ellipse cx="12" cy="5" rx="8" ry="3"/>
+            <path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/>
+            <path d="M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7"/>
+          </svg>
+        </div>
+        <h3>🔄 Shared High-Speed Storage</h3>
+        <p>Access central model weights and datasets across your team without repeatedly downloading massive files to every workstation.</p>
+      </div>
+    </div>
+
+    <!-- =====================================================
+         DETAILED CAPABILITIES
+         ===================================================== -->
+<!--
+    <div class="team-details">
+    -->
+      <!-- WORKSPACES -->
+<!--
+      <div class="team-detail reveal">
+        <div class="team-detail-title">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round">
+            <path d="M20 7h-9"/>
+            <path d="M20 12h-9"/>
+            <path d="M20 17h-9"/>
+            <path d="M4 7h.01"/>
+            <path d="M4 12h.01"/>
+            <path d="M4 17h.01"/>
+          </svg>
+          Collaborative Workspaces
+        </div>
+        <ul>
+          <li>
+            <strong>Work with Friends &amp; Colleagues:</strong>
+            Create team organizations, grant granular access to
+            Threadripper or GPU nodes, and pair-program on notebooks,
+            3D scenes, or codebases seamlessly.
+          </li>
+          <li>
+            <strong>Role-Based Access Control:</strong>
+            Manage who can launch instances, edit environments,
+            or view active billing tasks.
+          </li>
+        </ul>
+      </div>
+    -->
+
+      <!-- CI/CD -->
+<!--
+      <div class="team-detail reveal">
+        <div class="team-detail-title">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round">
+            <path d="M12 2v20"/>
+            <path d="M2 12h20"/>
+            <path d="M5 5l14 14"/>
+            <path d="M19 5L5 19"/>
+          </svg>
+          Automated Pipeline Workflows
+        </div>
+        <ul>
+          <li>
+            <strong>Automated Validation:</strong>
+            Set up automated pipelines so short validation passes
+            and model evaluation jobs can spin up on ephemeral
+            nodes automatically.
+          </li>
+          <li>
+            <strong>One-Click Deployments:</strong>
+            Once code passes validation on a Threadripper slot,
+            push the finalized container to production or a local
+            campus server with minimal manual intervention.
+          </li>
+        </ul>
+      </div>
+    -->
+      <!-- SHARED STORAGE -->
+<!--
+      <div class="team-detail reveal">
+        <div class="team-detail-title">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round">
+            <ellipse cx="12" cy="5" rx="8" ry="3"/>
+            <path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/>
+            <path d="M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7"/>
+          </svg>
+          Shared Storage Volumes
+        </div>
+        <ul>
+          <li>
+            <strong>Stop Downloading 50GB Weights Separately:</strong>
+            Mount a central shared NVMe storage volume across your
+            team.
+          </li>
+          <li>
+            <strong>Instant Local Access:</strong>
+            When one member downloads a massive dataset or base
+            LLM checkpoint, everyone gets access to the shared copy
+            without another large download.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="wrap">
+-->
+<br>
+  <div class="divider-line"></div>
+</div>
+
+<!-- ===== DATA SOVEREIGNTY & OFFLINE ARCHITECTURE ===== -->
+<section class="sovereignty-section" id="sovereignty">
+  <div class="wrap">
+    <div class="sovereignty-head reveal">
+      <div class="eyebrow" style="justify-content:center">
+        Data Sovereignty
+      </div>
+      <h2>Infrastructure. Network. Data.</h2>
+      <p>OneCloud can operate directly inside private networks, keeping workloads and data within the environment where they belong.</p>
+    </div>
+
+    <!-- ===== ARCHITECTURE DIAGRAM ===== -->
+    <div class="sovereignty-diagram reveal">
+      <div class="sovereignty-diagram-label">
+        <span>
+          OneCloud Private Network Architecture
+        </span>
+        <span class="sovereignty-status">
+          <i class="sovereignty-status-dot"></i>
+          External Traffic: Blocked
+        </span>
+      </div>
+
+      <!-- INTERNET BLOCK -->
+      <div class="sovereignty-internet">
+        <i class="sovereignty-block-icon"></i>
+        Public Internet
+      </div>
+      <div class="sovereignty-internet-line"></div>
+
+      <!-- NETWORK FLOW -->
+      <div class="sovereignty-flow">
+
+        <!-- CAMPUS / CLIENT -->
+        <div class="sovereignty-node reveal">
+          <div class="sovereignty-node-icon">
+            <svg width="23" height="23"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M3 21h18"/>
+              <path d="M5 21V8l7-4 7 4v13"/>
+              <path d="M9 21v-6h6v6"/>
+              <path d="M8 10h1M15 10h1"/>
+            </svg>
+          </div>
+          <h4>Campus / Client LAN</h4>
+          <p>Students, staff, developers and internal applications connect through the private network.</p>
+          <span class="node-label">Private Network</span>
+        </div>
+
+        <!-- CONNECTOR -->
+        <div class="sovereignty-connector">
+          <span class="sovereignty-connector-label">LAN</span>
+        </div>
+
+        <!-- ONECLOUD EDGE -->
+        <div class="sovereignty-node primary reveal">
+          <div class="sovereignty-node-icon">
+            <svg width="23" height="23"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M17 10h-1.26A8 8 0 109 20h8a5 5 0 000-10z"/>
+              <path d="M12 8v7"/>
+              <path d="M9 12l3 3 3-3"/>
+            </svg>
+          </div>
+          <h4>OneCloud Edge</h4>
+          <p>Local compute, storage, containers and workloads operate inside the private environment.</p>
+          <span class="node-label">Compute + NVMe</span>
+        </div>
+
+        <!-- CONNECTOR -->
+        <div class="sovereignty-connector">
+          <span class="sovereignty-connector-label">Local I/O</span>
+        </div>
+
+        <!-- LOCAL DATA -->
+        <div class="sovereignty-node reveal">
+          <div class="sovereignty-node-icon">
+            <svg width="23" height="23"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="8" ry="3"/>
+              <path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/>
+              <path d="M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"/>
+            </svg>
+          </div>
+          <h4>Data &amp; Storage</h4>
+          <p>Workloads and data remain within the controlled infrastructure instead of travelling across the public internet.</p>
+          <span class="node-label">Data Sovereignty</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== BENEFITS ===== -->
+    <div class="sovereignty-benefits">
+
+      <!-- CAMPUS LAN -->
+      <div class="sovereignty-benefit reveal">
+        <div class="sovereignty-benefit-icon">
+          <svg width="21" height="21"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="3" width="6" height="6" rx="1"/>
+            <rect x="15" y="3" width="6" height="6" rx="1"/>
+            <rect x="9" y="15" width="6" height="6" rx="1"/>
+            <path d="M9 6h6"/>
+            <path d="M18 9v3H6V9"/>
+            <path d="M12 12v3"/>
+          </svg>
+        </div>
+        <h3>LAN Integration</h3>
+        <p>Connect OneCloud directly to the client LAN. Internal workloads can communicate locally without sending traffic outside the organization's network.</p>
+      </div>
+
+      <!-- EDGE APPLIANCE -->
+<!--
+      <div class="sovereignty-benefit reveal">
+        <div class="sovereignty-benefit-icon">
+          <svg width="21" height="21"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="5" rx="1"/>
+            <rect x="3" y="15" width="18" height="5" rx="1"/>
+            <path d="M7 6.5h.01"/>
+            <path d="M7 17.5h.01"/>
+            <path d="M11 6.5h7"/>
+            <path d="M11 17.5h7"/>
+          </svg>
+        </div>
+        <h3>On-Prem Edge Appliance</h3>
+        <p>Deploy a dedicated 2U or 4U local rack appliance directly inside the client's server room for workloads that require maximum local control.
+        </p>
+      </div>
+    -->
+      <!-- AIR-GAPPED SECURITY -->
+      <div class="sovereignty-benefit reveal">
+        <div class="sovereignty-benefit-icon">
+          <svg width="21" height="21"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M12 3l8 4v5c0 4.7-3.2 7.8-8 9
+                     -4.8-1.2-8-4.3-8-9V7l8-4z"/>
+            <rect x="8" y="10" width="8" height="6" rx="1"/>
+            <path d="M10 10V8a2 2 0 014 0v2"/>
+          </svg>
+        </div>
+        <h3>Air-Gapped Security</h3>
+        <p>Keep sensitive workloads isolated from external networks, reducing exposure to internet-based attacks and unwanted data movement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider-line"></div></div>
+
+  <!-- ===== LOCAL CLOUD ADVANTAGE ===== -->
+<!--
+<section class="comparison-section" id="advantage">
+  <div class="wrap">
+    <div class="comparison-head reveal">
+      <div class="eyebrow" style="justify-content:center">
+        The Local Cloud Advantage
+      </div>
+      <h2>Why build closer to home?</h2>
+      <p>
+        A simpler cloud experience built around INR pricing, local payments, predictable compute costs, and infrastructure that can work where connectivity cannot.
+      </p>
+    </div>
+    <div class="comparison-wrap reveal">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>AWS / Azure</th>
+            <th>Foreign GPU Clouds</th>
+            <th>OneCloud</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Payment Method</td>
+            <td>
+              Forex Credit<br>
+              Cards
+            </td>
+            <td>
+              Crypto / USD<br>
+              Cards
+            </td>
+            <td class="onecloud-cell">
+              <strong>Instant UPI</strong><br>
+              <strong>(GPay / PhonePe)</strong>
+            </td>
+          </tr>
+          <tr>
+            <td>32GB GPU + Threadripper</td>
+            <td>
+              ₹210+/hr +<br>
+              Data Fees
+            </td>
+            <td>
+              $1.20+/hr + FX<br>
+              Fees
+            </td>
+            <td class="onecloud-cell">
+              <span class="price-highlight">Flat ₹99 / Hour</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Data Sovereignty / LAN</td>
+            <td>
+              Internet-only
+            </td>
+            <td>
+              Public Cloud<br>
+              only
+            </td>
+            <td class="onecloud-cell">
+              <strong>Air-Gapped Campus<br>
+              LAN Ready</strong>
+            </td>
+          </tr>
+          <tr>
+            <td>Billing Predictability</td>
+            <td>
+              Complex<br>
+              surprise bills
+            </td>
+            <td>
+              Currency<br>
+              fluctuation
+            </td>
+            <td class="onecloud-cell">
+              <strong>Transparent INR<br>
+              Rates</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="comparison-note reveal">
+      Built for Indian developers, businesses, and institutions.
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider-line"></div></div>
+-->
+
+  <!-- ===== AUDIENCE SELECTOR ===== -->
+  <section class="audience-section" id="plans">
+    <div class="wrap">
+      <div class="audience-head reveal">
+        <div class="eyebrow" style="justify-content:center">Select Your World</div>
+        <h2>OneCloud built around how you work.</h2>
+        <p>
+          Choose your environment and jump straight to the infrastructure designed for you.
+        </p>
+      </div>
+      <div class="audience-grid">
+        <!-- INDIVIDUAL BUILDERS -->
+        <div class="audience-card reveal">
+          <div class="audience-number">01 / BUILD</div>
+          <div class="audience-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="13" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+              <path d="M8 9l2 2-2 2M13 13h3"/>
+            </svg>
+          </div>
+          <h3>Individual Builders</h3>
+          <p class="audience-focus">
+            Flexible & powerful compute option for developers, analysts, designers, creators & more...
+          </p>
+          <a href="#tiers" class="audience-cta">
+            View Individual Plans
+            <svg width="15" height="15" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round">
+              <path d="M12 5v14"/>
+              <path d="M6 13l6 6 6-6"/>
+            </svg>
+          </a>
+        </div>
+        <!-- HYBRID ENTERPRISES -->
+        <div class="audience-card reveal">
+          <div class="audience-number">02 / SCALE</div>
+          <div class="audience-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21h18"/>
+              <path d="M6 21V9l6-4 6 4v12"/>
+              <path d="M10 21v-6h4v6"/>
+              <path d="M8 10h1M15 10h1"/>
+            </svg>
+          </div>
+          <h3>Hybrid Enterprises</h3>
+          <p class="audience-focus">
+            24/7 unshared compute options & infrastructure with online/offline* uptime built for business continuity.
+          </p>
+          <a href="#tiers" class="audience-cta">
+            Explore Enterprise Tier
+            <svg width="15" height="15" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round">
+              <path d="M12 5v14"/>
+              <path d="M6 13l6 6 6-6"/>
+            </svg>
+          </a>
+        </div>
+        <!-- EDUCATIONAL INSTITUTIONS -->
+        <div class="audience-card reveal">
+          <div class="audience-number">03 / CAMPUS</div>
+          <div class="audience-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10L12 4 2 10l10 6 10-6z"/>
+              <path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>
+              <path d="M22 10v6"/>
+            </svg>
+          </div>
+          <h3>Educational Institutions</h3>
+          <p class="audience-focus">
+            From cloud to air-gapped supercomputer with pooled lab hours and complete data sovereignty for campus workloads for <strong>upto 50% discounted</strong> price.
+          </p>
+          <a href="#tiers" class="audience-cta">
+            View Campus Lab Package
+            <svg width="15" height="15" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round">
+              <path d="M12 5v14"/>
+              <path d="M6 13l6 6 6-6"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TIERS ===== -->
+<!--
+  <section class="pad" id="tiers">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow" style="justify-content:center">Plans</div>
+        <h2>Three tiers, one platform</h2>
+        <p>Whether you're training a model solo, running a business, or managing a campus network — OneCloud has a tier built around how you actually work.</p>
+      </div>
+
+      <div class="tiers-grid">
+        <div class="tier-card reveal" data-tier="individual">
+          <div class="tier-badge">For Individuals & AI Builders</div>
+          <div class="tier-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M8 9l2 2-2 2M13 13h3"/></svg></div>
+          <h3>Individual</h3>
+          <p class="tier-desc">High-end, GPU-accelerated compute for AI development, model training, and creative workloads — like having your own dedicated workstation in the cloud.</p>
+          <ul class="tier-features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Dedicated GPU-backed compute instances</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Pre-configured AI/ML environments</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Remote desktop & SSH access</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Flexible pay-as-you-go or monthly plans</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>High-speed NVMe storage</li>
+          </ul>
+          <a href="#contact" class="btn btn-outline">Get Started</a>
+        </div>
+
+        <div class="tier-card tier-featured reveal" data-tier="enterprise">
+          <div class="tier-featured-tag">Most Requested</div>
+          <div class="tier-badge">For Corporates & Businesses</div>
+          <div class="tier-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 21h18M6 21V9l6-4 6 4v12M10 21v-6h4v6"/></svg></div>
+          <h3>Enterprise</h3>
+          <p class="tier-desc">A hybrid cloud solution for businesses that need dependable infrastructure both online and offline — so operations never stop, connectivity or not.</p>
+          <ul class="tier-features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Hybrid online + offline deployment</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Dedicated enterprise infrastructure</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Team & role-based access management</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>SLA-backed uptime & priority support</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Enterprise-grade security & compliance</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Integrates with OneOps</li>
+          </ul>
+          <a href="#contact" class="btn btn-primary">Talk to Sales</a>
+        </div>
+
+        <div class="tier-card reveal" data-tier="education">
+          <div class="tier-badge">For Schools, Colleges & Universities</div>
+          <div class="tier-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 10L12 4 2 10l10 6 10-6z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+          <h3>Institutional</h3>
+          <p class="tier-desc">A fully offline-capable enterprise deployment for educational institutions — running entirely on-campus, with zero dependency on external connectivity.</p>
+          <ul class="tier-features">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>100% offline, on-premise deployment</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Complete data sovereignty — nothing leaves campus</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Multi-user access for students & faculty</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Integrates with OneCampus</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>Optional scheduled sync for updates</li>
+          </ul>
+          <a href="#contact" class="btn btn-outline">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><div class="divider-line"></div></div>
+-->
+
+<div class="wrap"><div class="divider-line"></div></div>
+
+<!-- ===== DETAILED PRICING ===== -->
+<section class="pricing-section" id="tiers">
+  <div class="wrap">
+    <div class="pricing-head reveal">
+      <div class="eyebrow" style="justify-content:center">
+        Detailed Pricing
+      </div>
+      <h2>Compute that fits your workload.</h2>
+      <p>Choose the infrastructure model that matches your workload, institution or business — with transparent pricing.</p>
+    </div>
+
+    <!-- ===== PRICING TABS ===== -->
+    <div class="pricing-tabs reveal">
+      <button
+        class="pricing-tab active"
+        type="button"
+        data-pricing-tab="individual">
+        Individual &amp; Creator
+      </button>
+      <button
+        class="pricing-tab"
+        type="button"
+        data-pricing-tab="campus">
+        Institutions & Enterprises
+      </button>
+      <button
+        class="pricing-tab"
+        type="button"
+        data-pricing-tab="enterprise">
+        Enterprise & Individual Dedicated+
+      </button>
+    </div>
+
+    <!-- ================================================= -->
+    <!-- TAB A — INDIVIDUAL & CREATOR -->
+    <!-- ================================================= -->
+    <div
+      class="pricing-panel active"
+      data-pricing-panel="individual">
+      <div class="individual-pricing-grid">
+
+        <!-- STARTER -->
+        <div class="price-card reveal">
+          <div class="price-label">
+            Individual / Starter
+          </div>
+          <h3>Starter</h3>
+          <div class="price-value">
+            ₹1,499 <span>/ mo</span>
+          </div>
+          <div class="price-hours">
+            60 Hours / mo
+          </div>
+          <p class="price-description">Built for light AI workloads, PyTorch experimentation, development and students getting started with High-end compute.</p>
+          <p class="price-description">
+            *Access an instance with 8GB RAM & Quad-core Processor <strong>Uncapped 24/7</strong>.</p>
+          <p class="price-description">
+            <strong>Upto 16GB RAM & 8GB VRAM(GPU) paired with an Hexa-core processor (60 hrs/mo).</strong></p>
+          <br>
+          <a href="#waitlist" class="btn btn-outline">Get Started</a>
+          <br>
+          <a href="#compare_plans" class="btn btn-outline">Compare Plans</a>
+        </div>
+
+        <!-- PRO -->
+        <div class="price-card popular reveal">
+          <div class="price-popular">
+            MOST POPULAR
+          </div>
+          <div class="price-label">
+            Individual / Pro
+          </div>
+          <h3>Pro</h3>
+          <div class="price-value">
+            ₹4,999 <span>/ mo</span>
+          </div>
+          <div class="price-hours">
+            220 Hours / mo
+          </div>
+          <p class="price-description">Designed for 3D artists, serious AI development, model fine-tuning and creators who need significantly more compute time and power.</p>
+          <p class="price-description">
+            *Access an instance with 16GB RAM & Hexa-core Processor <strong>Uncapped 24/7</strong>.</p>
+          <p class="price-description">
+            <strong>Upto 32GB RAM & 16GB VRAM(GPU) paired with an Octa-core processor (220 hrs/mo).</strong></p>
+          <a href="#waitlist" class="btn btn-primary">Choose Pro</a>
+          <br>
+          <a href="#compare_plans" class="btn btn-outline">Compare Plans</a>
+        </div>
+
+        <!-- MAX -->
+        <div class="price-card reveal">
+          <div class="price-label">
+            Individual / Max
+          </div>
+          <h3>Max</h3>
+          <div class="price-value">
+            ₹9,999 <span>/ mo</span>
+          </div>
+          <div class="price-hours">
+            500 Hours / mo
+          </div>
+          <p class="price-description">
+            High-compute capacity for AI startups, heavy developers, large experiments and workloads that demand extended hardware availability.</p>
+          <p class="price-description">
+            *Access an instance with 16GB RAM & Octa-core Processor <strong>Uncapped 24/7</strong>.</p>
+          <p class="price-description">
+            <strong>Upto 64GB RAM & 32GB VRAM(GPU) paired with a 16-Core processor (500 hrs/mo).</strong></p>
+          <a href="#waitlist" class="btn btn-outline">Choose Max</a>
+          <br>
+          <a href="#compare_plans" class="btn btn-outline">Compare Plans</a>
+        </div>
+      </div>
+
+      <!-- THREADRIPPER TURBO -->
+      <div class="turbo-callout reveal">
+        <div class="turbo-callout-text">
+          <div class="turbo-icon">
+            <svg width="21" height="21" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Threadripper Turbo (Launching Soon)</h4>
+            <p>Need quick 64-thread burst power? Book slots for ₹99/hr directly from your console.</p>
+          </div>
+        </div>
+        <div class="turbo-price">
+          ₹99 / hr
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================= -->
+    <!-- TAB B — CAMPUS VIRTUAL AI LAB -->
+    <!-- ================================================= -->
+    <div
+      class="pricing-panel"
+      data-pricing-panel="campus">
+      <div class="campus-panel">
+        <div class="campus-hero reveal">
+          <div class="price-label">
+            For Colleges, Universities &amp; Businesses
+          </div>
+          <h3>Replace ₹60+ Lakh CapEx AI Labs with an Air-Gapped Cloud.</h3>
+          <p>Give engineering teams, researchers and students shared access to high-performance AI infrastructure directly over your private LAN — without consuming external internet bandwidth or moving sensitive IP and research outside your organization.</p>
+        </div>
+        <div class="campus-package">
+
+          <!-- PACKAGE PRICE -->
+          <div class="campus-price-card reveal">
+            <h4>Starting From</h4>
+            <div class="campus-price">
+              ₹49,999
+              <span>/ month</span>
+            </div>
+            <div class="campus-hours">3,000+ POOLED HOURS</div>
+            <p class="price-description" style="margin-top:20px">
+              A centralized, high-performance compute environment built for multi-user access across enterprise R&D teams, university departments and research labs.</p>
+            <a href="#institutional-sales" class="btn btn-primary">Request Package</a>
+          </div>
+
+          <!-- PACKAGE FEATURES -->
+          <div class="campus-features reveal">
+            <div class="campus-feature">
+              <div class="campus-feature-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor"
+                  stroke-width="2.5" stroke-linecap="round">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              </div>
+              <p>Starting with<strong> 20 Starter Seats + 10 Pro Seats</strong> included in the package.</p>
+            </div>
+            <div class="campus-feature">
+              <div class="campus-feature-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor"
+                  stroke-width="2.5" stroke-linecap="round">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              </div>
+              <p><strong>Direct Connection</strong> with zero internet bandwidth usage for internal compute workloads.*</p>
+            </div>
+            <div class="campus-feature">
+              <div class="campus-feature-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor"
+                  stroke-width="2.5" stroke-linecap="round">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              </div>
+              <p><strong>Centralized Admin Panel</strong> with usage quota controls and centralized resource management.</p>
+            </div>
+            <div class="campus-feature">
+              <div class="campus-feature-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor"
+                  stroke-width="2.5" stroke-linecap="round">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              </div>
+              <p><strong>Upto 50% discount</strong>for bulk licensing.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================= -->
+    <!-- TAB C — ENTERPRISE DEDICATED+ -->
+    <!-- ================================================= -->
+    <div
+      class="pricing-panel"
+      data-pricing-panel="enterprise">
+      <div class="enterprise-pricing-grid">
+
+        <!-- DEDICATED -->
+        <div class="enterprise-price-card reveal">
+          <div class="price-label">
+            Enterprise
+          </div>
+          <h3>Dedicated</h3>
+          <div class="enterprise-price">
+            ₹19,999 <span>/ mo</span>
+          </div>
+          <p>A continuous, unshared High-performance node for businesses that need predictable dedicated compute capacity without sharing resources with other workloads.</p>
+          <br>
+          <p><strong>Upto 128GB RAM & 64GB VRAM(GPU) paired with 16-Core processor.</strong></p>
+          <br>
+          <a href="#waitlist" class="btn btn-outline">Talk to Sales</a>
+          <br>
+          <a href="#compare_plans" class="btn btn-outline">Compare Plans</a>
+        </div>
+
+        <!-- DEDICATED+ -->
+        <div class="enterprise-price-card featured reveal">
+          <div class="price-popular">
+            DEDICATED+
+          </div>
+          <div class="price-label">
+            Enterprise / High Performance
+          </div>
+          <h3>Dedicated+</h3>
+          <div class="enterprise-price">
+            ₹59,999 <span>/ mo</span>
+          </div>
+          <p>Unshared Ryzen Threadripper 32C/64T paired with an enterprise GPU rig for sustained high-performance workloads and demanding business applications.</p>
+          <br>
+          <p><strong>Upto 256GB RAM & 128GB VRAM(GPU) paired with a 32-Core Processor.</strong></p>
+          <br>
+          <a href="#waitlist" class="btn btn-primary">Talk to Sales</a>
+          <br>
+          <a href="#compare_plans" class="btn btn-outline">Compare Plans</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider-line"></div></div>
+
+<!-- ===== FULL PLAN SPECIFICATIONS ===== -->
+<section class="specs-section" id="compare_plans">
+  <div class="wrap">
+    <div class="specs-head reveal">
+      <div class="eyebrow" style="justify-content:center">
+        Plan Specifications
+      </div>
+      <h2>Every plan. Every resource. Clearly defined.</h2>
+      <p>Compare compute capacity, memory, GPU resources, data transfer and storage costs across every OneCloud plan.</p>
+    </div>
+
+    <!-- ===== MAIN SPECIFICATIONS TABLE ===== -->
+    <div class="specs-table-wrap reveal">
+      <table class="specs-table">
+        <thead>
+          <tr>
+            <th>Plan</th>
+            <th>Price / Mo</th>
+            <th>Hours / Mo</th>
+            <th>Node Type</th>
+            <th>CPU Core / Thread</th>
+            <th>GPU VRAM</th>
+            <th>RAM</th>
+            <th>Data Transfer Free / Mo</th>
+            <th>Data Transfer Rate / GB</th>
+            <th>Storage Cap</th>
+            <th>Storage Fee / GB / Mo</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- STARTER -->
+          <tr>
+            <td>Starter</td>
+            <td class="price-cell">₹1,499</td>
+            <td class="hours-cell">60</td>
+            <td class="node-cell">shared</td>
+            <td class="resource-cell">upto 6 / 12</td>
+            <td class="resource-cell">upto 8 GB</td>
+            <td class="resource-cell">upto 16 GB</td>
+            <td class="resource-cell">32 GB</td>
+            <td class="resource-cell">₹5</td>
+            <td class="resource-cell">Uncapped</td>
+            <td class="resource-cell">₹1.00</td>
+          </tr>
+
+          <!-- PRO -->
+          <tr>
+            <td>Pro</td>
+            <td class="price-cell">₹4,999</td>
+            <td class="hours-cell">220</td>
+            <td class="node-cell">shared</td>
+            <td class="resource-cell">upto 8 / 16</td>
+            <td class="resource-cell">upto 16 GB</td>
+            <td class="resource-cell">upto 32 GB</td>
+            <td class="resource-cell">128 GB</td>
+            <td class="resource-cell">₹5</td>
+            <td class="resource-cell">Uncapped</td>
+            <td class="resource-cell">₹1.00</td>
+          </tr>
+
+          <!-- MAX -->
+          <tr>
+            <td>Max</td>
+            <td class="price-cell">₹9,999</td>
+            <td class="hours-cell">500</td>
+            <td class="node-cell">shared</td>
+            <td class="resource-cell">upto 16 / 32</td>
+            <td class="resource-cell">upto 32 GB</td>
+            <td class="resource-cell">upto 64 GB</td>
+            <td class="resource-cell">512 GB</td>
+            <td class="resource-cell">₹5</td>
+            <td class="resource-cell">Uncapped</td>
+            <td class="resource-cell">₹1.00</td>
+          </tr>
+
+          <!-- DEDICATED -->
+          <tr>
+            <td>Dedicated</td>
+            <td class="price-cell">₹19,999</td>
+            <td class="hours-cell">720</td>
+            <td class="node-cell">dedicated</td>
+            <td class="resource-cell">upto 16 / 32</td>
+            <td class="resource-cell">upto 64 GB</td>
+            <td class="resource-cell">upto 128 GB</td>
+            <td class="resource-cell">1,024 GB</td>
+            <td class="resource-cell">₹5</td>
+            <td class="resource-cell">Uncapped</td>
+            <td class="resource-cell">₹0.50</td>
+          </tr>
+
+          <!-- DEDICATED+ -->
+          <tr>
+            <td>Dedicated+</td>
+            <td class="price-cell">₹49,999</td>
+            <td class="hours-cell">720</td>
+            <td class="node-cell">dedicated</td>
+            <td class="resource-cell">upto 32 / 64</td>
+            <td class="resource-cell">upto 128 GB</td>
+            <td class="resource-cell">upto 256 GB</td>
+            <td class="resource-cell">2,048 GB</td>
+            <td class="resource-cell">₹2</td>
+            <td class="resource-cell">Uncapped</td>
+            <td class="resource-cell">₹0.25</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="specs-note reveal">Data transfer rates and resource limits shown according to the current OneCloud plan specification.</div>
+
+    <!-- ===== THREADRIPPER SEPARATE CARD ===== -->
+    <div class="threadripper-spec-card reveal">
+      <div class="threadripper-info">
+        <div class="threadripper-icon">
+          <svg width="24" height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M13 2L4 14h7l-1 8 10-12h-7l0-8z"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Threadripper Turbo (Launching Soon)</h3>
+          <p>Pre-booked session with prepaid hours for burst Threadripper compute.</p>
+        </div>
+      </div>
+
+      <div class="threadripper-specs">
+        <div class="threadripper-stat">
+          <span class="threadripper-stat-label">Pricing</span>
+          <span class="threadripper-price">₹99 / hour</span>
+        </div>
+        <div class="threadripper-stat">
+          <span class="threadripper-stat-label">Hours</span>
+          <span class="threadripper-stat-value">Uncapped</span>
+        </div>
+        <div class="threadripper-stat">
+          <span class="threadripper-stat-label">Node</span>
+          <span class="threadripper-stat-value">Shared</span>
+        </div>
+        <div class="threadripper-stat">
+          <span class="threadripper-stat-label">CPU</span>
+          <span class="threadripper-stat-value">upto 32 / 64</span>
+        </div>
+        <div class="threadripper-stat">
+          <span class="threadripper-stat-label">GPU VRAM</span>
+          <span class="threadripper-stat-value">upto 32 GB</span>
+        </div>
+        <div class="threadripper-stat">
+          <span class="threadripper-stat-label">RAM</span>
+          <span class="threadripper-stat-value">upto 64 GB</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider-line"></div></div>
+
+<!-- ===== FREQUENTLY ASKED QUESTIONS ===== -->
+<section class="faq-section" id="faq">
+  <div class="wrap">
+    <div class="faq-head reveal">
+      <div class="eyebrow" style="justify-content:center">
+        FAQ
+      </div>
+      <h2>Questions before you get started?</h2>
+      <p>
+        Everything you need to know about payments, burst compute, private campus connectivity and usage quotas.
+      </p>
+    </div>
+    <div class="faq-list">
+
+      <!-- FAQ 01 -->
+      <div class="faq-item reveal open">
+        <button
+          class="faq-question"
+          type="button"
+          aria-expanded="true">
+          <span class="faq-question-text">
+            <span class="faq-number">
+              01
+            </span>
+            How do Capped vs. Uncapped hours work?
+          </span>
+          <span class="faq-icon">
+            <svg width="15" height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>
+              <span class="faq-highlight">Uncapped Hours</span> give you 24/7 continuous access to your core workspace (CPU & RAM) for editing code, managing files and running everyday tasks without watching the clock.
+              <span class="faq-highlight">Capped Hours</span> are high-performance resources allocated for heavy processing. <strong>For example:</strong> On the Starter Plan, you get an 8GB RAM & Quad-Core CPU workspace Uncapped 24/7, plus 60 Capped High-Performance Hours/month whenever you need high-end compute power.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 02 -->
+      <div class="faq-item reveal">
+        <button
+          class="faq-question"
+          type="button"
+          aria-expanded="false">
+          <span class="faq-question-text">
+            <span class="faq-number">
+              02
+            </span>
+            What happens if I use up all my capped GPU hours before the month ends?
+          </span>
+          <span class="faq-icon">
+            <svg width="15" height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Don't worry—your workspace never locks you out! <strong>You retain 24/7 uncapped access</strong> to your core CPU, RAM and stored files so you can keep editing code and managing projects until you have an active subscription. For extra GPU power, you have two instant options:
+              <span class="faq-highlight">Re-subscribe with the Same Plan</span> and continue computing
+              or <span class="faq-highlight">Upgrade Your Plan</span> instantly.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 03 -->
+      <div class="faq-item reveal">
+        <button
+          class="faq-question"
+          type="button"
+          aria-expanded="false">
+          <span class="faq-question-text">
+            <span class="faq-number">
+              03
+            </span>
+            How does the ₹99/hr Threadripper booking work?
+          </span>
+          <span class="faq-icon">
+            <svg width="15" height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>
+              From your OneCloud console, you can reserve a
+              <span class="faq-highlight">64-thread Threadripper burst slot</span> for the time you need it. Pre-booking reserves the required hardware in advance, helping you avoid queue waiting when you need short, high-performance compute bursts.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 04 -->
+      <div class="faq-item reveal">
+        <button
+          class="faq-question"
+          type="button"
+          aria-expanded="false">
+          <span class="faq-question-text">
+            <span class="faq-number">
+              04
+            </span>
+            How does the Direct Private Connection work for universities & enterprises?
+          </span>
+          <span class="faq-icon">
+            <svg width="15" height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>OneCloud connects directly into your institution's <span class="faq-highlight">private LAN</span>. Students, faculty, researchers and engineers access the compute environment locally without routing traffic over public internet, allowing supported workloads to communicate locally <strong>without consuming external internet bandwidth, ultrs-low latency and total data sovereignty.</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="divider-line"></div></div>
+
+<!-- =========================================================
+     PRIORITY WAITLIST CTA
+     ========================================================= -->
+<section class="waitlist-cta-section" id="waitlist">
+  <div class="wrap">
+    <div class="waitlist-cta reveal">
+      <div class="waitlist-cta-content">
+        <div class="waitlist-cta-eyebrow">
+          ⚡ BE FIRST IN LINE FOR HIGH-PERFORMANCE COMPUTE
+        </div>
+
+        <h2>Ready to Experience Compute That Scales With You?</h2>
+        <p class="waitlist-cta-subtext">Join the priority waitlist for early platform access. Get 24/7 uncapped workspaces, high-end GPU turbo slots and seamless billing the moment your seat opens up.</p>
+
+        <!-- WAITLIST FORM -->
+        <form
+          class="waitlist-form"
+          id="onecloudWaitlistForm">
+          <input
+            type="email"
+            class="waitlist-input"
+            id="waitlistEmail"
+            name="email"
+            placeholder="Enter your email address..."
+            autocomplete="email"
+            required
+          >
+          <select
+            class="waitlist-input waitlist-plan"
+            id="waitlistPlan"
+            name="plan"
+            required>
+            <option value="" disabled selected>
+              Select your interested plan...
+            </option>
+            <option value="starter">
+              Starter — ₹1,499 / month
+            </option>
+            <option value="pro">
+              Pro — ₹4,999 / month
+            </option>
+            <option value="max">
+              Max — ₹9,999 / month
+            </option>
+            <option value="dedicated">
+              Dedicated — ₹19,999 / month
+            </option>
+            <option value="dedicated-plus">
+              Dedicated+ — ₹49,999 / month
+            </option>
+            <option value="threadripper-turbo">
+              Threadripper Turbo — ₹99 / hour
+            </option>
+            <option value="institutional">
+              Institutional / Enterprise
+            </option>
+          </select>
+          <button
+            type="submit"
+            class="btn btn-primary">
+            Register Your Interest
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="M13 6l6 6-6 6"/>
+            </svg>
+          </button>
+        </form>
+        <!-- SUCCESS MESSAGE -->
+        <div
+          class="waitlist-success"
+          id="waitlistSuccess">
+          ✓ You're on the priority list. We'll notify you when your compute tier becomes available.
+        </div>
+
+        <!-- TRUST -->
+        <div class="waitlist-trust">
+          <span class="waitlist-trust-lock">
+            🔒
+          </span>
+          Zero spam. Instant notification when your compute tier launches.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     INSTITUTIONAL & ENTERPRISE CTA
+     ========================================================= -->
+<section
+  class="institutional-cta-section"
+  id="institutional-sales">
+  <div class="wrap">
+    <div class="institutional-cta reveal">
+      <div class="institutional-cta-content">
+
+        <!-- ===== LEFT CONTENT ===== -->
+        <div class="institutional-cta-text">
+          <div class="institutional-cta-eyebrow">
+            🏛️ INSTITUTIONS &amp; ENTERPRISES ONLY
+          </div>
+          <h2>
+            Skip the Waitlist. Secure Up to 50% Off Bulk Compute Licensing.</h2>
+          <p class="institutional-cta-subtext">While individual access opens rollout by rollout, institutional buyers can onboard their LAN or enterprise cloud immediately. Reserve your dedicated High-preformance pools today at pre-launch bulk rates.</p>
+
+          <!-- ===== KEY BENEFITS ===== -->
+          <div class="institutional-benefits">
+            <div class="institutional-benefit">
+              <span class="institutional-benefit-icon">
+                🎯
+              </span>
+              <span>
+                <strong>Up to 50% Off</strong>
+                pooled student and enterprise licenses.
+              </span>
+            </div>
+            <div class="institutional-benefit">
+              <span class="institutional-benefit-icon">
+                🔒
+              </span>
+              <span>
+                <strong>Direct Private LAN Setup</strong>
+                with complete data sovereignty.
+              </span>
+            </div>
+<!--
+            <div class="institutional-benefit">
+              <span class="institutional-benefit-icon">
+                ⚡
+              </span>
+              <span>
+                <strong>Dedicated Onboarding</strong>
+                and guaranteed enterprise SLAs.
+              </span>
+            </div>
+-->
+          </div>
+        </div>
+
+        <!-- ===== RIGHT ACTION PANEL ===== -->
+        <div class="institutional-cta-actions">
+          <div class="institutional-action-label">
+            Talk to OneCloud Sales
+          </div>
+          <div class="institutional-buttons">
+            <!-- PRIMARY -->
+            <a
+              href="#contact"
+              class="btn btn-primary">
+              Contact Sales Now
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M5 12h14"/>
+                <path d="M13 6l6 6-6 6"/>
+              </svg>
+            </a>
+            <!-- SECONDARY -->
+            <a
+              href="#contact"
+              class="btn btn-outline">
+              Schedule LAN Demo
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect
+                  x="3"
+                  y="4"
+                  width="18"
+                  height="17"
+                  rx="2"/>
+                <path d="M16 2v4"/>
+                <path d="M8 2v4"/>
+                <path d="M3 10h18"/>
+              </svg>
+            </a>
+          </div>
+          <div class="institutional-cta-note">
+            Private infrastructure · Bulk licensing · Institutional onboarding
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== FINAL CALL TO ACTION ===== -->
+<!--
+<section class="final-cta-section" id="cta">
+  <div class="wrap">
+    <div class="final-cta-banner reveal">
+      <div class="final-cta-content">
+        <div class="final-cta-text">
+          <div class="final-cta-eyebrow">
+            ⚡ BE FIRST IN LINE FOR HIGH-PERFORMANCE COMPUTE
+          </div>
+          <h2>
+            Ready to experience compute that scales with you?
+          </h2>
+          <p>
+            Join the priority waitlist for early platform access. Get 24/7 uncapped workspaces, high-end GPU turbo slots and seamless billing the moment your seat opens up.
+          </p>
+        </div>
+        <div class="final-cta-actions">
+        -->
+          <!-- PRIMARY CTA -->
+<!--
+          <a href="#contact" class="btn btn-primary">
+            Register Now
+            <svg width="16" height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="M13 6l6 6-6 6"/>
+            </svg>
+          </a>
+        -->
+          <!-- SECONDARY CTA -->
+<!--
+          <a href="#contact" class="btn btn-outline">
+            Contact Institutional Sales
+            <svg width="16" height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M4 4h16v16H4z"/>
+              <path d="M4 7l8 6 8-6"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="final-cta-note">
+        GPU compute · Threadripper burst · Private LAN · Air-gapped infrastructure
+      </div>
+    </div>
+  </div>
+</section>
+-->
+<!-- ===== FINAL CALL TO ACTION ===== -->
+<!--
+<section class="final-cta-section" id="cta">
+  <div class="wrap">
+    <div class="final-cta-banner reveal">
+      <div class="final-cta-content">
+        <div class="final-cta-text">
+          <div class="final-cta-eyebrow">
+            Start Building With OneCloud
+          </div>
+          <h2>
+            Ready to experience compute that scales with who you are?
+          </h2>
+          <p>
+            Join hundreds of AI builders, enterprise teams,
+            universities and enterprises scaling on OneCloud.
+          </p>
+        </div>
+        <div class="final-cta-actions">
+        -->
+          <!-- PRIMARY CTA -->
+<!--
+          <a href="#contact" class="btn btn-primary">
+            Register Now
+            <svg width="16" height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="M13 6l6 6-6 6"/>
+            </svg>
+          </a>
+        -->
+          <!-- SECONDARY CTA -->
+<!--
+          <a href="#contact" class="btn btn-outline">
+            Contact Institutional Sales
+            <svg width="16" height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M4 4h16v16H4z"/>
+              <path d="M4 7l8 6 8-6"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="final-cta-note">
+        GPU compute · Threadripper burst · Private LAN · Air-gapped infrastructure
+      </div>
+    </div>
+  </div>
+</section>
+-->
+  <!-- ===== TIERS ===== -->
+  <!-- ===== DEPLOYMENT MODES ===== -->
+<!--
+  <section class="pad" id="deployment">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow" style="justify-content:center">Deployment Modes</div>
+        <h2>Online, hybrid, or fully offline</h2>
+        <p>Every OneCloud tier maps to a different connectivity reality — choose the mode that matches how your environment actually operates.</p>
+      </div>
+
+      <div class="modes-grid reveal">
+        <div class="mode-card">
+          <div class="mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg></div>
+          <h4>Online Cloud</h4>
+          <p>Always-on, remotely accessible GPU compute — the default for Individual plans.</p>
+        </div>
+        <div class="mode-card">
+          <div class="mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg></div>
+          <h4>Hybrid (Online + Offline)</h4>
+          <p>Cloud-connected by default, with local fallback so operations continue during outages — built for Enterprise.</p>
+        </div>
+        <div class="mode-card">
+          <div class="mode-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg></div>
+          <h4>Fully Offline</h4>
+          <p>Entirely on-premise, zero external dependency — the standard for Institutional deployments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+-->
+
+  <!-- ===== CTA ===== -->
+<!--
+  <section class="pad" style="padding-top:0" id="cta">
+    <div class="wrap">
+      <div class="cta-banner reveal">
+        <div class="cta-text">
+          <h3>Find the right OneCloud tier for you</h3>
+          <p>Tell us how you work, and we'll help you pick the right plan and deployment mode.</p>
+        </div>
+        <a href="#contact" class="btn btn-outline">Request Access
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+-->
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img class="logo-img" src="onecloud_logo_t_white.png" alt="OneCloud logo">
+        <p>OneCloud is a GPU-accelerated cloud computing platform by OneOrigin, built for individuals, enterprises and educational institutions.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#plans">Plans</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>OneOrigin Family</h5>
+        <ul>
+          <li><a href="oneorigin.html">OneOrigin</a></li>
+          <li><a href="oneops.html">OneOps</a></li>
+          <li><a href="onecampus.html">OneCampus</a></li>
+          <li><a href="onecloud.html">OneCloud</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Contact Us</h5>
+        <div class="footer-contact-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13 1 .37 1.99.72 2.93a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.15-1.15a2 2 0 012.11-.45c.94.35 1.93.59 2.93.72A2 2 0 0122 16.92z"/></svg>+91 89711 70224</div>
+        <div class="footer-contact-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>contact@oneorigin-tech.com</div>
+        <div class="footer-contact-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>karnataka, India</div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 OneCloud, a product by OneOrigin Technologies. All rights reserved.</p>
+      <div class="socials">
+        <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0022 12z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2 3.77-2 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H9z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3c-.3-1-1-1.8-2-2C18.9 4.2 12 4.2 12 4.2s-6.9 0-8.5.5c-1 .2-1.7 1-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3c.3 1 1 1.7 2 2 1.6.5 8.5.5 8.5.5s6.9 0 8.5-.5c1-.3 1.7-1 2-2 .5-1.7.5-5.3.5-5.3zM9.7 15.4V8.6L15.8 12z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.addEventListener('click', ()=> navLinks.classList.remove('open'));
+  });
+
+  const spine = document.getElementById('spine');
+  window.addEventListener('scroll', ()=>{
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    spine.style.width = scrolled + '%';
+  });
+
+  const sections = ['home','arch','plans','faq','waitlist','institutions-sales','contact'].map(id=>document.getElementById(id)).filter(Boolean);
+  const navA = document.querySelectorAll('.nav-link');
+  const spyObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = entry.target.id;
+        navA.forEach(a=>{ a.classList.toggle('active', a.getAttribute('href') === '#'+id); });
+      }
+    });
+  }, {rootMargin:'-40% 0px -50% 0px', threshold:0});
+  sections.forEach(s=>spyObserver.observe(s));
+
+  const revealObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+
+    /* ===== PRICING TABS ===== */
+  const pricingTabs = document.querySelectorAll('.pricing-tab');
+  const pricingPanels = document.querySelectorAll('.pricing-panel');
+  pricingTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.pricingTab;
+      pricingTabs.forEach(item => {
+        item.classList.toggle(
+          'active',
+          item.dataset.pricingTab === target
+        );
+      });
+      pricingPanels.forEach(panel => {
+        panel.classList.toggle(
+          'active',
+          panel.dataset.pricingPanel === target
+        );
+      });
+
+      /* Re-observe newly displayed reveal elements */
+      document
+        .querySelectorAll(
+          `.pricing-panel[data-pricing-panel="${target}"] .reveal`
+        )
+        .forEach(el => {
+          el.classList.remove('in');
+          requestAnimationFrame(() => {
+            el.classList.add('in');
+          });
+        });
+    });
+  });
+
+    /* ===== FAQ ACCORDION ===== */
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    question.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      /* Close every FAQ */
+      faqItems.forEach(otherItem => {
+        otherItem.classList.remove('open');
+        const otherQuestion =
+          otherItem.querySelector('.faq-question');
+        otherQuestion.setAttribute(
+          'aria-expanded',
+          'false'
+        );
+      });
+      /* Open clicked FAQ if it was closed */
+      if (!isOpen) {
+        item.classList.add('open');
+        question.setAttribute(
+          'aria-expanded',
+          'true'
+        );
+      }
+    });
+  });
+  /* =========================================================
+   ONECLOUD PRIORITY WAITLIST
+   ========================================================= */
+const waitlistForm =
+  document.getElementById('onecloudWaitlistForm');
+const waitlistEmail =
+  document.getElementById('waitlistEmail');
+const waitlistPlan =
+  document.getElementById('waitlistPlan');
+const waitlistSuccess =
+  document.getElementById('waitlistSuccess');
+
+if (waitlistForm) {
+  waitlistForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const email = waitlistEmail.value.trim();
+    const plan = waitlistPlan.value;
+    if (!email || !plan) {
+      return;
+    }
+    try {
+      const response = await fetch(
+        "https://api.oneorigin-tech.com/waitlist",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: email,
+            plan: plan
+          })
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(
+          data.detail || "Registration failed."
+        );
+      }
+      // Hide form
+      waitlistForm.style.display = "none";
+      // Show success message
+      waitlistSuccess.classList.add("show");
+    } catch (error) {
+      console.error(
+        "Waitlist registration error:",
+        error
+      );
+      alert(
+        "We couldn't register your interest right now. Please try again."
+      );
+    }
+  });
+}
+    waitlistForm.style.display = 'none';
+    waitlistSuccess.classList.add('show');
+</script>
+</body>
+</html>
