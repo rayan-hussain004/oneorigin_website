@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZCVDB8EGW9"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-ZCVDB8EGW9');
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OneOrigin — One Origin. Infinite Possibilities.</title>
@@ -107,6 +98,17 @@
   .divider-line{height:1px;background:linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);}
 
   /* ===== PRODUCTS (OneOps / OneCampus) ===== */
+@media (max-width:900px){
+  .products-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media (max-width:600px){
+  .products-grid{
+    grid-template-columns:1fr;
+  }
+}
   .products-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;}
   .product-card{
     background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);
@@ -129,6 +131,7 @@
   }
   .product-card.oneops-card{border-top:3px solid #6673f5;}
   .product-card.onecampus-card{border-top:3px solid #0bbe55;}
+  .product-card.onecloud-card{border-top:3px solid #6c1fe0}
   .product-link{
     font-size:14px;font-weight:600;color:var(--cyan);
     display:inline-flex;align-items:center;gap:6px;
@@ -245,6 +248,7 @@
     .footer-bottom{flex-direction:column;text-align:center;}
   }
   @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+
   /* =========================================================
    ONECLOUD LAUNCH TEASER
    ========================================================= */
@@ -513,7 +517,7 @@
       <div class="hero-copy">
         <div class="eyebrow">The Company Behind the Products</div>
         <h1>One origin.<br><span class="grad">Infinite possibilities.</span></h1>
-        <p class="lead"><strong>OneOrigin</strong> builds the technology ecosystem that powers modern organizations — connecting business management, cloud infrastructure and campus technology through products like <strong>OneOps, OneCampus and OneCloud.</strong></p>
+        <p class="lead"><strong>OneOrigin</strong> builds the technology ecosystem that powers modern organizations — connecting business management, cloud infrastructure and campus technology through products like <strong>OneOps, OneCampus and OneCloud</strong>.</p>
         <div class="hero-ctas">
           <a href="#products" class="btn btn-primary">Explore Our Products
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -552,9 +556,9 @@
         <div class="eyebrow">About OneOrigin</div>
         <h2 style="font-size:clamp(24px,3vw,34px);margin-bottom:20px;line-height:1.15;">Every product starts from one origin</h2>
         <p><strong>OneOrigin</strong> was founded on a simple idea: modern organizations shouldn't have to rely on disconnected tools and infrastructure just to operate, build and grow. We create focused, enterprise-grade technology products — each designed to solve a real problem, while sharing the same foundation of <strong>security, reliability, thoughtful design and long-term support.</strong></p>
-        <p>Today, that foundation powers three products: <strong>OneOps</strong>, our business management platform for everyday operations; <strong>OneCampus</strong>, our campus management platform built for the specific needs of educational institutions and <strong>OneCloud</strong> our cloud compute and infrastructure platform for AI builders, enterprises and educational institutions.</p>
-        <p>As an MSME-registered, Indian-founded technology company, we don't just build products — we build lasting partnerships grounded in <strong>deep accountability, reliability and long-term commitment.</strong></p>
-        
+        <p>Today, that foundation powers three products: <strong>OneOps</strong>, our business management platform for everyday operations; <strong>OneCampus</strong>, our campus management platform built for the specific needs of educational institutions and <strong>OneCloud</strong>, our cloud compute and infrastructure platform for AI builders, enterprises and educational institutions.</p>
+        <p>As an MSME-registered, Indian-founded technology company, we don't just build products — we build lasting partnerships grounded in <strong>accountability, reliability and long-term commitment</strong>.</p>
+
         <div class="trust-badges">
           <div class="trust-badge">
             <div class="trust-badge-icon">
@@ -571,7 +575,7 @@
         <div class="story-row"><div class="story-dot"></div><div><p>One engineering team, one design system</p><span>Every OneOrigin product shares the same security and reliability foundation.</span></div></div>
         <div class="story-row"><div class="story-dot"></div><div><p>Built for real operational problems</p><span>Each product is shaped by the industries it actually serves.</span></div></div>
         <div class="story-row"><div class="story-dot"></div><div><p>Independent products, shared values</p><span>All products run independently, backed by the same company.</span></div></div>
-        <div class="story-row"><div class="story-dot"></div><div><p>Long-term partnership</p><span>Support and updates continue long after go-live.</span></div></div>
+        <div class="story-row"><div class="story-dot"></div><div><p>Long-term partnership, not just software</p><span>Support and updates continue long after go-live.</span></div></div>
       </div>
     </div>
   </section>
@@ -616,7 +620,7 @@
           <h3>OneCloud</h3>
           <p>High-performance cloud compute for AI builders, researchers,developers, creators, animators, designers, editors, analysts, quant traders, businesses and educational institutions — with GPU acceleration, Threadripper burst compute, private LAN deployment and air-gapped infrastructure.</p>
           <div class="product-tags"><span>GPU Compute</span><span>Threadripper</span><span>AI & Research</span><span>Creators & 3D Animators</span><span>Developers & Analysts</span></div>
-          <a href="onecloud.html" class="product-link">Visit OneCloud
+          <a href="onecloudS.html" class="product-link">Visit OneCloud
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>
@@ -649,7 +653,7 @@
         </div>
         <div class="why-card reveal">
           <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg></div>
-          <div><h4>Cloud & on-premise</h4><p>Deploy on our managed cloud or inside our infrastructure.</p></div>
+          <div><h4>Cloud & Private Infra</h4><p>Deploy on our managed cloud or inside our infrastructure.</p></div>
         </div>
         <div class="why-card reveal">
           <div class="why-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M21 7v6h-6"/></svg></div>
@@ -735,7 +739,6 @@
         <img class="logo-img" src="oneorigin_logo_white.png" alt="OneOrigin logo">
         <p>OneOrigin is the company behind OneOps, OneCampus & OneCloud — building focused, enterprise-grade technologies.</p>
       </div>
-
       <div class="footer-col">
         <h5>Quick Links</h5>
         <ul>
@@ -774,7 +777,8 @@
       </div>
     </div>
   </div>
-  <!-- =========================================================
+  
+<!-- =========================================================
      ONECLOUD LAUNCH TEASER
      ========================================================= -->
 <div
@@ -800,14 +804,18 @@
     </svg>
   </button>
   <a
-    href="onecloud.html"
+    href="onecloudS.html"
     class="onecloud-teaser-link">
     <div class="onecloud-teaser-label">
       <span class="onecloud-teaser-dot"></span>
       Something new from OneOrigin
     </div>
-    <h3>Something powerful just landed.</h3>
-    <p class="onecloud-teaser-description">Meet OneCloud — high-performance compute for AI builders, researchers, creators, developers and organizations.</p>
+    <h3>
+      Something powerful just landed.
+    </h3>
+    <p class="onecloud-teaser-description">
+      Meet OneCloud — high-performance & secure cloud storage for AI builders, researchers, creators, developers and organizations.
+    </p>
     <span class="onecloud-teaser-cta">
       Explore OneCloud
       <svg
@@ -827,7 +835,6 @@
   <div class="onecloud-teaser-line"></div>
 </div>
 </footer>
-
 <script>
   const burger = document.getElementById('burger');
   const navLinks = document.getElementById('navLinks');
@@ -890,31 +897,49 @@
     });
   }, {threshold:0.5});
   statEls.forEach(el=>statObserver.observe(el));
-/* =========================================================
+
+  /* =========================================================
    ONECLOUD LAUNCH TEASER
    ========================================================= */
+
 const onecloudTeaser =
   document.getElementById('onecloudTeaser');
+
 const onecloudTeaserClose =
   document.getElementById('onecloudTeaserClose');
+
+
 /* Show after 5 seconds */
+
 setTimeout(() => {
+
   if (
     onecloudTeaser &&
     !sessionStorage.getItem('onecloudTeaserClosed')
   ){
+
     onecloudTeaser.classList.add('show');
+
   }
+
 }, 5000);
+
+
 /* Close teaser */
+
 if (onecloudTeaserClose){
+
   onecloudTeaserClose.addEventListener('click', () => {
+
     onecloudTeaser.classList.remove('show');
+
     sessionStorage.setItem(
       'onecloudTeaserClosed',
       'true'
     );
+
   });
+
 }
 </script>
 </body>
