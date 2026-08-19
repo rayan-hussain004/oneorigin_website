@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OneOrigin — Digital Visiting Cards</title>
+<meta name="description" content="Save contact details for the OneOrigin team directly to your phone — digital visiting cards with one-tap download and QR scan.">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NCA2NCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMzhFMUZFIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjM0I2Qjk0Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHBhdGggZD0iTSA4LDMyIEMgOCwxNCAzMCwxNCA0MiwzMiBDIDU0LDUwIDc2LDUwIDc2LDMyIEMgNzYsMTQgNTQsMTQgNDIsMzIgQyAzMCw1MCA4LDUwIDgsMzIgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2cpIiBzdHJva2Utd2lkdGg9IjkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+  :root{
+    --bg:#0a0f16;
+    --bg-panel:#0f151f;
+    --bg-panel-2:#141c28;
+    --cyan:#38e1fe;
+    --slate:#3b6b94;
+    --text:#e9eef4;
+    --muted:#8b97a8;
+    --line:rgba(255,255,255,.08);
+    --grad: linear-gradient(120deg, var(--cyan), var(--slate));
+    --grad-soft: linear-gradient(120deg, rgba(56,225,254,.14), rgba(59,107,148,.16));
+    --radius: 14px;
+    --maxw: 1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans', sans-serif;line-height:1.6;overflow-x:hidden;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  ul{list-style:none;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono', monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;}
+  .eyebrow::before{content:"";width:16px;height:1px;background:var(--cyan);}
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif;font-weight:700;letter-spacing:-0.01em;}
+  section{position:relative;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:600;font-size:14px;border:1px solid transparent;cursor:pointer;transition:transform .2s ease, box-shadow .2s ease, background .2s ease;white-space:nowrap;}
+  .btn-primary{background:var(--grad);color:#06131c;box-shadow:0 8px 20px -8px rgba(56,225,254,.4);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px -8px rgba(59,107,148,.5);}
+  .btn-outline{background:transparent;border-color:var(--line);color:var(--text);}
+  .btn-outline:hover{border-color:var(--cyan);background:rgba(56,225,254,.08);}
+
+  /* ===== NAV ===== */
+  .parent-bar{background:#050710;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono', monospace;font-size:12.5px;color:var(--muted);}
+  .parent-bar .wrap{display:flex;align-items:center;gap:8px;padding:8px 32px;max-width:var(--maxw);}
+  .parent-bar a{color:var(--text);font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:color .2s ease;}
+  .parent-bar a:hover{color:var(--cyan);}
+  .parent-bar svg{color:var(--cyan);}
+
+  header{position:sticky;top:0;z-index:1000;background:rgba(10,15,22,.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;max-width:var(--maxw);margin:0 auto;}
+  .logo-img{height:30px;width:auto;}
+
+  /* ===== HERO ===== */
+  .hero{padding:64px 0 40px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(600px 320px at 50% 0%, rgba(56,225,254,.14), transparent 65%);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative;z-index:1;max-width:640px;margin:0 auto;}
+  .hero h1{font-size:clamp(28px,4vw,42px);line-height:1.15;margin-bottom:14px;}
+  .hero h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero p{color:var(--muted);font-size:15.5px;}
+
+  /* ===== CARDS GRID ===== */
+  .cards-section{padding:20px 0 90px;}
+  .cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+
+  .vcard{
+    background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px;display:flex;flex-direction:column;
+    transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    position:relative;overflow:hidden;
+  }
+  .vcard:hover{transform:translateY(-6px);border-color:rgba(56,225,254,.4);box-shadow:0 16px 40px -18px rgba(56,225,254,.35);}
+  .vcard-top{display:flex;align-items:center;gap:16px;margin-bottom:18px;}
+  .vcard-avatar{
+    width:58px;height:58px;border-radius:50%;flex-shrink:0;
+    background:var(--grad);display:flex;align-items:center;justify-content:center;
+    color:#06131c;font-family:'Space Grotesk';font-weight:700;font-size:19px;
+  }
+  .vcard-name{font-size:17px;font-weight:700;font-family:'Space Grotesk';}
+  .vcard-role{font-size:13px;color:var(--cyan);margin-top:2px;}
+
+  .vcard-details{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+  .vcard-detail{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted);}
+  .vcard-detail svg{color:var(--cyan);flex-shrink:0;}
+  .vcard-detail a{color:var(--text);transition:color .2s ease;}
+  .vcard-detail a:hover{color:var(--cyan);}
+  .vcard-actions{display:flex;gap:10px;margin-top:auto;}
+  .vcard-actions .btn{flex:1;}
+  .vcard-saved-tag{
+    display:none;align-items:center;gap:6px;font-size:12px;color:#4ade80;
+    margin-top:10px;font-family:'IBM Plex Mono';
+  }
+  .vcard-saved-tag.show{display:flex;}
+
+  /* ===== ADD MORE NOTE ===== */
+  .add-note{
+    margin-top:36px;background:var(--bg-panel);border:1px dashed var(--line);border-radius:var(--radius);
+    padding:22px 26px;display:flex;align-items:flex-start;gap:14px;
+  }
+  .add-note svg{color:var(--cyan);flex-shrink:0;margin-top:2px;}
+  .add-note p{color:var(--muted);font-size:13.5px;line-height:1.6;}
+  .add-note code{
+    background:var(--bg-panel-2);border:1px solid var(--line);border-radius:5px;
+    padding:1px 6px;font-family:'IBM Plex Mono';font-size:12px;color:var(--cyan);
+  }
+
+  /* ===== FOOTER ===== */
+  footer{border-top:1px solid var(--line);padding:40px 0;background:var(--bg-panel);}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .footer-inner p{color:var(--muted);font-size:13px;}
+  .footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+  .footer-links a{font-size:13.5px;color:var(--muted);transition:color .2s ease;}
+  .footer-links a:hover{color:var(--cyan);}
+
+  @media (max-width:900px){
+    .cards-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:620px){
+    .wrap{padding:0 20px;}
+    .cards-grid{grid-template-columns:1fr;}
+    .vcard-qr-row{flex-direction:column;align-items:flex-start;}
+    .footer-inner{flex-direction:column;text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+
+<header>
+  <nav class="wrap">
+    <div class="parent-bar">
+  <div class="wrap">
+    <svg width="14" height="14" viewBox="0 0 84 64" fill="none"><path d="M 8,32 C 8,14 30,14 42,32 C 54,50 76,50 76,32 C 76,14 54,14 42,32 C 30,50 8,50 8,32 Z" stroke="url(#pgv)" stroke-width="9" stroke-linecap="round"/><defs><linearGradient id="pgv" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38e1fe"/><stop offset="1" stop-color="#3b6b94"/></linearGradient></defs></svg>
+    A part of <a href="oneorigin.html">OneOrigin</a>
+  </div>
+</div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="eyebrow" style="justify-content:center">Digital Visiting Cards</div>
+      <h1>Save our <span class="grad">contact details</span> in one tap</h1>
+      <p>Tap "Save Contact" to add someone straight to your phone's address book.</p>
+    </div>
+  </section>
+  <section class="cards-section">
+    <div class="wrap">
+      <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <p>© 2026 OneOrigin. Digital visiting cards.</p>
+    <div class="footer-links">
+      <a href="oneorigin.html">OneOrigin</a>
+      <a href="oneops.html">OneOps</a>
+      <a href="onecampus.html">OneCampus</a>
+      <a href="onecloudC.html">OneCloud (Compute)</a>
+      <a href="onecloudS.html">OneCloud (Storage)</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ============================================================
+     EDIT THIS LIST to add your own and your employees' details.
+     Duplicate an object below for each new person.
+     - initials: 1-2 letters shown in the avatar circle
+     - phone: include country code, e.g. "+91 89711 70224"
+     - website is optional — remove the line if not needed
+  ============================================================ */
+  const team = [
+    {
+      name: "Rayan",
+      role: "Founder & CEO",
+      initials: "R",
+      phone: "+91 70224 19214",
+      email: "rayan@oneorigin-tech.com",
+      location: "Karnataka, India",
+      website: "https://oneorigin-tech.com"
+    },
+    {
+      name: "Hussain",
+      role: "Marketing & Sales",
+      initials: "H",
+      phone: "+91 89711 70224",
+      email: "hussain@oneorigin-tech.com",
+      location: "Karnataka, India",
+      website: "https://oneorigin-tech.com"
+    },
+    {
+      name: "Sheikh",
+      role: "Relationship Management",
+      initials: "S",
+      phone: "+91 89718 89594",
+      email: "sheikh@oneorigin-tech.com",
+      location: "Karnataka, India",
+      website: "https://oneorigin-tech.com"
+    }
+  ];
+
+  function buildVCard(p){
+    return [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      "N:;" + p.name + ";;;",
+      "FN:" + p.name,
+      "ORG:OneOrigin",
+      "TITLE:" + p.role,
+      "TEL;TYPE=CELL:" + p.phone,
+      "EMAIL:" + p.email,
+      "ADR;TYPE=WORK:;;" + p.location + ";;;;",
+      p.website ? "URL:" + p.website : "",
+      "END:VCARD"
+    ].filter(Boolean).join("\n");
+  }
+
+  function downloadVCard(p){
+    const vcf = buildVCard(p);
+    const blob = new Blob([vcf], {type:"text/vcard;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = p.name.replace(/\s+/g,'_') + '.vcf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  const grid = document.getElementById('cardsGrid');
+
+  team.forEach((p, i)=>{
+    const card = document.createElement('div');
+    card.className = 'vcard';
+    card.innerHTML = `
+      <div class="vcard-top">
+        <div class="vcard-avatar">${p.initials}</div>
+        <div>
+          <div class="vcard-name">${p.name}</div>
+          <div class="vcard-role">${p.role}</div>
+        </div>
+      </div>
+      <div class="vcard-details">
+        <div class="vcard-detail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13 1 .37 1.99.72 2.93a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.15-1.15a2 2 0 012.11-.45c.94.35 1.93.59 2.93.72A2 2 0 0122 16.92z"/></svg><a href="tel:${p.phone.replace(/\s+/g,'')}">${p.phone}</a></div>
+        <div class="vcard-detail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg><a href="mailto:${p.email}">${p.email}</a></div>
+        <div class="vcard-detail"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>${p.location}</span></div>
+      </div>
+      <div class="vcard-actions">
+        <button class="btn btn-primary" data-idx="${i}" data-action="save">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Save Contact
+        </button>
+        <a class="btn btn-outline" href="mailto:${p.email}">Email</a>
+      </div>
+      <div class="vcard-saved-tag" id="saved-${i}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+        Contact file downloaded
+      </div>
+    `;
+    grid.appendChild(card);
+
+  });
+
+  grid.addEventListener('click', function(e){
+    const btn = e.target.closest('[data-action="save"]');
+    if(!btn) return;
+    const idx = btn.getAttribute('data-idx');
+    downloadVCard(team[idx]);
+    const tag = document.getElementById('saved-' + idx);
+    tag.classList.add('show');
+    setTimeout(()=> tag.classList.remove('show'), 3500);
+  });
+</script>
+
+</body>
+</html>
