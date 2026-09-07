@@ -19,5 +19,15 @@
         "DEPARTMENT": "Computer Science",
         "ISSUE DATE": "07-09-2026",
         "STATUS": "PUBLISHED"
+    },
+    "OCT/TC/S001":{
+        "PUBLISHED BY":"OCT",
+        "BEARER NAME":"Aarav Sharma",
+        "DOB":"2004-12-15",
+        "GENDER":"Male",
+        "AADHAR NO.":"82462545821",
+        "FATHER NAME":"Mr. A.Sharma",
+        "MOTHER NAME":"Mrs. A. Sharma"
     }
+        
 }
