@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document Verification | OneOrigin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root {
+            --bg: #0a0f16;
+            --bg-panel: #0f151f;
+            --bg-panel-2: #141c28;
+
+            --cyan: #38e1fe;
+            --slate: #3b6b94;
+
+            --text: #e9eef4;
+            --muted: #8b97a8;
+
+            --line: rgba(255,255,255,.08);
+
+            --grad: linear-gradient(
+                120deg,
+                var(--cyan),
+                var(--slate)
+            );
+
+            --grad-soft: linear-gradient(
+                120deg,
+                rgba(56,225,254,.14),
+                rgba(59,107,148,.16)
+            );
+
+            --radius: 14px;
+            --maxw: 1180px;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            background:
+                radial-gradient(
+                    circle at 50% -10%,
+                    rgba(56,225,254,.10),
+                    transparent 40%
+                ),
+                var(--bg);
+
+            color: var(--text);
+
+            font-family: "IBM Plex Sans", sans-serif;
+
+            min-height: 100vh;
+        }
+
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+
+        .wrap {
+            width: min(100% - 40px, var(--maxw));
+            margin: auto;
+        }
+
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            backdrop-filter: blur(14px);
+
+            background: rgba(10,15,22,.78);
+
+            border-bottom: 1px solid var(--line);
+        }
+
+
+        .nav {
+            min-height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        .brand {
+            font-family: "Space Grotesk", sans-serif;
+
+            font-size: 20px;
+            font-weight: 700;
+
+            letter-spacing: -.4px;
+        }
+
+
+        .brand span {
+            color: var(--cyan);
+        }
+
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        .nav-link:hover {
+            color: var(--text);
+        }
+
+
+        /* HERO */
+
+        .hero {
+            padding: 100px 0 55px;
+
+            text-align: center;
+        }
+
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+
+            padding: 7px 12px;
+
+            border: 1px solid rgba(56,225,254,.18);
+
+            border-radius: 999px;
+
+            background: rgba(56,225,254,.05);
+
+            color: var(--cyan);
+
+            font-family: "IBM Plex Mono", monospace;
+
+            font-size: 12px;
+            letter-spacing: .8px;
+        }
+
+
+        h1 {
+            margin: 22px 0 15px;
+
+            font-family: "Space Grotesk", sans-serif;
+
+            font-size: clamp(38px, 6vw, 64px);
+
+            line-height: 1.05;
+
+            letter-spacing: -2px;
+        }
+
+
+        .hero h1 span {
+            background: var(--grad);
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+
+        .hero p {
+            max-width: 680px;
+
+            margin: auto;
+
+            color: var(--muted);
+
+            font-size: 17px;
+
+            line-height: 1.7;
+        }
+
+
+        /* SEARCH */
+
+        .verification-box {
+            width: min(100%, 760px);
+
+            margin: 15px auto 80px;
+
+            padding: 8px;
+
+            display: flex;
+
+            background: var(--bg-panel);
+
+            border: 1px solid var(--line);
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,.28);
+        }
+
+
+        .verification-box input {
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 18px 20px;
+
+            border: 0;
+            outline: 0;
+
+            background: transparent;
+
+            color: var(--text);
+
+            font-family: "IBM Plex Mono", monospace;
+
+            font-size: 15px;
+        }
+
+
+        .verification-box input::placeholder {
+            color: #687587;
+        }
+
+
+        .verify-btn {
+            border: 0;
+
+            padding: 0 25px;
+
+            border-radius: 11px;
+
+            background: var(--grad);
+
+            color: #061018;
+
+            font-family: "IBM Plex Sans", sans-serif;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: .2s ease;
+        }
+
+
+        .verify-btn:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 8px 30px rgba(56,225,254,.16);
+        }
+
+
+        /* RESULT */
+
+        #result {
+            display: none;
+
+            margin-bottom: 100px;
+        }
+
+
+        .result-card {
+            overflow: hidden;
+
+            background: var(--bg-panel);
+
+            border: 1px solid var(--line);
+
+            border-radius: var(--radius);
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,.25);
+        }
+
+
+        /* STATUS */
+
+        .verification-status {
+            padding: 25px 28px;
+
+            border-bottom: 1px solid var(--line);
+
+            background: var(--grad-soft);
+        }
+
+
+        .status-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-family: "Space Grotesk", sans-serif;
+
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+
+        .status-icon {
+            width: 34px;
+            height: 34px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            background: rgba(56,225,254,.12);
+
+            color: var(--cyan);
+
+            font-size: 18px;
+        }
+
+
+        .status-message {
+            margin: 10px 0 0 46px;
+
+            color: var(--muted);
+
+            line-height: 1.6;
+        }
+
+
+        /* REFERENCE */
+
+        .reference {
+            padding: 22px 28px;
+
+            border-bottom: 1px solid var(--line);
+        }
+
+
+        .reference-label {
+            color: var(--muted);
+
+            font-family: "IBM Plex Mono", monospace;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+
+        .reference-number {
+            margin-top: 7px;
+
+            font-family: "IBM Plex Mono", monospace;
+
+            font-size: 18px;
+
+            color: var(--cyan);
+
+            word-break: break-all;
+        }
+
+
+        /* DATA */
+
+        .data-section {
+            padding: 28px;
+        }
+
+
+        .data-title {
+            margin-bottom: 20px;
+
+            font-family: "Space Grotesk", sans-serif;
+
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+
+        .data-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 1px;
+
+            background: var(--line);
+
+            border: 1px solid var(--line);
+
+            border-radius: 12px;
+
+            overflow: hidden;
+        }
+
+
+        .data-item {
+            padding: 18px;
+
+            background: var(--bg-panel-2);
+        }
+
+
+        .data-key {
+            margin-bottom: 7px;
+
+            color: var(--muted);
+
+            font-family: "IBM Plex Mono", monospace;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .6px;
+        }
+
+
+        .data-value {
+            color: var(--text);
+
+            font-size: 15px;
+
+            line-height: 1.5;
+
+            word-break: break-word;
+        }
+
+
+        /* NESTED / ARRAY DATA */
+
+        .data-value pre {
+            margin: 0;
+
+            white-space: pre-wrap;
+            word-break: break-word;
+
+            color: var(--text);
+
+            font-family: "IBM Plex Mono", monospace;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        /* NOT FOUND */
+
+        .not-found {
+            padding: 35px;
+
+            text-align: center;
+
+            background: var(--bg-panel);
+
+            border: 1px solid rgba(255,100,100,.15);
+
+            border-radius: var(--radius);
+        }
+
+
+        .not-found-icon {
+            font-size: 35px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .not-found h3 {
+            margin: 0 0 8px;
+
+            font-family: "Space Grotesk", sans-serif;
+
+            font-size: 22px;
+        }
+
+
+        .not-found p {
+            margin: 0;
+
+            color: var(--muted);
+
+            line-height: 1.6;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            padding: 30px 0;
+
+            border-top: 1px solid var(--line);
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+
+        .footer-inner {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .wrap {
+                width: min(100% - 24px, var(--maxw));
+            }
+
+
+            .hero {
+                padding: 70px 0 40px;
+            }
+
+
+            .verification-box {
+                flex-direction: column;
+
+                padding: 8px;
+            }
+
+
+            .verification-box input {
+                width: 100%;
+
+                padding: 17px;
+            }
+
+
+            .verify-btn {
+                min-height: 50px;
+            }
+
+
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .footer-inner {
+                flex-direction: column;
+
+                text-align: center;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="wrap nav">
+
+        <a href="index.html" class="brand">
+            One<span>Origin</span>
+        </a>
+
+        <div class="nav-right">
+
+            <a href="index.html" class="nav-link">
+                OneOrigin
+            </a>
+
+            <span>•</span>
+
+            <span>Document Verification</span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="wrap">
+
+            <div class="eyebrow">
+                DOCUMENT AUTHENTICATION
+            </div>
+
+
+            <h1>
+                Verify a <span>Document.</span>
+            </h1>
+
+
+            <p>
+                Enter the unique reference number printed on the document
+                to verify the document details published by our client.
+            </p>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- SEARCH -->
+
+    <div class="wrap">
+
+        <form
+            class="verification-box"
+            id="verificationForm"
+        >
+
+            <input
+                type="text"
+                id="referenceInput"
+                placeholder="Enter document reference number..."
+                autocomplete="off"
+                required
+            >
+
+            <button
+                type="submit"
+                class="verify-btn"
+            >
+                Verify Document →
+            </button>
+
+        </form>
+
+
+        <!-- RESULT WILL APPEAR HERE -->
+
+        <div id="result"></div>
+
+    </div>
+
+
+</main>
+
+
+
+<footer>
+
+    <div class="wrap footer-inner">
+
+        <div>
+            © 2026 OneOrigin Technologies
+        </div>
+
+        <div>
+            Official Document Verification Portal
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<script>
+
+    /*
+    ============================================================
+    JSON FILE
+    ============================================================
+
+    Change this to your actual JSON file.
+
+    Example:
+
+    documents.json
+
+    */
+
+    const JSON_FILE = "documents.json";
+
+
+    let documents = {};
+
+
+
+    /*
+    ============================================================
+    LOAD JSON
+    ============================================================
+    */
+
+    async function loadDocuments() {
+
+        try {
+
+            const response = await fetch(JSON_FILE);
+
+            if (!response.ok) {
+                throw new Error("Unable to load document database.");
+            }
+
+            documents = await response.json();
+
+            console.log("Document database loaded.");
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            documents = {};
+
+        }
+
+    }
+
+
+
+    /*
+    ============================================================
+    DISPLAY VALUE
+    ============================================================
+    */
+
+    function formatValue(value) {
+
+        /*
+        If the value is an object or array,
+        show the complete JSON.
+        */
+
+        if (
+            typeof value === "object" &&
+            value !== null
+        ) {
+
+            return `
+                <pre>${escapeHTML(
+                    JSON.stringify(value, null, 2)
+                )}</pre>
+            `;
+
+        }
+
+
+        return escapeHTML(String(value));
+
+    }
+
+
+
+    /*
+    ============================================================
+    ESCAPE HTML
+    ============================================================
+    */
+
+    function escapeHTML(value) {
+
+        return value
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+
+    /*
+    ============================================================
+    FIND DOCUMENT
+    ============================================================
+    */
+
+    function findDocument(reference) {
+
+        /*
+        OPTION 1
+
+        If your JSON looks like:
+
+        {
+            "DOC-001": {
+                "student_name": "...",
+                "document_type": "..."
+            },
+
+            "DOC-002": {
+                ...
+            }
+        }
+
+        */
+
+        if (
+            documents &&
+            typeof documents === "object" &&
+            !Array.isArray(documents)
+        ) {
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    documents,
+                    reference
+                )
+            ) {
+
+                return documents[reference];
+
+            }
+
+        }
+
+
+        /*
+        OPTION 2
+
+        If your JSON looks like:
+
+        {
+            "documents": [
+                {
+                    "reference_no": "DOC-001",
+                    ...
+                }
+            ]
+        }
+
+        */
+
+        if (Array.isArray(documents.documents)) {
+
+            return documents.documents.find(
+                doc =>
+                    String(
+                        doc.reference_no ??
+                        doc.reference_number ??
+                        doc.ref_no ??
+                        ""
+                    ).toLowerCase() === reference.toLowerCase()
+            );
+
+        }
+
+
+        /*
+        OPTION 3
+
+        If your JSON itself is an array:
+
+        [
+            {
+                "reference_no": "DOC-001",
+                ...
+            }
+        ]
+
+        */
+
+        if (Array.isArray(documents)) {
+
+            return documents.find(
+                doc =>
+                    String(
+                        doc.reference_no ??
+                        doc.reference_number ??
+                        doc.ref_no ??
+                        ""
+                    ).toLowerCase() === reference.toLowerCase()
+            );
+
+        }
+
+
+        return null;
+
+    }
+
+
+
+    /*
+    ============================================================
+    DISPLAY DOCUMENT
+    ============================================================
+    */
+
+    function showDocument(documentData, reference) {
+
+        const result = document.getElementById("result");
+
+
+        /*
+        Get ALL keys from JSON
+        */
+
+        let dataHTML = "";
+
+
+        Object.entries(documentData).forEach(
+            ([key, value]) => {
+
+                dataHTML += `
+
+                    <div class="data-item">
+
+                        <div class="data-key">
+                            ${escapeHTML(key)}
+                        </div>
+
+                        <div class="data-value">
+                            ${formatValue(value)}
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+        result.innerHTML = `
+
+            <div class="result-card">
+
+
+                <!-- AUTHENTICATION STATUS -->
+
+                <div class="verification-status">
+
+                    <div class="status-title">
+
+                        <div class="status-icon">
+                            ✓
+                        </div>
+
+                        Document Found
+                        
+                    </div>
+
+
+                    <div class="status-message">
+
+                        This reference number exists in the
+                        OneOrigin document verification database.
+                        Compare the information below with the
+                        physical document.
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- REFERENCE NUMBER -->
+
+                <div class="reference">
+
+                    <div class="reference-label">
+                        Document Reference Number
+                    </div>
+
+                    <div class="reference-number">
+                        ${escapeHTML(reference)}
+                    </div>
+
+                </div>
+
+
+
+                <!-- COMPLETE JSON DATA -->
+
+                <div class="data-section">
+
+                    <div class="data-title">
+                        Published Document Details
+                    </div>
+
+
+                    <div class="data-grid">
+
+                        ${dataHTML}
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- AUTHENTICATION MESSAGE -->
+
+                <div class="verification-status">
+
+                    <div class="status-title">
+
+                        <div class="status-icon">
+                            ✓
+                        </div>
+
+                        Physical Document Verification
+
+                    </div>
+
+
+                    <div class="status-message">
+
+                        If all the details displayed above exactly
+                        match the information printed on the physical
+                        document, the physical document is a legitimate
+                        document published by the respective OneOrigin
+                        client.
+
+                        <br><br>
+
+                        If any important detail does not match,
+                        the document should not be considered
+                        authenticated based on this verification.
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+
+        result.style.display = "block";
+
+
+        result.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    }
+
+
+
+    /*
+    ============================================================
+    NOT FOUND
+    ============================================================
+    */
+
+    function showNotFound(reference) {
+
+        const result = document.getElementById("result");
+
+
+        result.innerHTML = `
+
+            <div class="not-found">
+
+                <div class="not-found-icon">
+                    ⚠
+                </div>
+
+
+                <h3>
+                    Document Not Found
+                </h3>
+
+
+                <p>
+
+                    No document was found for reference number
+
+                    <strong>
+                        ${escapeHTML(reference)}
+                    </strong>.
+
+                    <br><br>
+
+                    Please check the reference number printed
+                    on the physical document and try again.
+
+                </p>
+
+            </div>
+
+        `;
+
+
+        result.style.display = "block";
+
+
+        result.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    }
+
+
+
+    /*
+    ============================================================
+    FORM SUBMISSION
+    ============================================================
+    */
+
+    document
+        .getElementById("verificationForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+
+            const input =
+                document.getElementById("referenceInput");
+
+
+            const reference =
+                input.value.trim();
+
+
+            if (!reference) {
+                return;
+            }
+
+
+            const documentData =
+                findDocument(reference);
+
+
+            if (documentData) {
+
+                showDocument(
+                    documentData,
+                    reference
+                );
+
+            }
+
+            else {
+
+                showNotFound(reference);
+
+            }
+
+        });
+
+
+
+    /*
+    ============================================================
+    LOAD DATABASE WHEN PAGE OPENS
+    ============================================================
+    */
+
+    loadDocuments();
+
+</script>
+
+
+</body>
+</html>

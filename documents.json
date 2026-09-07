@@ -1,0 +1,23 @@
+{
+    "abc": {
+        "PUBLISHED BY": "CLIENT1",
+        "BEARER NAME": "ABC"
+    },
+
+    "xyz": {
+        "PUBLISHED BY": "CLIENT2",
+        "BEARER NAME": "XYZ",
+        "DOCUMENT TYPE": "NO DUE CERTIFICATE",
+        "ISSUE DATE": "07-09-2026"
+    },
+
+    "123": {
+        "PUBLISHED BY": "CLIENT3",
+        "BEARER NAME": "John",
+        "STUDENT ID": "STU001",
+        "COURSE": "B.Tech",
+        "DEPARTMENT": "Computer Science",
+        "ISSUE DATE": "07-09-2026",
+        "STATUS": "PUBLISHED"
+    }
+}
