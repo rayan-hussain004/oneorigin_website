@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms &amp; Conditions — OneCampus | OneOrigin</title>
+<meta name="description" content="Terms and Conditions for OneCampus clients, a OneOrigin product.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#08090B;
+    --surface:#0F1119;
+    --surface-raised:#151827;
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.16);
+    --text:#E9EBF2;
+    --muted:#8fa89b;
+    --muted-dim:#5C6070;
+    --campus-1:#0bbe55;
+    --campus-2:#9be838;
+    --campus-grad: linear-gradient(120deg, var(--campus-1), var(--campus-2));
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'IBM Plex Sans', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+    --radius:10px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;} }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;}
+  ::selection{background:var(--campus-1); color:#fff;}
+
+  /* scroll progress */
+  #progress-bar{
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background:var(--campus-grad);
+    z-index:1000;
+    transition:width 0.1s linear;
+  }
+
+  /* header */
+  header.site-header{
+    position:sticky; top:0; z-index:900;
+    background:rgba(8,9,11,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+    padding:16px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:10px; text-decoration:none;
+    font-family:var(--font-display);
+  }
+  .brand .mark{
+    width:30px; height:30px; border-radius:8px;
+    background:var(--campus-grad);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:14px; color:#0A0A0D;
+    flex:none;
+  }
+  .brand .name{font-size:17px; font-weight:600; letter-spacing:-0.01em;}
+  .brand .sub{font-size:12px; color:var(--muted); font-family:var(--font-mono); font-weight:400;}
+
+  .header-right{display:flex; align-items:center; gap:18px;}
+  .parent-link{
+    font-size:13px; color:var(--muted); text-decoration:none;
+    font-family:var(--font-mono);
+    display:flex; align-items:center; gap:6px;
+  }
+  .parent-link:hover{color:var(--text);}
+
+  .nav-toggle{
+    display:none;
+    background:none; border:1px solid var(--border-strong); border-radius:8px;
+    width:38px; height:38px; color:var(--text); cursor:pointer;
+    align-items:center; justify-content:center;
+  }
+
+  /* layout */
+  .layout{
+    display:grid;
+    grid-template-columns:240px minmax(0,1fr);
+    max-width:1180px;
+    margin:0 auto;
+    gap:56px;
+    padding:44px 28px 0;
+  }
+
+  nav.toc{
+    position:sticky; top:88px; align-self:start;
+    max-height:calc(100vh - 120px);
+    overflow-y:auto;
+    padding-right:8px;
+  }
+  nav.toc::-webkit-scrollbar{width:4px;}
+  nav.toc::-webkit-scrollbar-thumb{background:var(--border-strong); border-radius:4px;}
+
+  .toc-label{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em;
+    color:var(--muted-dim); margin-bottom:14px; text-transform:none;
+  }
+  .toc-list{list-style:none; display:flex; flex-direction:column; gap:2px;}
+  .toc-list a{
+    display:flex; align-items:baseline; gap:10px;
+    text-decoration:none; color:var(--muted);
+    font-size:13.5px; padding:8px 10px; border-radius:7px;
+    border-left:2px solid transparent;
+    transition:color .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .toc-list a .idx{font-family:var(--font-mono); font-size:11px; color:var(--muted-dim); flex:none; width:16px;}
+  .toc-list a:hover{color:var(--text); background:rgba(255,255,255,0.03);}
+  .toc-list a.active{
+    color:var(--text);
+    background:rgba(62,107,255,0.09);
+    border-left-color:var(--campus-1);
+  }
+  .toc-list a.active .idx{color:var(--campus-1);}
+
+  main{min-width:0; padding-bottom:140px;}
+
+  .doc-head{padding-bottom:36px; border-bottom:1px solid var(--border); margin-bottom:44px;}
+  .doc-eyebrow{
+    font-family:var(--font-mono); font-size:12px; color:var(--campus-1);
+    margin-bottom:14px;
+  }
+  h1.doc-title{
+    font-family:var(--font-display); font-weight:600;
+    font-size:clamp(30px, 4vw, 44px);
+    letter-spacing:-0.02em; line-height:1.12;
+    max-width:14ch;
+    margin-bottom:18px;
+  }
+  .doc-meta{
+    display:flex; flex-wrap:wrap; gap:18px;
+    font-size:13px; color:var(--muted);
+  }
+  .doc-meta span{display:flex; align-items:center; gap:6px;}
+  .doc-meta strong{color:var(--text); font-weight:500;}
+
+  section.terms-section{
+    padding:36px 0; border-bottom:1px solid var(--border);
+    scroll-margin-top:88px;
+  }
+  section.terms-section:last-of-type{border-bottom:none;}
+  section.terms-section.reading{
+    background:linear-gradient(90deg, rgba(62,107,255,0.06), transparent 60%);
+    margin:0 -20px; padding:36px 20px; border-radius:12px;
+  }
+
+  .sec-head{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+    margin-bottom:16px;
+  }
+  h2.sec-title{
+    font-family:var(--font-display); font-weight:600;
+    font-size:22px; letter-spacing:-0.01em;
+    display:flex; align-items:baseline; gap:12px;
+  }
+  h2.sec-title .num{
+    font-family:var(--font-mono); font-size:14px; color:var(--campus-1); font-weight:400;
+  }
+
+  .listen-btn{
+    flex:none;
+    display:flex; align-items:center; gap:7px;
+    background:var(--surface-raised);
+    border:1px solid var(--border-strong);
+    color:var(--muted);
+    font-family:var(--font-mono); font-size:11.5px;
+    padding:7px 12px; border-radius:20px;
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
+  }
+  .listen-btn:hover{color:var(--text); border-color:var(--campus-1);}
+  .listen-btn.playing{
+    color:#fff; background:var(--campus-grad); border-color:transparent;
+  }
+  .listen-btn svg{width:12px; height:12px; flex:none;}
+
+  section.terms-section p{color:#C7CADA; max-width:66ch; margin-bottom:14px; font-size:15px;}
+  section.terms-section p:last-child{margin-bottom:0;}
+  section.terms-section ul, section.terms-section ol{
+    max-width:64ch; margin:14px 0 14px 20px; color:#C7CADA; font-size:15px;
+  }
+  section.terms-section li{margin-bottom:8px;}
+  section.terms-section strong{color:var(--text); font-weight:600;}
+
+  /* audio dock */
+  #audio-dock{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    z-index:950;
+    background:rgba(15,17,25,0.92);
+    backdrop-filter:blur(14px);
+    border:1px solid var(--border-strong);
+    border-radius:100px;
+    padding:10px 10px 10px 18px;
+    display:flex; align-items:center; gap:14px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.5);
+    max-width:calc(100vw - 32px);
+  }
+  #dock-status{
+    font-family:var(--font-mono); font-size:12px; color:var(--muted);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    max-width:220px;
+  }
+  #dock-status .dot{
+    display:inline-block; width:6px; height:6px; border-radius:50%;
+    background:var(--campus-1); margin-right:8px; flex:none;
+    animation:none;
+  }
+  #dock-status.live .dot{animation:pulse 1.2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.25;}}
+
+  .dock-btn{
+    flex:none; width:38px; height:38px; border-radius:50%;
+    border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--surface-raised); color:var(--text);
+    transition:background .15s ease;
+  }
+  .dock-btn:hover{background:#1C2032;}
+  .dock-btn.primary{background:var(--campus-grad); color:#fff; width:42px; height:42px;}
+  .dock-btn svg{width:15px; height:15px;}
+  .dock-btn:disabled{opacity:0.35; cursor:not-allowed;}
+
+  /* footer / download */
+  .doc-footer{
+    margin-top:20px; padding-top:44px;
+    display:flex; flex-direction:column; align-items:flex-start; gap:18px;
+  }
+  .doc-footer p{color:var(--muted); font-size:13.5px; max-width:60ch;}
+  .download-btn{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--campus-grad); color:#fff;
+    font-family:var(--font-body); font-weight:600; font-size:14.5px;
+    border:none; border-radius:9px; padding:14px 24px;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow:0 8px 24px rgba(62,107,255,0.25);
+  }
+  .download-btn:hover{transform:translateY(-1px); box-shadow:0 12px 30px rgba(62,107,255,0.35);}
+  .download-btn:active{transform:translateY(0);}
+  .download-btn svg{width:16px; height:16px;}
+  .download-btn.loading{opacity:0.7; cursor:progress;}
+
+  .oo-footer{
+    max-width:1180px; margin:0 auto; padding:40px 28px 60px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-top:1px solid var(--border); margin-top:20px;
+    font-size:12.5px; color:var(--muted-dim); font-family:var(--font-mono);
+    flex-wrap:wrap; gap:12px;
+  }
+
+  /* mobile */
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr; padding:28px 20px 0;}
+    nav.toc{
+      position:fixed; top:0; right:0; height:100vh; width:78%; max-width:320px;
+      background:var(--surface); border-left:1px solid var(--border);
+      padding:80px 20px 24px; z-index:980;
+      transform:translateX(100%); transition:transform .25s ease;
+      max-height:none;
+    }
+    nav.toc.open{transform:translateX(0);}
+    .nav-toggle{display:flex;}
+    #audio-dock{left:16px; right:16px; transform:none; bottom:16px; justify-content:space-between;}
+    #dock-status{max-width:140px;}
+    header.site-header{padding:14px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<header class="site-header">
+  <a href="#" class="brand">
+    <span class="mark">OC</span>
+    <span>
+      <span class="name">OneCampus General Terms & Conditions</span><br>
+      <span class="sub">by OneOrigin Technologies</span>
+    </span>
+  </a>
+  <div class="header-right">
+    <a class="parent-link" href="onecampus.html">← OneCampus</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <nav class="toc" id="tocNav" aria-label="Table of contents">
+    <div class="toc-label">On this page</div>
+    <ul class="toc-list" id="tocList"></ul>
+  </nav>
+
+  <main id="mainContent">
+    <div class="doc-head">
+      <div class="doc-eyebrow">LEGAL · ONECAMPUS</div>
+      <h1 class="doc-title">General Terms &amp; Conditions</h1>
+      <div class="doc-meta">
+        <span>Effective date: <strong>September 7, 2026</strong></span>
+        <span>Version: <strong>1.7</strong></span>
+        <span>Published by: <strong>OneOrigin Technologies</strong></span>
+      </div>
+    </div>
+
+    <div id="sections"></div>
+
+    <div class="doc-footer">
+      <p>You can read this document at your own pace using the audio controls above, or download a Beta-version copy below to share with your procurement or legal team. To get an official version of this General Terms and conditions Contact Us.</p>
+      <button class="download-btn" id="downloadBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span id="downloadLabel">Download as PDF</span>
+      </button>
+    </div>
+  </main>
+</div>
+
+<footer class="oo-footer">
+  <span>© 2026 OneOrigin Technologies · MSME Registered</span>
+  <span>OneOps · OneCampus · OneCloud</span>
+</footer>
+
+<div id="audio-dock" role="region" aria-label="Audio reader controls">
+  <button class="dock-btn" id="prevBtn" title="Previous section" disabled>
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+  </button>
+  <button class="dock-btn primary" id="playBtn" title="Play / Pause">
+    <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+  </button>
+  <button class="dock-btn" id="nextBtn" title="Next section" disabled>
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM6 6l8.5 6L6 18z"/></svg>
+  </button>
+  <div id="dock-status"><span class="dot"></span><span id="dockText">Listen to this page</span></div>
+  <button class="dock-btn" id="stopBtn" title="Stop" disabled>
+    <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="1"/></svg>
+  </button>
+</div>
+
+<script>
+/* ---------------------------------------------------------
+   CONTENT MODEL
+   Each section: id, title, and an array of paragraph/list blocks.
+   The same array drives: rendered HTML, TOC, and speech text.
+--------------------------------------------------------- */
+const SECTIONS = [
+  {
+    id: "RELATIONSHIP",
+    title: "RELATIONSHIP WITH CLIENT AGREEMENT",
+    blocks: [
+      {type:"p", text:"1.1. These OneCampus General Terms and Conditions (“General Terms”) establish the general terms and conditions governing the licensing, deployment, access, use, support and provision of the OneCampus Software and related services by OneOrigin Technologies (“Service Provider”). "},
+      {type:"p", text:"1.2. These General Terms are intended to be incorporated into and read together with a client-specific OneCampus Software License and Services Agreement (“Client Agreement”) executed between the Service Provider and the applicable client. "},
+      {type:"p", text:"1.3. The Client Agreement identifies the specific client, subscribed products and modules, subscription terms, pricing, payment terms, deployment model, implementation requirements and any other client-specific commercial or operational terms."},
+      {type:"p", text:"1.4. Once incorporated into a Client Agreement, these General Terms shall form an integral and binding part of the Agreement between the Service Provider and that client."},
+      {type:"p", text:"1.5. In the event of any conflict between these General Terms and a Client Agreement, the order of precedence specified in the applicable Client Agreement shall apply. "},
+      {type:"p", text:"1.6. References in these General Terms to the “Agreement” shall mean the applicable Client Agreement together with these General Terms and any applicable schedules, annexures or Statements of Work."}
+    ]
+  },
+  {
+    id:"OVERRIDE",
+    title:"OVERRIDE, MODIFICATION AND SUPPLEMENTATION OF GENERAL TERMS",
+    blocks:[
+        {type:"p", text:"2.1. The Parties acknowledge and agree that the OneCampus General Terms and Conditions (“General Terms”) constitute the standard terms applicable to the Client's use of OneCampus."},
+        {type:"p", text:"2.2. Notwithstanding anything contained in the General Terms, the Parties may, by express written agreement in the Client Agreement, override, modify, vary, restrict, expand, supplement or append to a specific provision of the General Terms. "},
+        {type:"p", text:"2.3. Any such override, modification, variation, restriction, expansion, supplementation or addition shall be valid only where the relevant provision of the General Terms is specifically identified by its Clause/Section Number and Clause/Section Name in the Client Agreement."},
+        {type:"p", text:"2.4. For the avoidance of doubt, a general statement that a provision of the Client Agreement shall prevail over the General Terms shall not, by itself, constitute an amendment or override of any provision of the General Terms unless the relevant Clause/Section Number and Clause/Section Name are expressly identified. "},
+        {type:"p", text:"2.5. Any provision of the Client Agreement that expressly identifies and modifies a specific provision of the General Terms shall apply only to the extent expressly stated therein. All other provisions of the General Terms shall remain unchanged and in full force and effect. "},
+        {type:"p", text:"2.6. Where the Client Agreement supplements or appends an additional term to an existing provision of the General Terms, the additional term shall be read together with the relevant provision of the General Terms. "},
+        {type:"p", text:"2.7. Where the Client Agreement expressly states that a specified provision of the General Terms is “deleted,” “replaced,” “overridden,” or “superseded,” that provision shall have no effect to the extent expressly stated in the Client Agreement. "},
+        {type:"p", text:"2.8. Where the Client Agreement is silent regarding a particular provision of the General Terms, the corresponding provision of the General Terms shall continue to apply without modification. "},
+        {type:"p", text:"2.9. No amendment, override, modification or supplementation of the General Terms shall be implied merely from a difference in wording between the Client Agreement and the General Terms. "},
+        {type:"p", text:"2.10. For clarity, the Parties agree that the Client Agreement may contain Client Specific Terms, which shall expressly identify the relevant General Terms provision where such Client-Specific Terms are intended to modify or supplement the General Terms."}
+    ]
+  },
+  {
+    id:"PURPOSE",
+    title:"PURPOSE, SCOPE & DESCRIPTION OF ONECAMPUS",
+    blocks:[
+        {type:'p',text:'3.1. The Service Provider has developed and operates a software platform known as “OneCampus”, an integrated institutional management platform designed for educational institutions.'},
+        {type:'p',text:"3.2. OneCampus may include, depending on the Client's selected package, modules and functionality relating to:"},
+        {type:'list',items:["Administration","Student Management","Admissions","Academics","Class & Section Management","Attendance","Fees & Financial Management","No-Due Management","Reports","Analytics","Human Resources","Payroll","Document Generation","User & Role Management","Institutional dashboards","Data management","Other modules subsequently introduced by the Service Provider"]},
+        {type:'p',text:"3.3. The Client wishes to use OneCampus for the management and administration of its institution and the Service Provider agrees to provide the software and related services subject to the terms of the Agreement."}
+    ]
+  },
+  {
+    id: "DEFINITIONS",
+    title: "DEFINITIONS",
+    blocks: [
+        {type:"p",text:"For the purposes of the Agreement:"},
+        {type:"list", items:[
+            "“Software” means the OneCampus software platform, including its applicable modules, applications, interfaces, databases, documentation, updates and related components provided by the Service Provider.",
+            "“Client Data” means all information, records, documents, student information, employee information, financial information and other data entered into or generated through the Software by or on behalf of the Client.",
+            "“User” means an individual authorized by the Client to access and use OneCampus.",
+            "“Subscription” means the Client's authorized period of use of the Software.",
+            "“Implementation” means installation, configuration, setup, deployment, migration, training and other activities required to make the Software operational for the Client.",
+            "“Customization” means modifications or additional functionality specifically developed for the Client beyond the standard functionality of OneCampus.",
+            "“Support Services” means technical assistance, troubleshooting, maintenance and related support provided by the Service Provider.",
+            "“Document Verification Service” means the OneCampus functionality that enables third parties to verify documents issued by the Client through a unique Verification Identifier and a verification webpage operated and managed by the Service Provider. ",
+            "“Document Bank” means the OneCampus functionality that enables the Client to digitally upload, store, manage and retrieve documents through the storage infrastructure provided under the applicable service plan. "
+        ]}
+    ]
+  },
+  {
+    id: "SCOPE",
+    title: "SCOPE OF SOFTWARE AND SERVICES",
+    blocks: [
+      {type:"p", text:"5.1. The Service Provider shall provide the Client with access to the OneCampus modules specified in the Client Agreement."},
+      {type:"p", text:"5.2. The exact functionality, number of users, institutions/campuses, storage limits and other applicable restrictions shall be determined by the commercial package selected by the Client."},
+      {type:"p", text:"5.3. Unless expressly stated otherwise in the Client Agreement, features not included in the selected package shall not form part of the Client's entitlement under the Agreement."},
+      {type:"p", text:"5.4. The Service Provider may introduce new modules, features, improvements and technological changes to OneCampus from time to time."},
+      {type:"p", text:"5.5. New modules may be offered separately and may be subject to additional charges."}
+    ]
+  },
+  {
+    id: "LICENSE",
+    title: "LICENSE GRANT",
+    blocks: [
+      {type:"p", text:"6.1. Subject to the Client's timely payment of all applicable fees, the Service Provider grants the Client a limited, non-exclusive, non-transferable and revocable license to use OneCampus during the Subscription Term."},
+      {type:"p", text:"6.2. The license is granted solely for the Client's internal institutional operations."},
+      {type:"p", text:"6.3. The Client shall not:"},
+      {type:"list", items:["a. sell, resell, sublicense or lease OneCampus","b. provide OneCampus to third parties as a service","c. copy or reproduce the Software except where expressly permitted","d. reverse engineer, decompile or disassemble the Software","e. attempt to obtain the source code","f. modify the Software without written authorization","g. remove proprietary notices","h. create derivative products based on the Software","i. use OneCampus to develop or assist in developing a competing product","j. transfer the license to another institution or legal entity without written approval."]},
+      {type:"p", text:"6.4. The Client may permit its authorized employees and personnel to use OneCampus subject to the Agreement."}
+    ]
+  },
+  {
+    id: "OWNERSHIP",
+    title: "OWNERSHIP AND INTELLECTUAL PROPERTY",
+    blocks: [
+        {type:"p", text:"7.1. OneOrigin Technologies retains all right, title and interest in and to OneCampus."},
+        {type:"p", text:"7.2. Nothing in the Agreement shall be interpreted as transferring ownership of OneCampus to the Client."},
+        {type:"p", text:"7.3. All intellectual property rights relating to:"},
+        {type:"list", items:["source code","object code","software architecture","algorithms","database structures","user interface designs","workflows","system architecture","APIs","proprietary methodologies","documentation","trademarks","logos","technical processes","underlying frameworks and","general-purpose improvements"]},
+        {type:"p", text:"shall remain the property of the Service Provider or its applicable licensors."},
+        {type:"p", text:"7.4. The Client receives only the rights expressly granted under the Agreement."},
+        {type:"p", text:"7.5. The Client shall not register, claim or attempt to obtain intellectual property rights in OneCampus or any underlying technology."}
+    ]
+  },
+  {
+    id: "DATA",
+    title: "CLIENT DATA OWNERSHIP",
+    blocks: [
+      {type:"p",text:"8.1. The Client retains ownership of all Client Data."},
+      {type:'p',text:"8.2. The Service Provider does not claim ownership of the Client's student, employee, financial, academic or institutional data."},
+      {type:'p',text:"8.3. The Client grants the Service Provider a limited right to process Client Data solely to:"},
+      {type:'list',items:["provide OneCampus","provide support","maintain and secure the system","perform backups","troubleshoot technical issues","generate requested reports and","perform other activities reasonably necessary to provide the contracted services."]},
+      {type:'p',text:"8.4. The Service Provider shall not sell Client Data to third parties."},
+      {type:'p',text:"8.5. The Service Provider shall implement reasonable technical and organizational measures to protect Client Data against unauthorized access, loss, alteration or disclosure."}
+    ]
+  },
+  {
+    id: "PROTECTION",
+    title: "DATA PROTECTION AND PRIVACY",
+    blocks: [
+        {type:'p',text:"9.1. Each Party shall comply with applicable laws and regulations relating to privacy and data protection."},
+        {type:'p',text:"9.2. The Client shall be responsible for ensuring that it has the necessary authority, consent or other lawful basis to collect and process personal information entered into OneCampus."},
+        {type:'p',text:"9.3. The Client shall ensure that all Users accessing or using the Software on behalf of the Client comply with all applicable laws, the Client's institutional policies and the terms and conditions governing the Client's use of the Software under the Agreement. The Client shall be responsible for any use of the Software by its Users that is inconsistent with such requirements."},
+        {type:'p',text:"9.4. The Service Provider shall use reasonable security measures appropriate to the nature of the Software and data being processed."},
+        {type:'p',text:"9.5. Where required, the Parties may execute a separate Data Processing Agreement."}
+    ]
+  },
+  {
+    id: "IMPLEMENTATION",
+    title: "IMPLEMENTATION AND DEPLOYMENT",
+    blocks: [
+        {type:'p',text:"10.1. The Service Provider shall perform the Implementation activities specified in Client Agreement."},
+        {type:'p',text:"10.2. Implementation may include:"},
+        {type:'list',items:["Software installation","server configuration","database setup","institutional configuration","user-role configuration","academic-year setup","migration of agreed data","configuration of modules","testing","administrator training","user training and","deployment"]},
+        {type:'p',text:"10.3. The Client shall provide timely access to information, personnel, infrastructure and data necessary for implementation."},
+        {type:'p',text:"10.4. Delays caused by the Client may result in corresponding extensions to the implementation timeline."}
+    ]
+  },
+  {
+    id: "MIGRATION",
+    title: "DATA MIGRATION",
+    blocks: [
+        {type:'p',text:"11.1. Where data migration is included, the Client shall provide data in the format reasonably requested by the Service Provider."},
+        {type:'p',text:"11.2. The Client shall be responsible for ensuring that the data supplied for migration is accurate and legally available for processing."},
+        {type:'p',text:"11.3. The Service Provider shall make reasonable efforts to migrate the agreed data."},
+        {type:'p',text:"11.4. Data requiring substantial cleaning, restructuring or manual correction may be treated as additional services and charged separately, subject to agreement between the Parties."}
+    ]
+  },
+  {
+    id: "RESPONSIBILITIES",
+    title: "CLIENT RESPONSIBILITIES",
+    blocks: [
+        {type:'p',text:"The Client shall:"},
+        {type:'list',items:["provide accurate information required for implementation","nominate authorized personnel for coordination","ensure appropriate internet/network infrastructure where required","maintain the confidentiality of login credentials","ensure Users follow acceptable-use requirements","promptly report technical issues","maintain appropriate internal authorization procedures","ensure that Client Data entered into the Software is lawful and accurate and","make payments within the agreed time"]}
+    ]
+  },
+  {
+    id: "ACCOUNTS",
+    title: "USER ACCOUNTS AND SECURITY",
+    blocks: [
+        {type:'p',text:"13.1. Each User shall use an individual account where such functionality is available."},
+        {type:'p',text:"13.2. Users shall not share passwords or authentication credentials."},
+        {type:'p',text:"13.3. The Client shall immediately notify the Service Provider of suspected unauthorized access."},
+        {type:'p',text:"13.4. The Client shall be responsible for managing its Users and permissions."},
+        {type:'p',text:"13.5. The Service Provider may suspend a User account where necessary to protect the Software, Client Data or other users."}
+    ]
+  },
+  {
+    id: "COMMERCIAL",
+    title: "FEES AND COMMERCIAL TERMS",
+    blocks: [
+        {type:'p',text:"14.1. The Client shall pay the fees specified in the Client Agreement."},
+        {type:'p',text:"14.2. Fees may include, as applicable and as agreed by both Parties:"},
+        {type:'list',items:["Implementation Fee","License/Subscription Fee","Hosting Fee","Support/AMC Fee","Data Migration Fee","Customization Fee","Training Fee","Additional User Fee","Additional Storage Fee and","other mutually agreed charges."]},
+        {type:'p',text:"14.3. The Service Provider is not charging GST under this Agreement. Where GST is applicable under the Reverse Charge Mechanism (RCM) or any other applicable statutory provision, the Client shall be responsible for complying with its applicable tax obligations, including payment and reporting requirements."},
+        {type:'p',text:"14.4. The Service Provider shall issue invoices in accordance with the agreed payment schedule."}
+    ]
+  },
+  {
+    id: "PAYMENT",
+    title: "PAYMENT TERMS",
+    blocks: [
+        {type:'p',text:"Unless otherwise specified in the Client Agreement and/or applicable Payment Schedule, the following payment terms shall apply:"},
+        {type:'p',text:"15.1. The Client shall pay all fees in accordance with the payment schedule and due dates specified in the Client Agreement and/or applicable Payment Schedule."},
+        {type:'p',text:"15.2. Payments shall be made within the period specified in the Client Agreement and/or applicable Payment Schedule from the date of invoice."},
+        {type:'p',text:"15.3. If any undisputed payment remains overdue, the Service Provider may, after reasonable notice, suspend access to the Software until the outstanding amount is paid."}
+    ]
+  },
+  {
+    id: "SUBSCRIPTION",
+    title: "SUBSCRIPTION TERM",
+    blocks: [
+        {type:'p',text:"16.1. The initial Subscription Term shall be a minimum of 12 months from the Service Commencement Date, unless otherwise agreed in the Client Agreement."},
+        {type:'p',text:"16.2. The Agreement may be renewed for additional periods upon payment of the applicable renewal fees and subject to the terms specified in the Client Agreement."},
+        {type:'p',text:"16.3. Unless otherwise agreed, the Service Provider may communicate the applicable renewal pricing to the Client before the renewal date."},
+        {type:'p',text:"16.4. Continued use of the Software after expiry without renewal shall not constitute an automatic renewal of the Agreement unless expressly agreed by both Parties."}
+    ]
+  },
+  {
+    id:"HOSTING",
+    title:"HOSTING AND DEPLOYMENT OPTIONS",
+    blocks:[
+        {type:'p',text:"OneCampus may be provided through one or more of the following deployment models:"},
+        {type:'p',text:"17.1. CLOUD DEPLOYMENT: Where OneCampus is hosted on infrastructure managed by the Service Provider or its hosting provider, the Service Provider shall be responsible for reasonable operational management of the hosting environment."},
+        {type:'p',text:"17.2. CLIENT-HOSTED DEPLOYMENT: Where OneCampus is deployed on Client-owned infrastructure, the Client shall be responsible for the underlying server, network, power, operating system and related infrastructure unless otherwise agreed."},
+        {type:'p',text:"17.3. LOCAL/OFFLINE DEPLOYMENT: Where an offline or local deployment is provided, the Software may operate within the Client's local infrastructure subject to the technical configuration agreed by the Parties."},
+        {type:'p',text:"17.4. SERVICE-PROVIDER DEPLOYMENT: Where OneCampus is deployed on Service Provider-owned infrastructure, the Service Provider shall be responsible for the underlying server, network, power, operating system and related infrastructure unless otherwise agreed."},
+        {type:'p',text:"17.5. HYBRID DEPLOYMENT: Where applicable, OneCampus may operate through a combination of ny of the above mentioned infrastructures."},
+        {type:'p',text:"The applicable deployment model shall be specified in the Client Agreement."}
+    ]
+  },
+  {
+    id:"OFFLINE",
+    title:"OFFLINE ACCESS",
+    blocks:[
+        {type:'p',text:"18.1. Where the selected OneCampus package includes offline functionality, the Service Provider shall configure the applicable components to permit operation without continuous internet connectivity."},
+        {type:'p',text:"18.2. Offline functionality may be subject to technical limitations, including:"},
+        {type:'list',items:["synchronization requirements","local network availability","device availability","hardware limitations","synchronization conflicts and","supported operating systems."]},
+        {type:'p',text:"18.3. The exact offline functionality shall be determined by the selected package and implementation configuration agreed upon by both parties in the Client Agreement."}
+    ]
+  },
+  {
+    id:"BACKUPS",
+    title:"BACKUPS",
+    blocks:[
+        {type:'p',text:"19.1. Where hosting and backup services are included, the Service Provider shall maintain backups according to the backup policy specified in the Client Agreement."},
+        {type:'p',text:"19.2. Unless expressly stated otherwise, backups are intended to assist recovery and do not constitute a guarantee that every transaction can be recovered after every possible failure."},
+        {type:'p',text:"19.3. Where the Client hosts the Software on its own infrastructure, backup responsibility shall remain with the Client unless a separate backup service is purchased."}
+    ]
+  },
+  {
+    id:"SUPPORT",
+    title:"SUPPORT AND MAINTENANCE",
+    blocks:[
+        {type:'p',text:"20.1. The Service Provider shall provide technical support during the support period specified in the Client Agreement."},
+        {type:'p',text:"20.2. Support may include:"},
+        {type:'list',items:["troubleshooting","software defects","configuration assistance","account assistance","technical guidance","bug fixes","system maintenance and","applicable updates."]},
+        {type:'p',text:"20.3. Support does not automatically include:"},
+        {type:'list',items:["new features","major customizations","third-party software failures","Client hardware failures","unsupported infrastructure","training beyond the agreed scope or","data correction caused by Client error."]},
+        {type:'p',text:"Such services may be charged separately."}
+    ]
+  },
+  {
+    id:"SERVICE",
+    title:"SERVICE LEVELS",
+    blocks:[
+        {type:'p',text:"The Service Provider shall use commercially reasonable efforts to respond to reported issues according to the following indicative classification:"},
+        {type:'list',items:["Critical: Complete system unavailability affecting major institutional operations; Response within 24 business hours.","High: Major functionality unavailable; Response within 8 business hours","Medium: Significant but non-critical issue; Response within 2 business days.","Low: Minor issue/general request; Response within 5 business days."]},
+        {type:'p',text:"21.1. Response time does not necessarily mean resolution time."},
+        {type:'p',text:"21.2. Resolution times may depend on the complexity of the issue and third-party dependencies."},
+        {type:'p',text:"21.3. Scheduled maintenance shall generally not be treated as downtime."}
+    ]
+  },
+  {
+    id:"UPDATES",
+    title:"SOFTWARE UPDATES",
+    blocks:[
+        {type:'p',text:"22.1. The Service Provider may periodically release:"},
+        {type:'list',items:["security updates","bug fixes","performance improvements","compatibility updates","feature enhancements and","new versions."]},
+        {type:'p',text:"22.2. Updates may be deployed automatically or manually depending on the deployment model and the terms specified in the Client Agreement."},
+        {type:'p',text:"22.3. Major functionality requiring additional infrastructure or licensing may be offered separately, subject to mutual agreement and the terms specified in the Client Agreement."}
+    ]
+  },
+  {
+    id:"CUSTOMIZATION",
+    title:"CUSTOMIZATION",
+    blocks:[
+        {type:'p',text:"23.1. Client-specific customization shall be performed only where agreed in writing."},
+        {type:'p',text:"23.2. Each customization may have a separate:"},
+        {type:'list',items:["scope","development fee","timeline","testing requirement and","maintenance arrangement."]},
+        {type:'p',text:"23.3. The Service Provider shall not be required to implement requests that materially compromise the security, architecture, maintainability or functionality of OneCampus."}
+    ]
+  },
+  {
+    id:"CHANGE",
+    title:"CHANGE REQUESTS",
+    blocks:[
+        {type:'p',text:"24.1. Requests outside the agreed scope shall be treated as Change Requests."},
+        {type:'p',text:"24.2. The Service Provider may provide the Client with a written estimate specifying:"},
+        {type:'list',items:["requested functionality","development effort","additional charges","implementation timeline and","other applicable conditions."]},
+        {type:'p',text:"24.3. No additional work shall be required until the Change Request has been approved by both Parties."}
+    ]
+  },
+  {
+    id:"CUSTOM",
+    title:"CUSTOM DEVELOPMENT AND INTELLECTUAL PROPERTY",
+    blocks:[
+        {type:'p',text:"25.1. Unless otherwise expressly agreed in writing, Customizations shall remain part of the OneCampus software ecosystem and shall be owned by the Service Provider."},
+        {type:'p',text:"25.2. The Client shall receive the right to use such Customizations as part of its licensed OneCampus environment."},
+        {type:'p',text:"25.3. The Service Provider may incorporate general improvements, reusable functionality, concepts, techniques and non-client-specific developments into OneCampus or other products."},
+        {type:'p',text:"25.4. Any arrangement transferring exclusive ownership of a particular Customization to the Client must be expressly documented in a separate written agreement."}
+    ]
+  },
+  {
+    id:"CONFIDENTIALITY",
+    title:"CONFIDENTIALITY",
+    blocks:[
+        {type:'p',text:"26.1. Each Party may receive confidential information belonging to the other Party."},
+        {type:'p',text:"26.2. Confidential Information includes:"},
+        {type:'list',items:["business information","financial information","technical information","software information","security information","institutional information","pricing","credentials","personal information and","non-public Client Data."]},
+        {type:'p',text:"26.3. Each Party shall:"},
+        {type:'list',items:["keep Confidential Information confidential","use it only for purposes related to the Agreement and","disclose it only to personnel or professional advisers who reasonably require access."]},
+        {type:'p',text:"26.4. Confidentiality obligations shall not apply to information that:"},
+        {type:'list',items:["is publicly available without breach","was lawfully known before disclosure","is independently developed or","is required to be disclosed by law."]},
+        {type:'p',text:"26.5. These obligations shall survive termination of the Agreement, except that trade secrets shall remain protected for as long as they qualify as trade secrets under applicable law."}
+    ]
+  },
+  {
+    id:"SECURITY",
+    title:"SECURITY",
+    blocks:[
+        {type:'p',text:"27.1. The Service Provider shall implement reasonable security controls appropriate to the Software's operating environment."},
+        {type:'p',text:"27.2. Security measures may include, where applicable:"},
+        {type:'list',items:["authentication","authorization","access controls","encryption","audit logs","backups","secure communication","vulnerability management and","system monitoring."]},
+        {type:'p',text:"27.3. The Client acknowledges that no software or internet-connected system can be guaranteed to be completely secure."}
+    ]
+  },
+  {
+    id:"THIRD-PARTY",
+    title:"THIRD-PARTY SERVICES",
+    blocks:[
+        {type:'p',text:"28.1. OneCampus may integrate with third-party services, including:"},
+        {type:'list',items:["payment gateways","SMS providers","email providers","cloud providers","mapping services","authentication providers","operating systems and","other external services."]},
+        {type:'p',text:"28.2. Third-party services may be governed by their own terms and pricing."},
+        {type:'p',text:"28.3. The Service Provider shall not be responsible for failures caused solely by third-party providers beyond its reasonable control."}
+    ]
+  },
+  {
+    id:"CONTENT",
+    title:"CLIENT CONTENT AND ACCEPTABLE USE",
+    blocks:[
+        {type:'p',text:"The Client shall not use OneCampus to:"},
+        {type:'list',items:["violate applicable law","distribute malicious software","attempt unauthorized access","interfere with system security","infringe third-party intellectual property","store unlawful content or","use the Software to facilitate fraudulent or unauthorized activities."]}
+    ]
+  },
+  {
+    id:"WARRANTIES",
+    title:"WARRANTIES",
+    blocks:[
+        {type:'p',text:"30.1. The Service Provider warrants that it has the authority to enter into the Agreement and provide the Software."},
+        {type:'p',text:"30.2. The Service Provider shall use commercially reasonable efforts to ensure that OneCampus substantially performs its documented functions."},
+        {type:'p',text:"30.3. Except as expressly stated in this Agreement, the Software is provided without additional express or implied warranties to the maximum extent permitted by applicable law."},
+        {type:'p',text:"30.4. The Service Provider does not warrant that the Software will:"},
+        {type:'list',items:["operate completely without interruption","be entirely error-free","be compatible with every third-party system","meet requirements not expressly agreed","remain unchanged indefinitely; or","be immune from every possible security threat."]}
+    ]
+  },
+  {
+    id:"CLIENT WARRANTIES",
+    title:"CLIENT WARRANTIES",
+    blocks:[
+        {type:'p',text:"The Client represents that:"},
+        {type:'p',text:"31.1. it has authority to enter into the Agreement;"},
+        {type:'p',text:"31.2. it has the right to provide Client Data to the Service Provider for processing;"},
+        {type:'p',text:"31.3. its use of the Software shall comply with applicable law; and"},
+        {type:'p',text:"31.4. the information provided to the Service Provider for implementation shall be accurate to the best of its knowledge."}
+    ]
+  },
+  {
+    id:"INDEMNIFICATION",
+    title:"INDEMNIFICATION",
+    blocks:[
+        {type:'p',text:"32.1. Each Party shall indemnify the other Party against direct losses arising from its material breach of the Agreement, fraud or wilful misconduct, subject to applicable law and the limitations in this Agreement."},
+        {type:'p',text:"32.2. The Client shall be responsible for claims arising from unlawful Client Data, unauthorized use of the Software or instructions provided by the Client that violate applicable law."},
+        {type:'p',text:"32.3. The Service Provider shall be responsible for claims arising from its proven infringement of a third party's intellectual property rights in the unmodified OneCampus Software, subject to the limitations set forth in the Agreement."}
+    ]
+  },
+  {
+    id:"LIABILITY",
+    title:"LIMITATION OF LIABILITY",
+    blocks:[
+        {type:'p',text:"33.1. To the maximum extent permitted by law, neither Party shall be liable for:"},
+        {type:'list',items:["indirect losses","consequential damages","loss of anticipated profits","loss of business opportunities","loss of goodwill or","special or punitive damages."]},
+        {type:'p',text:"33.2. Except for liability that cannot legally be limited, the Service Provider's aggregate liability arising out of this Agreement shall not exceed the fees actually paid by the Client to the Service Provider during the 12 months immediately preceding the event giving rise to the claim."},
+        {type:'p',text:"33.3. Nothing in the Agreement shall exclude or limit liability to the extent such exclusion or limitation is prohibited by applicable law."}
+    ]
+  },
+  {
+    id:"SUSPENSION",
+    title:"SUSPENSION",
+    blocks:[
+        {type:'p',text:"34.1. The Service Provider may temporarily suspend access where reasonably necessary due to:"},
+        {type:'list',items:["serious security threats","unlawful use","material breach","non-payment after notice","technical emergencies or","circumstances presenting a significant risk to the Software or other clients."]},
+        {type:'p',text:"34.2. Where reasonably practicable, the Service Provider shall provide prior notice."}
+    ]
+  },
+  {
+    id:"TERMINATION",
+    title:"TERMINATION",
+    blocks:[
+        {type:'p',text:"35.1. The Agreement shall remain in effect for the Subscription Term specified in the Client Agreement and shall not be terminated by either Party during such Subscription Term except as expressly provided in this Agreement or the Client Agreement."},
+        {type:'p',text:"35.2. Either Party may terminate the Agreement during the Subscription Term if the other Party materially fails to comply with its obligations under the General Terms and/or the Client Agreement and fails to remedy such breach within 30 days of receiving written notice specifying the breach."},
+        {type:'p',text:"35.3. Either Party may terminate the Agreement with immediate effect where the other Party becomes insolvent, enters liquidation, or ceases substantially all of its business operations, to the extent permitted by applicable law."},
+        {type:'p',text:"35.4. The Client may terminate the Agreement during the Subscription Term only in accordance with this Section 35 or where an early termination right is expressly provided in the Client Agreement."},
+        {type:'p',text:"35.5. The Service Provider may terminate the Agreement during the Subscription Term only in accordance with this Section 35 or where an early termination right is expressly provided in the Client Agreement."},
+        {type:'p',text:"35.6. Termination or expiry of the Agreement shall not affect any rights, obligations, payments or liabilities accrued before the effective date of termination."},
+        {type:'p',text:"35.7. The provisions which by their nature are intended to survive termination or expiry, including intellectual property, confidentiality, data, limitation of liability, dispute resolution and accrued payment obligations, shall survive such termination or expiry."}
+    ]
+  },
+  {
+    id:"EFFECT",
+    title:" EFFECT OF TERMINATION",
+    blocks:[
+        {type:'p',text:"Upon termination:"},
+        {type:'p',text:"36.1. The Client's license to use OneCampus shall expire, except to the extent otherwise agreed."},
+        {type:'p',text:"36.2. The Client shall cease using the Software."},
+        {type:'p',text:"36.3. The Client shall pay all outstanding undisputed amounts due up to the termination date."},
+        {type:'p',text:"36.4. Subject to applicable law and the applicable retention period, Client Data shall be handled and made available for export in accordance with Section 37."},
+        {type:'p',text:"36.5. After the applicable export period, the Service Provider may delete Client Data from active systems, subject to backup retention cycles and legal obligations."},
+        {type:'p',text:"36.6. If the Client requires assistance with data export, migration or transition, such services may be charged separately unless otherwise agreed."}
+    ]
+  },
+  {
+    id:"EXPORT",
+    title:"DATA EXPORT AND TRANSITION",
+    blocks:[
+        {type:'p',text:"37.1. During the Subscription Term and applicable post-termination export period, the Client may request export of its Client Data in a reasonably available format."},
+        {type:'p',text:"37.2. The Service Provider shall make reasonable efforts to provide standard data exports."},
+        {type:'p',text:"37.3. Custom extraction, transformation or migration services may be charged separately."},
+        {type:'p',text:"37.4. The Service Provider shall not be obligated to provide OneCampus source code, proprietary algorithms, system architecture or other intellectual property as part of a data export."}
+    ]
+  },
+  {
+    id:"NON-SOLICITATION",
+    title:"NON-SOLICITATION",
+    blocks:[
+        {type:'p',text:"During the Agreement and for 12 months thereafter, neither Party shall knowingly solicit for employment personnel of the other Party who were materially involved in providing or receiving services under this Agreement, except through general recruitment campaigns not specifically directed at such personnel, to the extent such restriction is enforceable under applicable law."}
+    ]
+  },
+  {
+    id:"PUBLICITY",
+    title:"PUBLICITY AND TRADEMARKS",
+    blocks:[
+        {type:'p',text:"39.1. Neither Party may use the other's trademarks, logos or name for promotional purposes without prior consent."},
+        {type:'p',text:"39.2. The Service Provider may identify the Client as a customer of OneCampus only with the Client's prior written consent."}
+    ]
+  },
+  {
+    id:"MAJEURE",
+    title:"FORCE MAJEURE",
+    blocks:[
+        {type:'p',text:"Neither Party shall be liable for delay or failure caused by circumstances beyond its reasonable control, including:"},
+        {type:'list',items:["natural disasters","war","terrorism","government action","widespread internet outages","telecommunications failures","power failures","epidemics/pandemics","cyberattacks of exceptional nature","infrastructure failures or","other events reasonably beyond the affected Party's control."]},
+        {type:'p',text:"The affected Party shall take reasonable steps to mitigate the impact."}
+    ]
+  },
+  {
+    id:"DISPUTE",
+    title:"DISPUTE RESOLUTION",
+    blocks:[
+        {type:'p',text:"41.1. The Parties shall first attempt to resolve any dispute through good-faith discussions between their authorized representatives."},
+        {type:'p',text:"41.2. If the dispute cannot be resolved within 30 days, the Parties may refer the matter to arbitration in accordance with applicable Indian arbitration law."},
+        {type:'p',text:"41.3. The arbitration shall be conducted by one mutually appointed arbitrator."},
+        {type:'p',text:"41.4. The seat and venue of arbitration shall be Tumakuru, Karnataka, India."},
+        {type:'p',text:"41.5. The language of arbitration shall be English."},
+        {type:'p',text:"41.6. Nothing shall prevent either Party from seeking urgent interim or injunctive relief from a court of competent jurisdiction."}
+    ]
+  },
+  {
+    id:"JURISDICTION",
+    title:"GOVERNING LAW AND JURISDICTION",
+    blocks:[
+        {type:'p',text:"42.1. This Agreement shall be governed by the laws of India."},
+        {type:'p',text:"42.2. Subject to the arbitration provisions above, courts having jurisdiction at Tumakuru, Karnataka shall have jurisdiction over matters arising from this Agreement."}
+    ]
+  },
+  {
+    id:"NOTICES",
+    title:"NOTICES",
+    blocks:[
+        {type:'p',text:"All formal notices under this Agreement shall be provided in writing by:"},
+        {type:'list',items:["registered post/courier","recognized electronic communication or","email to the designated addresses of the Parties."]},
+        {type:'p',text:"Service Provider:"},
+        {type:'lsit',items:["OneOrigin Technologies","Address: 1st main, 3rd cross Vinobanagar, Tumakuru, Karnataka, 572 101","Email: contact@oneorigin-tech.com","Attention: Mr. Rayan Maviya Hussain, Founder & CEO"]},
+        {type:'p',text:"Client"},
+        {type:'p',text:"*As specified in the Client Agreement.*"},
+    ]
+  },
+  {
+    id:"ASSIGNMENT",
+    title:"ASSIGNMENT",
+    blocks:[
+        {type:'p',text:"44.1. The Client may not assign or transfer this Agreement or its OneCampus license to another entity without prior written consent of the Service Provider."},
+        {type:'p',text:"44.2. The Service Provider may assign this Agreement as part of a merger, restructuring, acquisition, sale of business or transfer of substantially all relevant assets, provided that the assignee assumes the applicable obligations."}
+    ]
+  },
+  {
+    id:"AMENDMENTS",
+    title:"AMENDMENTS",
+    blocks:[
+        {type:'p',text:"Any amendment to the Agreement must be made in writing and accepted by authorized representatives of both Parties."}
+    ]
+  },
+  {
+    id:"SEVERABILITY",
+    title:"SEVERABILITY",
+    blocks:[
+        {type:'p',text:"If any provision of this Agreement is held to be invalid or unenforceable, the remaining provisions shall continue in full force and effect to the maximum extent permitted by law."}
+    ]
+  },
+  {
+    id:"WAIVER",
+    title:"WAIVER",
+    blocks:[
+        {type:'p',text:"Failure by either Party to enforce any provision shall not constitute a waiver of that Party's right to enforce the provision subsequently."}
+    ]
+  },
+  {
+    id:"ENTIRE",
+    title:"ENTIRE AGREEMENT",
+    blocks:[
+        {type:'p',text:"48.1. The Client Agreement, together with the applicable OneCampus General Terms and Conditions and any applicable Schedules, Annexures, Statements of Work and duly executed amendments, constitutes the entire agreement between the Parties with respect to OneCampus and supersedes all prior discussions, proposals, representations, understandings and communications relating to the same subject matter."},
+        {type:'p',text:"48.2. In the event of any conflict between the documents forming the Agreement, the applicable order of precedence specified in the Agreement shall apply."}
+    ]
+  },
+  {
+    id:"PRECEDENCE",
+    title:"ORDER OF PRECEDENCE",
+    blocks:[
+        {type:'p',text:"49.1. In the event of any conflict or inconsistency between the documents forming the Agreement, the following order of precedence shall apply, unless expressly agreed otherwise in writing:"},
+        {type:'list',items:["1. Any subsequently executed written amendment signed by both Parties","2. The Client Agreement, including any expressly identified Client-Specific Overrides or Supplemental Terms","3. Any applicable Statement of Work","4. Any applicable Schedules and Annexures and","5. The OneCampus General Terms and Conditions applicable to the Client."]},
+        {type:'p',text:"49.2. A document having higher precedence shall prevail only to the extent of the specific conflict or inconsistency."},
+        {type:'p',text:"49.3. Notwithstanding the above, a provision of the Client Agreement shall not be deemed to override, modify or supplement a provision of the General Terms unless the relevant provision of the General Terms is expressly identified by its Clause/Section Number and Clause/Section Name, in accordance with the provisions governing Client-Specific Overrides and Supplemental Terms."}
+    ]
+  },
+  {
+    id:"PARTIES",
+    title:"RELATIONSHIP OF THE PARTIES",
+    blocks:[
+        {type:'p',text:"The Parties are independent contracting parties."},
+        {type:'p',text:"Nothing in this Agreement creates:"},
+        {type:'list',items:["a partnership","joint venture","employment relationship","agency relationship or","franchise relationship."]},
+        {type:'p',text:"Neither Party may represent otherwise without written authority."}
+    ]
+  },
+  {
+    id:"EXECUTION",
+    title:"ELECTRONIC EXECUTION",
+    blocks:[
+        {type:'p',text:"The Parties agree that the Agreement may be executed electronically, including through electronic signatures or scanned signatures, to the extent permitted by applicable law."},
+        {type:'p',text:"Electronic copies of executed documents shall be treated as originals for contractual purposes, subject to applicable law."}
+    ]
+  },
+  {
+    id:"COUNTERPARTS",
+    title:"COUNTERPARTS",
+    blocks:[
+        {type:'p',text:"This Agreement may be executed in counterparts, each of which shall be considered an original and all of which together shall constitute one agreement."}
+    ]
+  },
+  {
+    id:"VERIFICATION",
+    title:"DOCUMENT VERIFICATION AND PUBLIC VERIFICATION SERVICE",
+    blocks:[
+        {type:'p',text:"53.1. Where enabled under the Client Agreement, OneCampus may provide the Client with a document verification service through which documents issued by the Client using OneCampus may be assigned a unique reference number, verification identifier, QR code, URL or other authentication mechanism (“Verification Identifier”)."},
+        {type:'p',text:"53.2. A third party may use the Verification Identifier to access a verification webpage operated and managed by the Service Provider for the purpose of verifying the authenticity and validity of the document."},
+        {type:'p',text:"53.3. The verification webpage may display information relating to the document and its bearer as configured or authorized by the Client, subject to applicable law and the applicable privacy requirements."},
+        {type:'p',text:"53.4. The Client shall be solely responsible for ensuring that:"},
+        {type:'list',items:["(a) the document and information submitted or generated for verification are accurate","(b) the document was lawfully issued by the Client","(c) the Client has the lawful authority and, where required, the necessary consent of the document bearer for the disclosure of information through the verification service and","(d) the information made available through the verification service is limited to information that the Client is legally permitted to disclose."]},
+        {type:'p',text:"53.5. The Service Provider shall provide and maintain the technical infrastructure required for the verification service but shall not be responsible for the authenticity, accuracy, legality or validity of the underlying document or information supplied or authorized by the Client."},
+        {type:'p',text:"53.6. The Service Provider may restrict, suspend or modify access to a verification page where reasonably necessary for security, maintenance, legal compliance or protection of the Software or its users."},
+        {type:'p',text:"53.7. The Client acknowledges that a verification result confirms the information and status recorded within the OneCampus verification system and does not, by itself, constitute an independent certification by the Service Provider of the underlying facts, qualifications, credentials or identity of the document bearer."},
+        {type:'p',text:"53.8. The Client shall promptly notify the Service Provider of any error, unauthorized issuance, withdrawal, cancellation or other change affecting a document made available through the Document Verification Service."}
+    ]
+  },
+  {
+    id:"STORAGE",
+    title:"DOCUMENT BANK AND DIGITAL DOCUMENT STORAGE",
+    blocks:[
+        {type:'p',text:"54.1. Where enabled under the Client Agreement, OneCampus may provide the Client with a Document Bank through which the Client may upload, store, manage and retrieve documents in digital format, including scanned PDFs and other supported file formats."},
+        {type:'p',text:"54.2. The Client shall upload or store only documents that have been lawfully obtained and that the Client is legally entitled to store and process."},
+        {type:'p',text:"54.3. The Client shall be responsible for obtaining and maintaining any consent, authorization, permission or other lawful basis required from the relevant document bearer or data subject for the collection, storage, processing and use of such documents and the information contained therein."},
+        {type:'p',text:"54.4. The Client shall be responsible for ensuring that documents and information uploaded to the Document Bank are accurate, lawful and appropriate for storage and use through OneCampus."},
+        {type:'p',text:"54.5. The Service Provider shall process and store documents uploaded to the Document Bank solely for the purpose of providing the Software and related services to the Client and shall not claim ownership of such documents."},
+        {type:'p',text:"54.6. The Service Provider shall implement reasonable technical and organizational measures to protect documents stored through the Document Bank against unauthorized access, alteration, loss or disclosure, subject to the applicable deployment model and agreed service configuration."},
+        {type:'p',text:"54.7. The Client shall be responsible for determining appropriate access permissions and ensuring that only authorized Users are permitted to access stored documents."},
+        {type:'p',text:"54.8. The Service Provider may restrict, suspend or remove access to documents where reasonably necessary to comply with applicable law, respond to a valid legal request, address a security risk, or protect the Software, infrastructure or other users."},
+        {type:'p',text:"54.9. The Service Provider shall not be responsible for the legality, authenticity, accuracy or completeness of documents uploaded by the Client or its Users."},
+        {type:'p',text:"54.10. Unless otherwise specified in the Client Agreement, storage capacity, retention periods, backup arrangements and related charges shall be subject to the applicable service plan and commercial terms."},
+        {type:'p',text:"54.11. The Client shall not upload documents containing personal or confidential information unless the Client is legally authorized to collect, store and process such information for the purposes for which it is uploaded."}
+    ]
+  },
+  {
+    id:"GENERAL",
+    title:"AMENDMENTS AND UPDATES TO GENERAL TERMS",
+    blocks:[
+        {type:'p',text:"55.1. The Service Provider may periodically update, amend or revise these General Terms to reflect changes in the Software, services, applicable laws, security requirements, business practices or other relevant circumstances."},
+        {type:'p',text:"55.2. Each updated version shall be identified by a new version number and effective date and shall be made available to the Client."},
+        {type:'p',text:"55.3. The Client may accept an updated version of the General Terms or, where permitted under this Section, continue to be governed by the previously accepted version."},
+        {type:'p',text:"55.4. Unless otherwise agreed, the version of the General Terms identified in the Client Agreement shall continue to govern the Agreement unless and until the Client accepts a subsequent version."},
+        {type:'p',text:"55.5. Notwithstanding Section 55.4, the Service Provider may require the Client to adopt an updated version where reasonably necessary to comply with applicable law, address a material security risk, or maintain, modify or discontinue a Software feature or service. The Service Provider shall provide reasonable notice of such changes where practicable."},
+        {type:'p',text:"55.6. Where the Client is permitted to continue under a previously accepted version, the updated version shall not apply to the Client unless and until accepted, except as provided under Section 55.5."},
+        {type:'p',text:"55.7. Acceptance of an updated version may be made through a written agreement, electronic acceptance, or another acceptance mechanism provided by the Service Provider."}
+    ]
+  },
+  {
+    id:"ACCEPTANCE",
+    title:"ACKNOWLEDGEMENT AND ACCEPTANCE",
+    blocks:[
+        {type:'p',text:"The Client acknowledges that it has received, read, understood and agreed to these OneCampus General Terms and Conditions, Version 1.7, and agrees that these General Terms are incorporated into and form an integral and binding part of the applicable OneCampus Software License and Services Agreement."},
+        {type:'p',text:"The Client further acknowledges that the General Terms shall be read together with the Client Agreement and any applicable Schedules, Annexures and Statements of Work."},
+        {type:'p',text:"The Client confirms that it has had the opportunity to review the General Terms and agrees to be legally bound by them."}
+    ]
+  }
+];
+
+/* ---------------------------------------------------------
+   RENDER: sections, TOC
+--------------------------------------------------------- */
+const sectionsEl = document.getElementById('sections');
+const tocList = document.getElementById('tocList');
+
+SECTIONS.forEach((sec, i) => {
+  const num = String(i+1).padStart(2,'0');
+
+  // TOC entry
+  const li = document.createElement('li');
+  li.innerHTML = `<a href="#${sec.id}" data-idx="${i}"><span class="idx">${num}</span><span>${sec.title}</span></a>`;
+  tocList.appendChild(li);
+
+  // Section
+  const secEl = document.createElement('section');
+  secEl.className = 'terms-section';
+  secEl.id = sec.id;
+  secEl.dataset.idx = i;
+
+  let bodyHTML = '';
+  sec.blocks.forEach(b => {
+    if (b.type === 'p') bodyHTML += `<p>${b.text}</p>`;
+    if (b.type === 'list') bodyHTML += `<ul>${b.items.map(t=>`<li>${t}</li>`).join('')}</ul>`;
+  });
+
+  secEl.innerHTML = `
+    <div class="sec-head">
+      <h2 class="sec-title"><span class="num">${num}</span>${sec.title}</h2>
+      <button class="listen-btn" data-idx="${i}" aria-label="Listen to ${sec.title}">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <span>Listen</span>
+      </button>
+    </div>
+    ${bodyHTML}
+  `;
+  sectionsEl.appendChild(secEl);
+});
+
+/* ---------------------------------------------------------
+   SCROLL PROGRESS
+--------------------------------------------------------- */
+const progressBar = document.getElementById('progress-bar');
+function updateProgress(){
+  const h = document.documentElement;
+  const scrolled = h.scrollTop;
+  const max = h.scrollHeight - h.clientHeight;
+  progressBar.style.width = (max>0 ? (scrolled/max)*100 : 0) + '%';
+}
+document.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+/* ---------------------------------------------------------
+   SCROLL-SPY NAV
+--------------------------------------------------------- */
+const tocLinks = Array.from(document.querySelectorAll('.toc-list a'));
+const sectionEls = Array.from(document.querySelectorAll('.terms-section'));
+
+const spyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const link = tocLinks.find(l => l.getAttribute('href') === '#'+entry.target.id);
+    if (!link) return;
+    if (entry.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    }
+  });
+}, {rootMargin:'-20% 0px -70% 0px', threshold:0});
+sectionEls.forEach(s => spyObserver.observe(s));
+
+/* mobile nav toggle */
+const navToggle = document.getElementById('navToggle');
+const tocNav = document.getElementById('tocNav');
+navToggle.addEventListener('click', () => {
+  const open = tocNav.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open);
+});
+tocLinks.forEach(l => l.addEventListener('click', () => {
+  tocNav.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', 'false');
+}));
+
+/* ---------------------------------------------------------
+   AUDIO READER (Web Speech API) — section-wise, with pause/play
+--------------------------------------------------------- */
+const synth = window.speechSynthesis;
+const playBtn = document.getElementById('playBtn');
+const playIcon = document.getElementById('playIcon');
+const pauseIcon = document.getElementById('pauseIcon');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const stopBtn = document.getElementById('stopBtn');
+const dockText = document.getElementById('dockText');
+const dockStatus = document.getElementById('dock-status');
+const listenBtns = Array.from(document.querySelectorAll('.listen-btn'));
+
+let currentIdx = -1;      // which section is queued/playing
+let isPaused = false;
+let isActive = false;     // reader engaged at all
+
+function sectionText(i){
+  const sec = SECTIONS[i];
+  const parts = [sec.title + '.'];
+  sec.blocks.forEach(b=>{
+    if (b.type==='p') parts.push(b.text);
+    if (b.type==='list') parts.push(b.items.join('. '));
+  });
+  return parts.join(' ');
+}
+
+function setReadingHighlight(i){
+  sectionEls.forEach(s => s.classList.remove('reading'));
+  listenBtns.forEach(b => { b.classList.remove('playing'); b.querySelector('span:last-child').textContent = 'Listen'; });
+  if (i>=0 && i<SECTIONS.length){
+    sectionEls[i].classList.add('reading');
+    const btn = listenBtns[i];
+    btn.classList.add('playing');
+    btn.querySelector('span:last-child').textContent = 'Playing';
+  }
+}
+
+function updateDockUI(){
+  const supported = 'speechSynthesis' in window;
+  if (!supported){
+    dockText.textContent = 'Audio not supported in this browser';
+    playBtn.disabled = true;
+    return;
+  }
+  if (isActive && !isPaused){
+    playIcon.style.display = 'none';
+    pauseIcon.style.display = 'block';
+    dockStatus.classList.add('live');
+  } else {
+    playIcon.style.display = 'block';
+    pauseIcon.style.display = 'none';
+    dockStatus.classList.remove('live');
+  }
+  if (currentIdx >= 0){
+    dockText.textContent = `${isPaused ? 'Paused' : 'Reading'} — ${String(currentIdx+1).padStart(2,'0')}. ${SECTIONS[currentIdx].title}`;
+  } else {
+    dockText.textContent = 'Listen to this page';
+  }
+  prevBtn.disabled = currentIdx <= 0;
+  nextBtn.disabled = currentIdx === -1 || currentIdx >= SECTIONS.length - 1;
+  stopBtn.disabled = !isActive;
+}
+
+function speakSection(i, autoAdvance=true){
+  if (!('speechSynthesis' in window)) return;
+  synth.cancel();
+  if (i < 0 || i >= SECTIONS.length){
+    isActive = false; isPaused = false; currentIdx = -1;
+    setReadingHighlight(-1); updateDockUI();
+    return;
+  }
+  currentIdx = i;
+  isActive = true;
+  isPaused = false;
+  setReadingHighlight(i);
+  updateDockUI();
+
+  const utter = new SpeechSynthesisUtterance(sectionText(i));
+  utter.rate = 1;
+  utter.pitch = 1;
+
+  utter.onend = () => {
+    if (autoAdvance && currentIdx < SECTIONS.length - 1 && isActive){
+      speakSection(currentIdx + 1, true);
+    } else {
+      isActive = false; isPaused = false;
+      setReadingHighlight(-1);
+      updateDockUI();
+    }
+  };
+  utter.onerror = () => {
+    isActive = false; isPaused = false;
+    setReadingHighlight(-1);
+    updateDockUI();
+  };
+
+  synth.speak(utter);
+}
+
+playBtn.addEventListener('click', () => {
+  if (!('speechSynthesis' in window)) return;
+
+  if (!isActive){
+    // start fresh from first section (or currently scrolled-into-view section)
+    const startIdx = currentIdx >= 0 ? currentIdx : (Number(tocLinks.find(l=>l.classList.contains('active'))?.dataset.idx) || 0);
+    speakSection(startIdx, true);
+    return;
+  }
+
+  if (isPaused){
+    synth.resume();
+    isPaused = false;
+  } else {
+    synth.pause();
+    isPaused = true;
+  }
+  updateDockUI();
+});
+
+prevBtn.addEventListener('click', () => {
+  if (currentIdx > 0) speakSection(currentIdx - 1, true);
+});
+nextBtn.addEventListener('click', () => {
+  if (currentIdx < SECTIONS.length - 1) speakSection(currentIdx + 1, true);
+});
+stopBtn.addEventListener('click', () => {
+  synth.cancel();
+  isActive = false; isPaused = false; currentIdx = -1;
+  setReadingHighlight(-1);
+  updateDockUI();
+});
+
+listenBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const idx = Number(btn.dataset.idx);
+    if (isActive && currentIdx === idx && !isPaused){
+      // toggle pause for the section already playing
+      synth.pause(); isPaused = true; updateDockUI();
+      return;
+    }
+    if (isActive && currentIdx === idx && isPaused){
+      synth.resume(); isPaused = false; updateDockUI();
+      return;
+    }
+    document.getElementById(SECTIONS[idx].id).scrollIntoView({behavior:'smooth', block:'start'});
+    speakSection(idx, true);
+  });
+});
+
+updateDockUI();
+if (!('speechSynthesis' in window)){
+  listenBtns.forEach(b => b.disabled = true);
+}
+
+/* ---------------------------------------------------------
+   DOWNLOAD AS PDF
+--------------------------------------------------------- */
+document.getElementById('downloadBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('downloadBtn');
+  const label = document.getElementById('downloadLabel');
+  btn.classList.add('loading');
+  label.textContent = 'Preparing PDF…';
+
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({unit:'pt', format:'a4'});
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 56;
+    const maxWidth = pageWidth - margin*2;
+    let y = 64;
+
+    function ensureSpace(lineHeight){
+      if (y + lineHeight > doc.internal.pageSize.getHeight() - 56){
+        doc.addPage();
+        y = 64;
+      }
+    }
+
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(20);
+    doc.text('OneCampus — Terms & Conditions', margin, y);
+    y += 22;
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(10);
+    doc.setTextColor(110);
+    doc.text('Effective date: September 8, 2026  ·  Published by OneOrigin', margin, y);
+    doc.setTextColor(20);
+    y += 30;
+
+    SECTIONS.forEach((sec, i) => {
+      ensureSpace(26);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(13);
+      doc.text(`${String(i+1).padStart(2,'0')}. ${sec.title}`, margin, y);
+      y += 18;
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(10.5);
+
+      sec.blocks.forEach(b => {
+        if (b.type === 'p'){
+          const lines = doc.splitTextToSize(b.text, maxWidth);
+          lines.forEach(line => { ensureSpace(14); doc.text(line, margin, y); y += 14; });
+          y += 6;
+        }
+        if (b.type === 'list'){
+          b.items.forEach(item => {
+            const lines = doc.splitTextToSize('•  ' + item, maxWidth - 10);
+            lines.forEach((line, li) => {
+              ensureSpace(14);
+              doc.text(line, margin + (li===0?0:10), y);
+              y += 14;
+            });
+          });
+          y += 6;
+        }
+      });
+      y += 10;
+    });
+
+    doc.save('OneCampus-Terms-and-Conditions.pdf');
+  } catch (e){
+    label.textContent = 'Download failed — try again';
+    console.error(e);
+    setTimeout(()=>{ label.textContent = 'Download as PDF'; }, 2500);
+    btn.classList.remove('loading');
+    return;
+  }
+
+  btn.classList.remove('loading');
+  label.textContent = 'Download as PDF';
+});
+</script>
+</body>
+</html>
